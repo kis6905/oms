@@ -1,0 +1,102 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 100px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #efefef;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+  font-size: 12px;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 100%;
+}
+
+
+/* commons
+-------------------------------------------------- */
+.page-header-custom {
+	padding-top: 30px;
+}
+
+.page-header-title-custom {
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.page-header-btn-write {
+	float: right;
+}
+
+.page-header-hr {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.form-control.input-group-lg.datepicker, 
+.form-control.datepicker {
+	background-color: white;
+}
+
+.modal-header {
+	background-color: #F1F1F1;
+}
+
+.table thead {
+	background-color: #F1F1F1;
+}
+
+
+/* main
+-------------------------------------------------- */
+#iconArea {
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+#iconClickArea:HOVER {
+	cursor: pointer;
+}
+
+/* 사용내역
+-------------------------------------------------- */
+.panel.panel-default.inquiry {
+	margin-bottom: 15px;
+}
+
+#excelDownArea {
+	margin-bottom: 15px;
+}
+
+.total-price {
+	margin-top: 5px;
+	font-size: 15px;
+	font-weight: bold;
+}

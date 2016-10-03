@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.open.ms.mapper.common.PersistentLoginMapper">
+
+    <select id="getTokenForSeries" parameterType="String" resultType="com.open.ms.vo.common.PersistentLogin">
+        SELECT
+        	memberId,
+        	series,
+        	tokenValue,
+        	lastUsed
+        FROM oms_persistent_login
+        WHERE series = #{series}
+    </select>
+    
+    <insert id="insertToken" parameterType="com.open.ms.vo.common.PersistentLogin">
+		INSERT INTO oms_persistent_login (`memberId`, `series`, `tokenValue`, `lastUsed`)
+		VALUES (#{memberId}, #{series}, #{tokenValue}, #{lastUsed})
+    </insert>
+    
+    <update id="updateToken" parameterType="com.open.ms.vo.common.PersistentLogin">
+		UPDATE oms_persistent_login
+		SET tokenValue = #{tokenValue},
+			lastUsed = #{lastUsed}
+		WHERE series = #{series}
+    </update>
+    
+    <delete id="deleteToken" parameterType="String">
+		DELETE FROM oms_persistent_login
+		WHERE memberId = #{memberId}
+    </delete>
+    
+</mapper>
