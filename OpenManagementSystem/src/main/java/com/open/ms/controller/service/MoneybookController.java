@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.DatatypeConverter;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -268,6 +269,7 @@ public class MoneybookController {
 			@RequestParam(value = "endDate", required = true, defaultValue = "") String endDate,
 			@RequestParam(value = "sort", required = true, defaultValue = "") String sort,
 			@RequestParam(value = "order", required = true, defaultValue = "") String order,
+			@RequestParam(value = "sign", required = true, defaultValue = "") String sign,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			ModelMap modelMap) throws IOException {
@@ -292,15 +294,19 @@ public class MoneybookController {
 			else {
 				memberId = member.getMemberId();
 				
-				logger.info("-> [startDate = {}], [endDate = {}], [sort = {}], [order = {}]",  new Object[] { startDate, endDate, sort, order });
+				logger.info("-> [startDate = {}], [endDate = {}], [sort = {}], [order = {}], [sign = {}]",  new Object[] { startDate, endDate, sort, order, sign });
 				logger.info("-> [memberId = {}]", memberId);
 				
-				if (startDate.isEmpty() || endDate.isEmpty() || sort.isEmpty() || order.isEmpty() || memberId.isEmpty()) {
+				if (startDate.isEmpty() || endDate.isEmpty() || sort.isEmpty() || order.isEmpty() || memberId.isEmpty() || sign.isEmpty()) {
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					responseStatusCode = HttpServletResponse.SC_BAD_REQUEST;
 				}
 				else {
 					try {
+						// 화면에서 그린 이미지는 base64 인코딩한 string으로 넘어온다.
+						byte[] signBytes = DatatypeConverter.parseBase64Binary(sign.replaceAll("data:image/.+;base64,", ""));
+						modelMap.addAttribute("sign", signBytes);
+						
 						List<Moneybook> moneybookList = moneybookServiceImpl.getMoneybookList(memberId, startDate, endDate, 0, Integer.MAX_VALUE, sort, order);
 						Map<String, Object> totalMap = moneybookServiceImpl.getMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
 						

@@ -38,7 +38,7 @@
 			</div>
 			
 			<div id="excelDownArea">
-				<button class="btn btn-success btn-block" type="button" id="excelDownBtn">
+				<button class="btn btn-success btn-block" type="button" id="excelDownOpenBtn">
 					<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;Excel Download
 				</button>
 			</div>
@@ -217,18 +217,28 @@
 		</div><!-- update modal end -->
 	</div>
 	
-<!-- 	<div class="modal" id="loadingDialog" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;"> -->
-<!-- 		<div class="modal-dialog"> -->
-<!-- 			<div class="modal-content"> -->
-<!-- 				<div class="modal-body" style="margin: 20px 0 0 0;"> -->
-<!-- 		            <div class="progress"> -->
-<!-- 					  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div> -->
-<!-- 					</div> -->
-<!-- 		        </div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!--     </div> -->
-    
+	<!-- sign modal start -->
+	<div id="signModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">서명</h4>
+				</div>
+				<div class="modal-body">
+					<canvas id="signCanvas" width="100" height="100" style="border: 1px solid black;"></canvas>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="excelDownBtn">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;확인
+					</button>
+				</div>
+			</div>
+		</div>
+	</div><!-- update modal end -->
+	
+	<!-- Loading modal start -->
     <div class="modal fade bs-example-modal-sm" id="loadingDialog" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" style="padding-top: 25%; overflow-y: visible;">
 	    <div class="modal-dialog modal-sm">
 	        <div class="modal-content">
@@ -247,7 +257,7 @@
 	            </div>
 	        </div>
 	    </div>
-	</div>
+	</div> <!-- Loading modal end -->
 
 	<%@ include file="../include/footer.jsp" %>
 </body>

@@ -1,6 +1,7 @@
 
 var table;
 var isCardView = false;
+var canvas, ctx;
 
 $(document).ready(function() {
 	
@@ -47,13 +48,86 @@ $(document).ready(function() {
 			deleteMoneybook();
 	});
 	
+	$('#excelDownOpenBtn').on('click', function() {
+		openSignModal();
+	});
+	
 	$('#excelDownBtn').on('click', function() {
 		downloadExcel();
 	});
+
+	// 서명 canvas
+    var lastPt = null;
+	canvas = document.getElementById('signCanvas');
+	
+	if (canvas.getContext) {
+		canvas.addEventListener("touchmove", touchDraw, false);
+		canvas.addEventListener("touchend", touchEnd, false);
+		ctx = canvas.getContext('2d');
+
+		function touchDraw(e) {
+			e.preventDefault();
+			if (lastPt != null) {
+				ctx.beginPath();
+				ctx.moveTo(lastPt.x, lastPt.y);
+				ctx.lineTo(e.touches[0].pageX, e.touches[0].pageY);
+				ctx.stroke();
+			}
+			lastPt = {x: e.touches[0].pageX, y:e.touches[0].pageY};
+		}
+
+        function touchEnd(e) {
+			e.preventDefault();
+			// Terminate touch path
+			lastPt = null;
+        }
+        
+    	var isDraw = false;
+    	$('#signCanvas').mousemove(function(e) {
+        	if (isDraw) draw(e);        
+		});
+
+    	$('#signCanvas').mousedown(function(e) {
+    		if (e.button === 0) {
+    			isDraw = true;
+    			draw(e);
+    		}
+    	});
+
+    	$('#signCanvas').mouseup(function(e) {
+    		isDraw = false;
+    		lastPt = null;
+    	});
+
+		function draw(e) {
+			if (lastPt != null) {
+				ctx.beginPath();
+				ctx.moveTo(lastPt.x, lastPt.y);
+				ctx.lineTo(e.offsetX, e.offsetY);
+				ctx.stroke();
+			}
+			lastPt = {x: e.offsetX, y:e.offsetY};
+		}
+	}
+	else {
+	    alert('canvas가 지원되지 않는 브라우저입니다. 구글 크롬을 권장합니다.');
+	    return;
+	}
 	
 });
 
-/* 등록 */
+/**
+ * Excel Download 버튼 클릭 시 
+ */
+function openSignModal() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+	$('#signModal').modal();
+}
+
+/**
+ * 등록 
+ */
 function insertMoneybook() {
 	var usedDate = $('#iUsedDate').val();
 	var category = $('#iCategory').val();
@@ -105,7 +179,9 @@ function insertMoneybook() {
 	callAjax('/service/moneybook/insert', data, callbackSuccess);
 }
 
-/* 수정 */
+/**
+ * 수정
+ */
 function updateMoneybook() {
 	var seq = $('#uSeq').val();
 	var usedDate = $('#uUsedDate').val();
@@ -159,7 +235,9 @@ function updateMoneybook() {
 	callAjax('/service/moneybook/update', data, callbackSuccess);
 }
 
-/* 삭제 */
+/**
+ * 삭제
+ */
 function deleteMoneybook() {
 	var seq = $('#uSeq').val();
 	
@@ -188,7 +266,9 @@ function deleteMoneybook() {
 	callAjax('/service/moneybook/delete', data, callbackSuccess);
 }
 
-/* 등록 버튼 클릭 시 등록 Modal 창 띄우기 */
+/**
+ * 등록 버튼 클릭 시 등록 Modal 창 띄우기 
+ */
 function openInsertModal() {
 	$('#iUsedDate').val('');
 	$('#iCategory').val('');
@@ -199,7 +279,9 @@ function openInsertModal() {
 	$('#insertModal').modal();
 }
 
-/* Table의 Row 클릭 시 수정 Modal 창 띄우기 */
+/**
+ * Table의 Row 클릭 시 수정 Modal 창 띄우기
+ */
 function openUpdateModal(row) {
 	$('#uSeq').val(row.seq);
 	$('#uUsedDate').val(row.usedDate);
@@ -213,7 +295,9 @@ function openUpdateModal(row) {
 	$('#updateModal').modal();
 }
 
-/* 조회 */
+/**
+ * 조회
+ */
 function inquiry(tableType) {
 	var startDate = $('#startDate').val();
 	var endDate = $('#endDate').val();
@@ -226,21 +310,25 @@ function inquiry(tableType) {
 	$('#excelDownArea').show();
 	$('#totalInfoArea').show();
 	
-	if (typeof table === 'undefined' || table === null)
+	if (typeof table == 'undefined' || table == null)
 		createTable();
 	else
 		reCreateTable();
 }
 
-/* 테이블 제거 후 생성 */
+/**
+ * 테이블 제거 후 생성
+ */
 function reCreateTable() {
-	if (typeof table !== 'undefined' || table !== null) {
+	if (typeof table != 'undefined' || table != null) {
 		table.bootstrapTable('destroy');
 		createTable();
 	}
 }
 
-/* 테이블 생성 */
+/**
+ * 테이블 생성
+ */
 function createTable() {
 	// 테이블 생성
 	table = $('#table').bootstrapTable({
@@ -318,14 +406,19 @@ function createTable() {
 	});
 }
 
-/* Excel 다운로드 */
+/**
+ * Excel 다운로드
+ */
 function downloadExcel() {
+	
+	$('#signModal').modal('hide');
 	
 	var option = table.bootstrapTable('getOptions');
 	var sort = option.sortName;
 	var order = option.sortOrder;
 	var startDate = $('#startDate').val();
 	var endDate = $('#endDate').val();
+	var signImage = canvas.toDataURL('image/png');
 	
 	if (startDate === null || startDate === '' || endDate === null || endDate === '') {
 		alert('시작 일, 종료 일을 입력해주세요.');
@@ -336,6 +429,7 @@ function downloadExcel() {
 	var orderInput = $('<input>').attr('type', 'hidden').attr('name', 'order').val(order);
 	var startDateInput = $('<input>').attr('type', 'hidden').attr('name', 'startDate').val(startDate);
 	var endDateInput = $('<input>').attr('type', 'hidden').attr('name', 'endDate').val(endDate);
+	var signInput = $('<input>').attr('type', 'hidden').attr('name', 'sign').val(signImage);
 	
 	$form = $("<form></form>");
 	$form.attr('method', 'post')
@@ -344,5 +438,6 @@ function downloadExcel() {
 		.append($(orderInput))
 		.append($(startDateInput))
 		.append($(endDateInput))
+		.append($(signInput))
 		.submit();
 }

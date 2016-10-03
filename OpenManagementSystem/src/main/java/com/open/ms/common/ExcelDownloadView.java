@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
@@ -39,6 +44,30 @@ public class ExcelDownloadView extends AbstractExcelView {
 		XLSTransformer transformer = new XLSTransformer();
 		
 		workbook = (HSSFWorkbook) transformer.transformXLS(new FileInputStream(templateFileName), beans);
+		
+		// 작성자 서명 이미지 넣기
+		Sheet sheet = workbook.getSheetAt(0);
+		byte[] signBytes = (byte[]) beans.get("sign");
+		
+		int pictureIdx = workbook.addPicture(signBytes, Workbook.PICTURE_TYPE_PNG);
+		workbook.addPicture(signBytes, Workbook.PICTURE_TYPE_PNG);
+		
+		CreationHelper helper = workbook.getCreationHelper();
+		
+		// Creates the top-level drawing patriarch.
+		Drawing drawing = sheet.createDrawingPatriarch();
+		
+		// Create an anchor that is attached to the worksheet
+		ClientAnchor anchor = helper.createClientAnchor();
+		
+		// Create an anchor with upper left cell _and_ bottom right cell
+		anchor.setCol1(15); //Column P
+		anchor.setRow1(4); //Row 5
+		anchor.setCol2(17); //Column R 
+		anchor.setRow2(6); //Row 7
+		
+//		Picture pict = drawing.createPicture(anchor, pictureIdx);
+		drawing.createPicture(anchor, pictureIdx);
 		
 		ByteArrayOutputStream xlsOutput = new ByteArrayOutputStream();
         try {
