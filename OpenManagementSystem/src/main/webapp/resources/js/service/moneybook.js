@@ -67,13 +67,14 @@ $(document).ready(function() {
 
 		function touchDraw(e) {
 			e.preventDefault();
+			var rect = canvas.getBoundingClientRect();
 			if (lastPt != null) {
 				ctx.beginPath();
 				ctx.moveTo(lastPt.x, lastPt.y);
-				ctx.lineTo(e.touches[0].pageX, e.touches[0].pageY);
+				ctx.lineTo(e.touches[0].pageX - rect.left, e.touches[0].pageY - rect.top);
 				ctx.stroke();
 			}
-			lastPt = {x: e.touches[0].pageX, y:e.touches[0].pageY};
+			lastPt = { x: e.touches[0].pageX - rect.left, y:e.touches[0].pageY - rect.top };
 		}
 
         function touchEnd(e) {

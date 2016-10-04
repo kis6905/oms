@@ -85,7 +85,7 @@ code {
 	cursor: pointer;
 }
 
-/* 사용내역
+/* 법카 사용 내역
 -------------------------------------------------- */
 .panel.panel-default.inquiry {
 	margin-bottom: 15px;
@@ -99,4 +99,8 @@ code {
 	margin-top: 5px;
 	font-size: 15px;
 	font-weight: bold;
+}
+
+.modal-body.center {
+	text-align: center;
 }

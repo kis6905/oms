@@ -40,12 +40,7 @@ public class Utility {
       * @throws NoSuchAlgorithmException 
 	  */
 	 public static String getEncryptedPassword(String input) throws NoSuchAlgorithmException {
-		String password = "";
-		
-		password = encryptSha256(input);
-		password = encryptSha256(password);
-		
-		return password;
+		 return encryptSha256(encryptSha256(input));
 	 }
 	 
 	 /**

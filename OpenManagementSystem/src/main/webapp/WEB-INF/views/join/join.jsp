@@ -10,6 +10,8 @@
 </head>
 
 <body>
+	<span id="offsetTx"></span>
+	<span id="offsetTy"></span><br/>
 	<span id="tx"></span>
 	<span id="ty"></span>
 	<div class="container">
@@ -51,16 +53,6 @@
 					</div>
 				</div>
 			</div>
-			
-			<!-- 서명 -->
-<!-- 			<div class="form-group"> -->
-<!-- 				<label for="sign" class="col-sm-2 control-label">서명</label> -->
-<!-- 				<div class="col-sm-10"> -->
-<!-- 					<div class="input-group"> -->
-<!-- 						<canvas id="signCanvas" width="100" height="100" style="border: 1px solid black;"></canvas> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
 			
 			<!-- Button -->
 			<div class="form-group" align="center">
