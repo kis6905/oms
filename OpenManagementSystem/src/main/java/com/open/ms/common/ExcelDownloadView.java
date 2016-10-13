@@ -61,10 +61,10 @@ public class ExcelDownloadView extends AbstractExcelView {
 		ClientAnchor anchor = helper.createClientAnchor();
 		
 		// Create an anchor with upper left cell _and_ bottom right cell
-		anchor.setCol1(15); //Column P
-		anchor.setRow1(4); //Row 5
-		anchor.setCol2(17); //Column R 
-		anchor.setRow2(6); //Row 7
+		anchor.setCol1(15); // Column P
+		anchor.setRow1(4); // Row 5
+		anchor.setCol2(18); // Column R
+		anchor.setRow2(7); // Row 8
 		
 //		Picture pict = drawing.createPicture(anchor, pictureIdx);
 		drawing.createPicture(anchor, pictureIdx);

@@ -43,13 +43,11 @@
 				</button>
 			</div>
 			
-			<div id="totalInfoArea">
-				<span class="btn-group btn-toggle" style="float: left; padding-bottom: 10px;"> 
-					<button class="btn btn-sm btn-info active" value="list">List</button>
-					<button class="btn btn-sm btn-default" value="card">Card</button>
-				</span>
-				<span class="text-right total-price" style="float: right; vertical-align: bottom;">
-					Total: <span id="totalCnt"></span> 건,&nbsp;&nbsp; 합계: <span id="totalPrice"></span> 원
+			<div class="total-info" id="totalInfoArea">
+				<span style="float: left; padding-bottom: 5px;">Total: <span id="totalCnt"></span> 건&nbsp;&nbsp;</span>
+				<span style="float: right; padding-bottom: 5px;">
+					<span style="color: red;">지출: <span id="payment"></span> 원</span>&nbsp;&nbsp;
+					<span style="color: green;">잔액: <span id="balance"></span> 원</span>
 				</span>
 			</div>
 			
@@ -227,7 +225,7 @@
 					<h4 class="modal-title">서명</h4>
 				</div>
 				<div class="modal-body center">
-					<canvas id="signCanvas" width="100" height="100" style="border: 1px solid black;"></canvas>
+					<canvas id="signCanvas" width="300" height="200" style="border: 1px solid black;"></canvas>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" id="excelDownBtn">

@@ -5,22 +5,24 @@ var canvas, ctx;
 
 $(document).ready(function() {
 	
+	// 조회 날짜에 현재 달에 해당하는 시작 일, 종료 일 설정
+	setCurrentDate();
+	
 	// Table Type
 	$('.btn-toggle').click(function() {
-	    $(this).find('.btn').toggleClass('active');  
-	    
-	    if ($(this).find('.btn-info').size() > 0) {
-	    	var tableTypeBtn = $(this).find('.btn-default')[0];
-	    	var tableType = $(tableTypeBtn).val();
-	    	$(tableTypeBtn).focusout();
-	    	isCardView = tableType === 'list' ? false : true;
-	    	$(this).find('.btn').toggleClass('btn-info');
-	    	
-	    	inquiry();
-	    }
-	    
-	    $(this).find('.btn').toggleClass('btn-default');
-	       
+		$(this).find('.btn').toggleClass('active');  
+		
+		if ($(this).find('.btn-info').size() > 0) {
+			var tableTypeBtn = $(this).find('.btn-default')[0];
+			var tableType = $(tableTypeBtn).val();
+			$(tableTypeBtn).focusout();
+			isCardView = tableType === 'list' ? false : true;
+			$(this).find('.btn').toggleClass('btn-info');
+			
+			inquiry();
+		}
+		
+		$(this).find('.btn').toggleClass('btn-default');
 	});
 	
 	// 조회 정보 hide
@@ -116,6 +118,23 @@ $(document).ready(function() {
 	}
 	
 });
+
+/**
+ * 조회 날짜에 현재 월에 해당하는 시작 일 ~ 종료 일 설정
+ */
+function setCurrentDate() {
+	var date = new Date();
+	
+	var year = date.getFullYear() + '';
+	var month = (date.getMonth() + 1)  + '';
+	var day = date.getDate() + '';
+	
+	month = month.length == 1 ? '0' + month : month;
+	day = day.length == 1 ? '0' + day : day;
+	
+	$('#startDate').val(year + '-' + month + '-03'); // 시작 일은 3일
+	$('#endDate').val(year + '-' + month + '-' + day);
+}
 
 /**
  * Excel Download 버튼 클릭 시 
@@ -363,7 +382,8 @@ function createTable() {
 		},
 		onLoadSuccess: function(data) {
 			$('#totalCnt').html(data.total);
-			$('#totalPrice').html(numberFormat(data.totalPrice));
+			$('#payment').html(numberFormat(data.totalPrice));
+			$('#balance').html(numberFormat(1000000 - data.totalPrice)); // 1,000,000원 - 총 결제액
 		},
 		onLoadError: function(status, res) {
 			if (status == 401 || status == 403) {
