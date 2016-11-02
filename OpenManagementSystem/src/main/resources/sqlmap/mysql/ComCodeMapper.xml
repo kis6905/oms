@@ -3,9 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.open.ms.mapper.common.ComCodeMapper">
+<mapper namespace="com.open.ms.common.mapper.ComCodeMapper">
 
-    <select id="getComCode" parameterType="com.open.ms.vo.common.ComCode" resultType="com.open.ms.vo.common.ComCode">
+    <select id="getComCode" parameterType="com.open.ms.common.vo.ComCode" resultType="com.open.ms.common.vo.ComCode">
         SELECT 
 			codeGroup,
 			code,

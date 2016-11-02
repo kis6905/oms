@@ -6,7 +6,7 @@
 <%@ include file="../include/include.jsp" %>
 
 <link href="/resources/css/bootstrap/login.css" rel="stylesheet">
-<script type="text/javascript" src="/resources/js/service/login.js"></script>
+<script type="text/javascript" src="/resources/js/common/login.js"></script>
 
 </head>
 

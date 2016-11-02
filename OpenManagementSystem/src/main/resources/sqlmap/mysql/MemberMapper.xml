@@ -3,9 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.open.ms.mapper.common.MemberMapper">
+<mapper namespace="com.open.ms.common.mapper.MemberMapper">
     
-    <select id="getMemberOfId" parameterType="String" resultType="com.open.ms.vo.common.Member">
+    <select id="getMemberOfId" parameterType="String" resultType="com.open.ms.common.vo.Member">
         SELECT
         	memberId,
         	password,
@@ -20,7 +20,7 @@
         WHERE memberId = #{memberId}
     </select>
     
-    <select id="getSearchMemberList" parameterType="Map" resultType="com.open.ms.vo.common.Member">
+    <select id="getSearchMemberList" parameterType="Map" resultType="com.open.ms.common.vo.Member">
 		SELECT
 			memberId,
 		    nickname,
@@ -37,7 +37,7 @@
 		ORDER BY nickname ASC
     </select>
     
-    <select id="getMemberOfNickname" parameterType="String" resultType="com.open.ms.vo.common.Member">
+    <select id="getMemberOfNickname" parameterType="String" resultType="com.open.ms.common.vo.Member">
         SELECT
         	memberId,
         	nickname,
@@ -49,7 +49,7 @@
         WHERE nickname = #{nickname}
     </select>
     
-    <insert id="insertMember" parameterType="com.open.ms.vo.common.Member">
+    <insert id="insertMember" parameterType="com.open.ms.common.vo.Member">
 		INSERT INTO oms_member (`memberId`, `password`, `passwordFailCnt`, `nickname`, `gradeCodeGroup`, `gradeCode`, `registeredDate`, `modifiedDate`, `lastLoginDate`)
 		VALUES (#{memberId}, #{password}, 0, #{nickname}, #{gradeCodeGroup}, #{gradeCode}, SYSDATE(), SYSDATE(), NULL)
     </insert>

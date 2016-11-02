@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import com.open.ms.mapper.common.MemberMapper;
-import com.open.ms.mapper.common.PersistentLoginMapper;
-import com.open.ms.vo.common.Member;
-import com.open.ms.vo.common.PersistentLogin;
+import com.open.ms.common.mapper.MemberMapper;
+import com.open.ms.common.mapper.PersistentLoginMapper;
+import com.open.ms.common.vo.Member;
+import com.open.ms.common.vo.PersistentLogin;
 
 /**
  * PersistentTokenRepository 구현 클래스

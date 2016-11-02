@@ -1,4 +1,6 @@
-package com.open.ms.vo.common;
+package com.open.ms.common.vo;
+
+import org.json.simple.JSONObject;
 
 public class MyService extends CommonVo {
 	
@@ -58,6 +60,21 @@ public class MyService extends CommonVo {
 
 	public void setPageName(String pageName) {
 		this.pageName = pageName;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("serviceId", serviceId);
+		jsonObject.put("title", title);
+		jsonObject.put("description", description);
+		jsonObject.put("sliderImage", sliderImage);
+		jsonObject.put("iconImage", iconImage);
+		jsonObject.put("pageName", pageName);
+		jsonObject.put("registeredDate", getRegisteredDate());
+		jsonObject.put("modifiedDate", getModifiedDate());
+		return jsonObject;
 	}
 
 	@Override

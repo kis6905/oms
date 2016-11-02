@@ -1,4 +1,4 @@
-package com.open.ms.vo.common;
+package com.open.ms.common.vo;
 
 import org.json.simple.JSONObject;
 

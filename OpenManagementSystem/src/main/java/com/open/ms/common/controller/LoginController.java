@@ -1,4 +1,4 @@
-package com.open.ms.controller.common;
+package com.open.ms.common.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.open.ms.common.Codes;
-import com.open.ms.mapper.common.ComCodeMapper;
-import com.open.ms.vo.common.ComCode;
+import com.open.ms.common.mapper.ComCodeMapper;
+import com.open.ms.common.vo.ComCode;
 
 @Controller
 public class LoginController {

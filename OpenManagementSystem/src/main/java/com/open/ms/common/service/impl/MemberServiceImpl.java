@@ -1,4 +1,4 @@
-package com.open.ms.service.common.impl;
+package com.open.ms.common.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.open.ms.common.Codes;
 import com.open.ms.common.Utility;
-import com.open.ms.mapper.common.MemberMapper;
-import com.open.ms.service.common.MemberService;
-import com.open.ms.vo.common.Member;
+import com.open.ms.common.mapper.MemberMapper;
+import com.open.ms.common.service.MemberService;
+import com.open.ms.common.vo.Member;
 
 @Service(value = "memberServiceImpl")
 @Transactional(rollbackFor = { Exception.class })

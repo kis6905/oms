@@ -3,9 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.open.ms.mapper.common.PersistentLoginMapper">
+<mapper namespace="com.open.ms.common.mapper.PersistentLoginMapper">
 
-    <select id="getTokenForSeries" parameterType="String" resultType="com.open.ms.vo.common.PersistentLogin">
+    <select id="getTokenForSeries" parameterType="String" resultType="com.open.ms.common.vo.PersistentLogin">
         SELECT
         	memberId,
         	series,
@@ -15,12 +15,12 @@
         WHERE series = #{series}
     </select>
     
-    <insert id="insertToken" parameterType="com.open.ms.vo.common.PersistentLogin">
+    <insert id="insertToken" parameterType="com.open.ms.common.vo.PersistentLogin">
 		INSERT INTO oms_persistent_login (`memberId`, `series`, `tokenValue`, `lastUsed`)
 		VALUES (#{memberId}, #{series}, #{tokenValue}, #{lastUsed})
     </insert>
     
-    <update id="updateToken" parameterType="com.open.ms.vo.common.PersistentLogin">
+    <update id="updateToken" parameterType="com.open.ms.common.vo.PersistentLogin">
 		UPDATE oms_persistent_login
 		SET tokenValue = #{tokenValue},
 			lastUsed = #{lastUsed}

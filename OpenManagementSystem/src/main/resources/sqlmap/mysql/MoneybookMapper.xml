@@ -3,14 +3,14 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.open.ms.mapper.service.MoneybookMapper">
+<mapper namespace="com.open.ms.service.mapper.MoneybookMapper">
 
 	<resultMap id="totalMap" type="Map">
         <result javaType="Integer" column="totalCnt" property="totalCnt"/>
         <result javaType="Integer" column="totalPrice" property="totalPrice"/>
 	</resultMap> 
     
-    <select id="getMoneybookList" parameterType="Map" resultType="com.open.ms.vo.service.Moneybook">
+    <select id="getMoneybookList" parameterType="Map" resultType="com.open.ms.service.vo.Moneybook">
     	SELECT
 			`no`,
 		    seq,
@@ -65,13 +65,13 @@
 		  AND usedDate BETWEEN #{startDate} AND #{endDate}
     </select>
     
-    <insert id="insertMoneybook" parameterType="com.open.ms.vo.service.Moneybook">
+    <insert id="insertMoneybook" parameterType="com.open.ms.service.vo.Moneybook">
     	INSERT INTO `oms_moneybook` (`seq`, `usedDate`, `category`, `customer`, `usedPlace`, `price`, `note`, `memberId`, `registeredDate`, `modifiedDate`)
 		VALUES ( IF((SELECT MAX(seq) FROM oms_moneybook t) IS NULL, 0, (SELECT MAX(seq) + 1 FROM oms_moneybook t1) ), 
 				 #{usedDate}, #{category}, #{customer}, #{usedPlace}, #{price}, #{note}, #{memberId}, SYSDATE(), SYSDATE());
     </insert>
 
-	<update id="updateMoneybook" parameterType="com.open.ms.vo.service.Moneybook">
+	<update id="updateMoneybook" parameterType="com.open.ms.service.vo.Moneybook">
 		UPDATE `oms_moneybook`
 		SET usedDate = #{usedDate},
 			category = #{category},
@@ -84,7 +84,7 @@
 		  AND memberId = #{memberId}
 	</update>
 	
-	<delete id="deleteMoneybook" parameterType="com.open.ms.vo.service.Moneybook">
+	<delete id="deleteMoneybook" parameterType="com.open.ms.service.vo.Moneybook">
 		DELETE FROM `oms_moneybook`
 		WHERE seq = #{seq}
 		  AND memberId = #{memberId}

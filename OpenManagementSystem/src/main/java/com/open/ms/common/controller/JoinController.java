@@ -1,4 +1,4 @@
-package com.open.ms.controller.common;
+package com.open.ms.common.controller;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.open.ms.service.common.MemberService;
-import com.open.ms.vo.common.Member;
+import com.open.ms.common.service.MemberService;
+import com.open.ms.common.vo.Member;
 
 @Controller
 @RequestMapping(value = "/join/**")

@@ -1,4 +1,4 @@
-package com.open.ms.controller.common;
+package com.open.ms.common.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

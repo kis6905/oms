@@ -1,9 +1,9 @@
-package com.open.ms.mapper.service;
+package com.open.ms.service.mapper;
 
 import java.util.List;
 import java.util.Map;
 
-import com.open.ms.vo.service.Moneybook;
+import com.open.ms.service.vo.Moneybook;
 
 /**
  * @author iskwon

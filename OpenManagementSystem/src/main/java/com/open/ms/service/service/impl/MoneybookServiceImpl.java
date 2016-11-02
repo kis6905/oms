@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.open.ms.mapper.service.MoneybookMapper;
+import com.open.ms.service.mapper.MoneybookMapper;
 import com.open.ms.service.service.MoneybookService;
-import com.open.ms.vo.service.Moneybook;
+import com.open.ms.service.vo.Moneybook;
 
 @Service(value = "moneybookServiceImpl")
 public class MoneybookServiceImpl implements MoneybookService {

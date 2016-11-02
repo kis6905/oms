@@ -1,8 +1,8 @@
-package com.open.ms.vo.service;
+package com.open.ms.service.vo;
 
 import org.json.simple.JSONObject;
 
-import com.open.ms.vo.common.CommonVo;
+import com.open.ms.common.vo.CommonVo;
 
 public class Moneybook extends CommonVo {
 	

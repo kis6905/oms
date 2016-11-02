@@ -1,9 +1,9 @@
-package com.open.ms.mapper.common;
+package com.open.ms.common.mapper;
 
 import java.util.List;
 import java.util.Map;
 
-import com.open.ms.vo.common.Member;
+import com.open.ms.common.vo.Member;
 
 /**
  * @author iskwon

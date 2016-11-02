@@ -1,13 +1,13 @@
-package com.open.ms.service.common.impl;
+package com.open.ms.common.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.open.ms.mapper.common.MyServiceMapper;
-import com.open.ms.service.common.MyServiceService;
-import com.open.ms.vo.common.MyService;
+import com.open.ms.common.mapper.MyServiceMapper;
+import com.open.ms.common.service.MyServiceService;
+import com.open.ms.common.vo.MyService;
 
 @Service(value = "myServiceServiceImpl")
 public class MyServiceServiceImpl implements MyServiceService {

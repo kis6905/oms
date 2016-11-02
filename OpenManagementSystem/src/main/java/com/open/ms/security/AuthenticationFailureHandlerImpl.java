@@ -20,8 +20,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 
 import com.open.ms.common.Codes;
 import com.open.ms.common.Constants;
-import com.open.ms.mapper.common.MemberMapper;
-import com.open.ms.vo.common.Member;
+import com.open.ms.common.mapper.MemberMapper;
+import com.open.ms.common.vo.Member;
 
 /**
  * 로그인 실패 핸들러

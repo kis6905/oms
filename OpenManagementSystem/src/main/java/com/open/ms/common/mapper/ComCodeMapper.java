@@ -1,6 +1,6 @@
-package com.open.ms.mapper.common;
+package com.open.ms.common.mapper;
 
-import com.open.ms.vo.common.ComCode;
+import com.open.ms.common.vo.ComCode;
 
 /**
  * @author iskwon

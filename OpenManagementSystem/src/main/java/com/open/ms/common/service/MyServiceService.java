@@ -1,10 +1,10 @@
-package com.open.ms.service.common;
+package com.open.ms.common.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.open.ms.vo.common.MyService;
+import com.open.ms.common.vo.MyService;
 
 @Service
 public interface MyServiceService {

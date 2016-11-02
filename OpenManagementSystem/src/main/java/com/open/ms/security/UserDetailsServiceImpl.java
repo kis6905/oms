@@ -12,10 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.open.ms.common.Codes;
-import com.open.ms.mapper.common.ComCodeMapper;
-import com.open.ms.mapper.common.MemberMapper;
-import com.open.ms.vo.common.ComCode;
-import com.open.ms.vo.common.Member;
+import com.open.ms.common.mapper.ComCodeMapper;
+import com.open.ms.common.mapper.MemberMapper;
+import com.open.ms.common.vo.ComCode;
+import com.open.ms.common.vo.Member;
 
 /**
  * 로그인 시 비밀번호 확인해 성공, 실패 처리

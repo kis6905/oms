@@ -26,7 +26,7 @@
 	<script type="text/javascript" src="/resources/js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/resources/js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="/resources/js/jquery-datepicker.js"></script>
-	<script type="text/javascript" src="/resources/js/commons.js"></script>
+	<script type="text/javascript" src="/resources/js/common/commons.js"></script>
 	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/resources/js/bootstrap-table.js"></script>
 

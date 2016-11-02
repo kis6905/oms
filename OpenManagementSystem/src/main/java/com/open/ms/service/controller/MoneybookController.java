@@ -1,4 +1,4 @@
-package com.open.ms.controller.service;
+package com.open.ms.service.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.open.ms.common.Constants;
 import com.open.ms.common.Utility;
+import com.open.ms.common.vo.Member;
 import com.open.ms.service.service.MoneybookService;
-import com.open.ms.vo.common.Member;
-import com.open.ms.vo.service.Moneybook;
+import com.open.ms.service.vo.Moneybook;
 
 @Controller
 @RequestMapping(value = "/service/moneybook/**")

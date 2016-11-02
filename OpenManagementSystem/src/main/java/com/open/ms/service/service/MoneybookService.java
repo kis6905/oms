@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.open.ms.vo.service.Moneybook;
+import com.open.ms.service.vo.Moneybook;
 
 @Service
 public interface MoneybookService {

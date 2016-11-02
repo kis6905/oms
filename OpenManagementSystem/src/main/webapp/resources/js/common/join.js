@@ -80,29 +80,29 @@ function onClickCheckId() {
 	var id = $('#id').val();
 	
 	if (id != null && id.length > 0) {
-		$.ajax({
-			url: '/join/check/id',
-			method: 'POST',
-			dataType: 'json',
-			data: {
-				id: id
-			},
-			success: function(data, textStatus, jqXHR) {
-				validId = data.result;
-				if (data.result) {
-					checkedId = id;
-					alert('사용 가능한 ID 입니다.');
-				}
-				else {
-					$('#id').val('');
-					$('#id').focus();
-					alert('이미 사용중인 ID 입니다.');
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				alert('오류가 발생했습니다. 다시 시도해주세요. \n이 문제가 계속될 경우 관리자에게 문의하세요.');
+		
+		$.ajaxSetup({
+			beforeSend: function(xhr) {
+		        xhr.setRequestHeader("AJAX", false);
 			}
 		});
+		
+		var data = { id: id };
+		
+		var callbackSuccess = function(data, textStatus, jqXHR) {
+			validId = data.result;
+			if (data.result) {
+				checkedId = id;
+				alert('사용 가능한 ID 입니다.');
+			}
+			else {
+				$('#id').val('');
+				$('#id').focus();
+				alert('이미 사용중인 ID 입니다.');
+			}
+		};
+		
+		callAjax('/join/check/id', data, callbackSuccess);
 	}
 	else {
 		alert('ID를 입력하세요.');
@@ -117,29 +117,29 @@ function onClickCheckNickname() {
 	var nickname = $('#nickname').val();
 	
 	if (nickname != null && nickname.length > 0) {
-		$.ajax({
-			url: '/join/check/nickname',
-			method: 'POST',
-			dataType: 'json',
-			data: {
-				nickname: nickname
-			},
-			success: function(data, textStatus, jqXHR) {
-				validNickname = data.result;
-				if (data.result) {
-					checkedNickname = nickname;
-					alert('사용 가능한 닉네임입니다.');
-				}
-				else {
-					$('#nickname').val('');
-					$('#nickname').focus();
-					alert('이미 사용중인 닉네임입니다.');
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				alert('오류가 발생했습니다. 다시 시도해주세요. \n이 문제가 계속될 경우 관리자에게 문의하세요.');
+		
+		$.ajaxSetup({
+			beforeSend: function(xhr) {
+		        xhr.setRequestHeader("AJAX", false);
 			}
 		});
+		
+		var data = { nickname: nickname };
+		
+		var callbackSuccess = function(data, textStatus, jqXHR) {
+			validNickname = data.result;
+			if (data.result) {
+				checkedNickname = nickname;
+				alert('사용 가능한 닉네임입니다.');
+			}
+			else {
+				$('#nickname').val('');
+				$('#nickname').focus();
+				alert('이미 사용중인 닉네임입니다.');
+			}
+		};
+		
+		callAjax('/join/check/nickname', data, callbackSuccess);
 	}
 	else {
 		alert('닉네임을 입력하세요.');

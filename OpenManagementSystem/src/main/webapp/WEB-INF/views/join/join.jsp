@@ -5,15 +5,11 @@
 
 <%@ include file="../include/include.jsp" %>
 
-<script type="text/javascript" src="/resources/js/service/join.js"></script>
+<script type="text/javascript" src="/resources/js/common/join.js"></script>
 
 </head>
 
 <body>
-	<span id="offsetTx"></span>
-	<span id="offsetTy"></span><br/>
-	<span id="tx"></span>
-	<span id="ty"></span>
 	<div class="container">
 		<div class="page-header">
 			<h3>회원가입</h3>

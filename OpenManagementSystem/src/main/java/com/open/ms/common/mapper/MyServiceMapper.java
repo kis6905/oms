@@ -1,8 +1,8 @@
-package com.open.ms.mapper.common;
+package com.open.ms.common.mapper;
 
 import java.util.List;
 
-import com.open.ms.vo.common.MyService;
+import com.open.ms.common.vo.MyService;
 
 /**
  * @author iskwon

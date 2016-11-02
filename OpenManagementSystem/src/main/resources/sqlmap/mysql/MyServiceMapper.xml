@@ -3,9 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.open.ms.mapper.common.MyServiceMapper">
+<mapper namespace="com.open.ms.common.mapper.MyServiceMapper">
 
-    <select id="getMyServiceList" resultType="com.open.ms.vo.common.MyService">
+    <select id="getMyServiceList" resultType="com.open.ms.common.vo.MyService">
         SELECT 
 			serviceId,
 			title,
@@ -18,7 +18,7 @@
 		FROM oms_service
     </select>
     
-    <select id="getMyServiceOfServiceId" parameterType="Integer" resultType="com.open.ms.vo.common.MyService">
+    <select id="getMyServiceOfServiceId" parameterType="Integer" resultType="com.open.ms.common.vo.MyService">
 		SELECT 
 			serviceId,
 			title,
