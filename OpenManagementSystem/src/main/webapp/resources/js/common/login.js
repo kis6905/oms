@@ -4,6 +4,19 @@ $(document).ready(function() {
 	if (typeof rememberMe != 'undefined' && rememberMe.length > 0) {
 		location.href = '/main';
 	}
+	
+	$('#loginBtn').on('click', function() {
+		onClickLoginBtn();
+	});
+	
+	$('#joinBtn').on('click', function() {
+		location.href = '/join';
+	});
+	
+	$('#memberId, #password').on('keypress', function() {
+		checkEnterKey();
+	});
+	
 });
 
 function onClickLoginBtn() {

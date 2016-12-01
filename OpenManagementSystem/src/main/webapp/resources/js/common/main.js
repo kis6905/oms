@@ -33,11 +33,13 @@ function getServiceList() {
 									+ '<p>&nbsp;</p>'
 //									+ '<p>' + omsService.description + '</p>'
 //									+ '<p><a class="btn btn-primary" href="/service/page/' + omsService.serviceId + '" role="button">바로가기</a></p>'
+//									+ '<p><a class="btn btn-primary" href="' + omsService.pageUrl + '" role="button">바로가기</a></p>'
 								+ '</div>'
 							+ '</div>'
 						+ '</div>';
 			
-			serviceIconRow += '<div id="iconArea" class="col-xs-6 col-sm-3"><span id="iconClickArea" onclick="location.href=\'/service/page/' + omsService.serviceId + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
+//			serviceIconRow += '<div id="iconArea" class="col-xs-6 col-sm-3"><span id="iconClickArea" onclick="location.href=\'/service/page/' + omsService.serviceId + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
+			serviceIconRow += '<div id="iconArea" class="col-xs-6 col-sm-3"><span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
 		}
 		
 		$('#carouselIndicators').html(carouselIndicators);

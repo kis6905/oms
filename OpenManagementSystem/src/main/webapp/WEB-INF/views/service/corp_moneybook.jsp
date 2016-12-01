@@ -15,7 +15,7 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<div class="page-header-custom">
-			<span class="page-header-title-custom" style="margin-top: 10px;">${omsService.title}</span>
+			<span class="page-header-title-custom" style="margin-top: 10px;">법카 관리</span>
 			<span class="page-header-btn-write">
 				<button type="button" class="btn btn-default" id="insertOpenBtn">
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>

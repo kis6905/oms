@@ -11,6 +11,7 @@ public class OmsService extends CommonVo {
 	private String sliderImage	= null;
 	private String iconImage	= null;
 	private String pageName		= null;
+	private String pageUrl		= null;
 
 	public OmsService() {
 	}
@@ -70,6 +71,14 @@ public class OmsService extends CommonVo {
 	public void setPageName(String pageName) {
 		this.pageName = pageName;
 	}
+
+	public String getPageUrl() {
+		return pageUrl;
+	}
+
+	public void setPageUrl(String pageUrl) {
+		this.pageUrl = pageUrl;
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -82,6 +91,7 @@ public class OmsService extends CommonVo {
 		jsonObject.put("sliderImage", sliderImage);
 		jsonObject.put("iconImage", iconImage);
 		jsonObject.put("pageName", pageName);
+		jsonObject.put("pageUrl", pageUrl);
 		jsonObject.put("registeredDate", getRegisteredDate());
 		jsonObject.put("modifiedDate", getModifiedDate());
 		return jsonObject;
@@ -96,6 +106,7 @@ public class OmsService extends CommonVo {
 				+ ", sliderImage=" + sliderImage
 				+ ", iconImage=" + iconImage
 				+ ", pageName=" + pageName
+				+ ", pageUrl=" + pageUrl
 				+ ", registeredDate=" + getRegisteredDate()
 				+ ", modifiedDate=" + getModifiedDate()
 				+ "]";

@@ -23,7 +23,6 @@ import com.open.ms.common.vo.OmsService;
 @Controller
 public class MainController {
 
-	// 서비스 페이지로 이동 시 jsp 이름 앞에 붙일 폴더 명
 	private static final String PREFIX_DIRECTORY = "service/";
 	
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -70,7 +69,11 @@ public class MainController {
 	
 	/**
 	 * 서비스에 맞는 페이지 이동
+	 * 
+	 * @see 2016-12-01 by.iskwon
+	 * 		- page 리턴 방식 변경으로 인해 더이상 사용하지 않음
 	 */
+	@Deprecated
 	@RequestMapping(value = "/service/page/{serviceId}", method = RequestMethod.GET)
 	public String getServicePage(
 			@PathVariable(value = "serviceId") Integer serviceId,

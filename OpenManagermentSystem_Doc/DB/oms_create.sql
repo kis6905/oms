@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `oms_service` (
   `sliderImage` VARCHAR(255) NOT NULL,
   `iconImage` VARCHAR(255) NOT NULL,
   `pageName` VARCHAR(255) NOT NULL,
+  `pageUrl` VARCHAR(255) NOT NULL,
   `registeredDate` DATETIME NOT NULL,
   `modifiedDate` DATETIME NOT NULL,
   PRIMARY KEY (`serviceId`),

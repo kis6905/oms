@@ -38,7 +38,23 @@ public class CorpMoneybookController {
 	private static final Logger logger = LoggerFactory.getLogger(CorpMoneybookController.class);
 	
 	@Autowired
-	private CorpMoneybookService moneybookServiceImpl;
+	private CorpMoneybookService corpMoneybookServiceImpl;
+	
+	/**
+	 * 페이지 리턴
+	 * 
+	 * TODO 각 서비스에 권한을 주는 방식으로 변경함에 따라,
+	 * 		기존에 사용하던 한개의 URL로 Page를 판단해 주는 방식(MainController)은 사용할 수 없다.
+	 * 		때문에 당장은 Page Title을 jsp에 하드코딩 했는데, 이를 동적으로 주는 방법을 생각해보자.
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String getPage() {
+		
+		logger.info("-> []");
+		
+		logger.info("<- []");
+		return "/service/corp_moneybook";
+	}
 	
 	/**
 	 * 리스트 조회
@@ -73,11 +89,11 @@ public class CorpMoneybookController {
 			
 			JSONArray rows = new JSONArray();
 			
-			List<CorpMoneybook> moneybookList = moneybookServiceImpl.getCorpMoneybookList(memberId, startDate, endDate, offset, limit, sort, order);
-			for (CorpMoneybook vo : moneybookList)
+			List<CorpMoneybook> corpMoneybookList = corpMoneybookServiceImpl.getCorpMoneybookList(memberId, startDate, endDate, offset, limit, sort, order);
+			for (CorpMoneybook vo : corpMoneybookList)
 				rows.add(vo.toJSONObject());
 			
-			Map<String, Object> totalMap = moneybookServiceImpl.getCorpMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
+			Map<String, Object> totalMap = corpMoneybookServiceImpl.getCorpMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
 			
 			jsonResult.put("rows", rows);
 			jsonResult.put("total", totalMap.get("totalCnt"));
@@ -121,16 +137,16 @@ public class CorpMoneybookController {
 				jsonResult.put("result", Constants.NOT_OK);
 			}
 			else {
-				CorpMoneybook moneybook = new CorpMoneybook();
-				moneybook.setUsedDate(usedDate);
-				moneybook.setCategory(category);
-				moneybook.setCustomer(customer);
-				moneybook.setUsedPlace(usedPlace);
-				moneybook.setPrice(Integer.parseInt(price));
-				moneybook.setNote(note);
-				moneybook.setMemberId(member.getMemberId());
+				CorpMoneybook corpMoneybook = new CorpMoneybook();
+				corpMoneybook.setUsedDate(usedDate);
+				corpMoneybook.setCategory(category);
+				corpMoneybook.setCustomer(customer);
+				corpMoneybook.setUsedPlace(usedPlace);
+				corpMoneybook.setPrice(Integer.parseInt(price));
+				corpMoneybook.setNote(note);
+				corpMoneybook.setMemberId(member.getMemberId());
 				
-				boolean result = moneybookServiceImpl.insertCorpMoneybook(moneybook);
+				boolean result = corpMoneybookServiceImpl.insertCorpMoneybook(corpMoneybook);
 				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
 			}
 		} catch (Exception e) {
@@ -171,17 +187,17 @@ public class CorpMoneybookController {
 				jsonResult.put("result", Constants.NOT_OK);
 			}
 			else {
-				CorpMoneybook moneybook = new CorpMoneybook();
-				moneybook.setSeq(Integer.parseInt(seq));
-				moneybook.setUsedDate(usedDate);
-				moneybook.setCategory(category);
-				moneybook.setCustomer(customer);
-				moneybook.setUsedPlace(usedPlace);
-				moneybook.setPrice(Integer.parseInt(price));
-				moneybook.setNote(note);
-				moneybook.setMemberId(member.getMemberId());
+				CorpMoneybook corpMoneybook = new CorpMoneybook();
+				corpMoneybook.setSeq(Integer.parseInt(seq));
+				corpMoneybook.setUsedDate(usedDate);
+				corpMoneybook.setCategory(category);
+				corpMoneybook.setCustomer(customer);
+				corpMoneybook.setUsedPlace(usedPlace);
+				corpMoneybook.setPrice(Integer.parseInt(price));
+				corpMoneybook.setNote(note);
+				corpMoneybook.setMemberId(member.getMemberId());
 				
-				boolean result = moneybookServiceImpl.updateCorpMoneybook(moneybook);
+				boolean result = corpMoneybookServiceImpl.updateCorpMoneybook(corpMoneybook);
 				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
 			}
 		} catch (Exception e) {
@@ -216,11 +232,11 @@ public class CorpMoneybookController {
 				jsonResult.put("result", Constants.NOT_OK);
 			}
 			else {
-				CorpMoneybook moneybook = new CorpMoneybook();
-				moneybook.setSeq(Integer.parseInt(seq));
-				moneybook.setMemberId(member.getMemberId());
+				CorpMoneybook corpMoneybook = new CorpMoneybook();
+				corpMoneybook.setSeq(Integer.parseInt(seq));
+				corpMoneybook.setMemberId(member.getMemberId());
 				
-				boolean result = moneybookServiceImpl.deleteCorpMoneybook(moneybook);
+				boolean result = corpMoneybookServiceImpl.deleteCorpMoneybook(corpMoneybook);
 				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
 			}
 		} catch (Exception e) {
@@ -251,7 +267,7 @@ public class CorpMoneybookController {
 		
 		Member member = (Member) session.getAttribute("MEMBER");
 		String memberId = member.getMemberId();
-				
+		
 		logger.info("-> [startDate = {}], [endDate = {}], [sort = {}], [order = {}], [sign = {}]",  new Object[] { startDate, endDate, sort, order, sign });
 		logger.info("-> [memberId = {}]", memberId);
 		
@@ -265,24 +281,24 @@ public class CorpMoneybookController {
 				byte[] signBytes = DatatypeConverter.parseBase64Binary(sign.replaceAll("data:image/.+;base64,", ""));
 				modelMap.addAttribute("sign", signBytes);
 				
-				List<CorpMoneybook> moneybookList = moneybookServiceImpl.getCorpMoneybookList(memberId, startDate, endDate, 0, Integer.MAX_VALUE, sort, order);
-				Map<String, Object> totalMap = moneybookServiceImpl.getCorpMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
+				List<CorpMoneybook> corpMoneybookList = corpMoneybookServiceImpl.getCorpMoneybookList(memberId, startDate, endDate, 0, Integer.MAX_VALUE, sort, order);
+				Map<String, Object> totalMap = corpMoneybookServiceImpl.getCorpMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
 				
 				int totalCnt = (int) totalMap.get("totalCnt");
 				
-				modelMap.addAttribute("moneybookList", moneybookList);
+				modelMap.addAttribute("corpMoneybookList", corpMoneybookList);
 				modelMap.addAttribute("totalCnt", totalCnt);
 				modelMap.addAttribute("totalPrice", totalMap.get("totalPrice"));
 				
-				// Excel 내에서 moneybookList size가 25 미만인 경우 빈 라인을 더해 25줄을 맞추려 했으나 실패...
-				// moneybookList size 가 25 미만인 경우 25 - moneybookList.size() 만큼의 emptyLineList를 내려주자
+				// Excel 내에서 corpMoneybookList size가 25 미만인 경우 빈 라인을 더해 25줄을 맞추려 했으나 실패...
+				// moneybookList size 가 25 미만인 경우 25 - corpMoneybookList.size() 만큼의 emptyLineList를 내려주자
 				List<Object> emptyLineList = new ArrayList<Object>();
 				for (int inx = 0; inx < 25 - totalCnt; inx++)
 					emptyLineList.add(inx);
 				modelMap.addAttribute("emptyLineList", emptyLineList);
 				
 				ServletContext context = session.getServletContext();
-			    modelMap.addAttribute("templateFileName", context.getRealPath("/") + "resources/excel/" + "corpCardStatement.xls");
+			    modelMap.addAttribute("templateFileName", context.getRealPath("/") + "resources/excel/" + "corp_moneybook_template.xls");
 			    modelMap.addAttribute("destFileName", "법인카드_사용_내역서_" + member.getNickname() + "_" + Utility.getCurrentDateToString("yyMMddHHmm") + ".xls");
 			    modelMap.addAttribute("nickname", member.getNickname());
 			    

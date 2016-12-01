@@ -34,10 +34,10 @@ INSERT INTO `oms_role_member_map` VALUES (0, 'admin');
 -- Table `oms_service`
 --------------------------------------------------------
 INSERT INTO `oms_service` 
-VALUES (1, 1, '법카 관리', '법인카드 사용 내역을 관리할 수 있습니다.', 'slider-service-01.png', 'icon-service-01.png', 'corp_moneybook', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
-	   (2, 2, '개인 지출 관리', '개인 지출 내역을 관리할 수 있습니다.', 'slider-service-02.png', 'icon-service-02.png', 'person_moneybook', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
-	   (3, 3, '통계', '법카,  개인 지출의 통계를 확인할 수 있습니다.', 'slider-service-03.png', 'icon-service-03.png', 'statistic', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
-	   (4, 4, '분석', '법카,  개인 지출을 분석 및 예측할 수 있습니다.', 'slider-service-04.png', 'icon-service-04.png', 'analysis', '2016-09-03 00:00:00', '2016-09-03 00:00:00');
+VALUES (1, 1, '법카 관리', '법인카드 사용 내역을 관리할 수 있습니다.', 'slider-service-01.png', 'icon-service-01.png', 'corp_moneybook', '/service/corp/moneybook', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
+	   (2, 2, '개인 지출 관리', '개인 지출 내역을 관리할 수 있습니다.', 'slider-service-02.png', 'icon-service-02.png', 'person_moneybook', '/service/person/moneybook', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
+	   (3, 3, '통계', '법카,  개인 지출의 통계를 확인할 수 있습니다.', 'slider-service-03.png', 'icon-service-03.png', 'statistic', '/service/statistic', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
+	   (4, 4, '분석', '법카,  개인 지출을 분석 및 예측할 수 있습니다.', 'slider-service-04.png', 'icon-service-04.png', 'analysis', '/service/analysis', '2016-09-03 00:00:00', '2016-09-03 00:00:00');
 
 
 	   
