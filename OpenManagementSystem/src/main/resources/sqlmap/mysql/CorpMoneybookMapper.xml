@@ -66,9 +66,30 @@
     </select>
     
     <insert id="insertCorpMoneybook" parameterType="com.open.ms.service.vo.CorpMoneybook">
-    	INSERT INTO `oms_corp_moneybook` (`seq`, `usedDate`, `category`, `customer`, `usedPlace`, `price`, `note`, `memberId`, `registeredDate`, `modifiedDate`)
-		VALUES ( IF((SELECT MAX(seq) FROM oms_corp_moneybook t) IS NULL, 0, (SELECT MAX(seq) + 1 FROM oms_corp_moneybook t1) ), 
-				 #{usedDate}, #{category}, #{customer}, #{usedPlace}, #{price}, #{note}, #{memberId}, SYSDATE(), SYSDATE());
+    	INSERT INTO `oms_corp_moneybook` (
+	    	`seq`,
+	    	`usedDate`,
+	    	`category`,
+	    	`customer`,
+	    	`usedPlace`,
+	    	`price`,
+	    	`note`,
+	    	`memberId`,
+	    	`registeredDate`,
+	    	`modifiedDate`
+	    )
+		VALUES (
+			IF((SELECT MAX(seq) FROM oms_corp_moneybook t) IS NULL, 0, (SELECT MAX(seq) + 1 FROM oms_corp_moneybook t1) ), 
+			#{usedDate},
+			#{category},
+			#{customer},
+			#{usedPlace},
+			#{price},
+			#{note},
+			#{memberId},
+			SYSDATE(),
+			SYSDATE()
+		)
     </insert>
 
 	<update id="updateCorpMoneybook" parameterType="com.open.ms.service.vo.CorpMoneybook">

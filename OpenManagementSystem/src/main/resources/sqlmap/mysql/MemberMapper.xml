@@ -50,8 +50,28 @@
     </select>
     
     <insert id="insertMember" parameterType="com.open.ms.common.vo.Member">
-		INSERT INTO oms_member (`memberId`, `password`, `passwordFailCnt`, `nickname`, `gradeCodeGroup`, `gradeCode`, `registeredDate`, `modifiedDate`, `lastLoginDate`)
-		VALUES (#{memberId}, #{password}, 0, #{nickname}, #{gradeCodeGroup}, #{gradeCode}, SYSDATE(), SYSDATE(), NULL)
+		INSERT INTO oms_member (
+			`memberId`,
+			`password`,
+			`passwordFailCnt`,
+			`nickname`,
+			`gradeCodeGroup`,
+			`gradeCode`,
+			`registeredDate`,
+			`modifiedDate`,
+			`lastLoginDate`
+		)
+		VALUES (
+			#{memberId},
+			#{password},
+			0,
+			#{nickname},
+			#{gradeCodeGroup},
+			#{gradeCode},
+			SYSDATE(),
+			SYSDATE(),
+			NULL
+		)
     </insert>
     
     <update id="updateWhenLoginSuccess" parameterType="String">

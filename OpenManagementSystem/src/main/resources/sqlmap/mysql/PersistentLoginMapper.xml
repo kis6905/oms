@@ -16,8 +16,18 @@
     </select>
     
     <insert id="insertToken" parameterType="com.open.ms.common.vo.PersistentLogin">
-		INSERT INTO oms_persistent_login (`memberId`, `series`, `tokenValue`, `lastUsed`)
-		VALUES (#{memberId}, #{series}, #{tokenValue}, #{lastUsed})
+		INSERT INTO oms_persistent_login (
+			`memberId`,
+			`series`,
+			`tokenValue`,
+			`lastUsed`
+		)
+		VALUES (
+			#{memberId},
+			#{series},
+			#{tokenValue},
+			#{lastUsed}
+		)
     </insert>
     
     <update id="updateToken" parameterType="com.open.ms.common.vo.PersistentLogin">
