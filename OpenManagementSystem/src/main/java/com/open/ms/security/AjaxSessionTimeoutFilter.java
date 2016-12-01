@@ -39,7 +39,7 @@ public class AjaxSessionTimeoutFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         
         if (isAjaxRequest(req)) {
-        	logger.info("-> [This is Ajax]");
+//        	logger.info("-> [This is Ajax]");
             try {
             	HttpSession session = req.getSession(false);
             	if (session == null)
