@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.open.ms.common.mapper.RoleMapper">
+
+    <select id="getRoleListOfMemberId" parameterType="com.open.ms.common.vo.Member" resultType="com.open.ms.common.vo.Role">
+		SELECT
+			R.roleId,
+			R.roleName,
+			DATE_FORMAT(R.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
+			DATE_FORMAT(R.modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
+		FROM oms_role R, oms_member M, oms_role_member_map RM
+		WHERE M.memberId = RM.memberId
+		  AND R.roleId = RM.roleId
+		  AND M.memberId = #{memberId}
+    </select>
+    
+</mapper>

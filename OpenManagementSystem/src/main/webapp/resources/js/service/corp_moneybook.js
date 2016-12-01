@@ -183,7 +183,7 @@ function insertMoneybook() {
 	};
 	
 	$('#loadingDialog').modal();
-	callAjax('/service/moneybook/insert', data, callbackSuccess);
+	callAjax('/service/corp/moneybook/insert', data, callbackSuccess);
 }
 
 /**
@@ -239,7 +239,7 @@ function updateMoneybook() {
 	};
 	
 	$('#loadingDialog').modal();
-	callAjax('/service/moneybook/update', data, callbackSuccess);
+	callAjax('/service/corp/moneybook/update', data, callbackSuccess);
 }
 
 /**
@@ -270,7 +270,7 @@ function deleteMoneybook() {
 	};
 	
 	$('#loadingDialog').modal();
-	callAjax('/service/moneybook/delete', data, callbackSuccess);
+	callAjax('/service/corp/moneybook/delete', data, callbackSuccess);
 }
 
 /**
@@ -341,7 +341,7 @@ function createTable() {
 	table = $('#table').bootstrapTable({
 		ajaxOptions: ajaxOption,
 		method: 'post',
-		url: '/service/moneybook/list',
+		url: '/service/corp/moneybook/list',
 		contentType: 'application/json',
 		dataType: 'json',
 		queryParams: function(params) {
@@ -441,7 +441,7 @@ function downloadExcel() {
 	
 	$form = $("<form></form>");
 	$form.attr('method', 'post')
-		.attr('action', '/service/moneybook/excel')
+		.attr('action', '/service/corp/moneybook/excel')
 		.append($(sortInput))
 		.append($(orderInput))
 		.append($(startDateInput))

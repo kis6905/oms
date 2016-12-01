@@ -28,17 +28,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.open.ms.common.Constants;
 import com.open.ms.common.Utility;
 import com.open.ms.common.vo.Member;
-import com.open.ms.service.service.MoneybookService;
-import com.open.ms.service.vo.Moneybook;
+import com.open.ms.service.service.CorpMoneybookService;
+import com.open.ms.service.vo.CorpMoneybook;
 
 @Controller
-@RequestMapping(value = "/service/moneybook/**")
-public class MoneybookController {
+@RequestMapping(value = "/service/corp/moneybook/**")
+public class CorpMoneybookController {
 
-	private static final Logger logger = LoggerFactory.getLogger(MoneybookController.class);
+	private static final Logger logger = LoggerFactory.getLogger(CorpMoneybookController.class);
 	
 	@Autowired
-	private MoneybookService moneybookServiceImpl;
+	private CorpMoneybookService moneybookServiceImpl;
 	
 	/**
 	 * 리스트 조회
@@ -55,11 +55,11 @@ public class MoneybookController {
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		
 		String memberId = null;
-		if (member == null) {
-			logger.info("-> Session in null!");
-			jsonResult.put("result", Constants.NOT_OK);
-		}
-		else {
+//		if (member == null) {
+//			logger.info("-> Session is null!");
+//			jsonResult.put("result", Constants.NOT_OK);
+//		}
+//		else {
 			memberId = member.getMemberId();
 			
 			logger.info("-> [body = {}]", body);
@@ -79,11 +79,11 @@ public class MoneybookController {
 				
 				JSONArray rows = new JSONArray();
 				
-				List<Moneybook> moneybookList = moneybookServiceImpl.getMoneybookList(memberId, startDate, endDate, offset, limit, sort, order);
-				for (Moneybook vo : moneybookList)
+				List<CorpMoneybook> moneybookList = moneybookServiceImpl.getCorpMoneybookList(memberId, startDate, endDate, offset, limit, sort, order);
+				for (CorpMoneybook vo : moneybookList)
 					rows.add(vo.toJSONObject());
 				
-				Map<String, Object> totalMap = moneybookServiceImpl.getMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
+				Map<String, Object> totalMap = moneybookServiceImpl.getCorpMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
 				
 				jsonResult.put("rows", rows);
 				jsonResult.put("total", totalMap.get("totalCnt"));
@@ -93,7 +93,7 @@ public class MoneybookController {
 			} catch (Exception e) {
 				logger.error("~~ [An error occurred]", e);
 			}
-		}
+//		}
 		
 		logger.info("<- []");
 		return jsonResult.toString();
@@ -119,7 +119,7 @@ public class MoneybookController {
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		String memberId = null;
 		if (member == null) {
-			logger.info("-> Session in null!");
+			logger.info("-> Session is null!");
 			jsonResult.put("result", Constants.NOT_OK);
 		}
 		else {
@@ -134,7 +134,7 @@ public class MoneybookController {
 					jsonResult.put("result", Constants.NOT_OK);
 				}
 				else {
-					Moneybook moneybook = new Moneybook();
+					CorpMoneybook moneybook = new CorpMoneybook();
 					moneybook.setUsedDate(usedDate);
 					moneybook.setCategory(category);
 					moneybook.setCustomer(customer);
@@ -143,7 +143,7 @@ public class MoneybookController {
 					moneybook.setNote(note);
 					moneybook.setMemberId(member.getMemberId());
 					
-					boolean result = moneybookServiceImpl.insertMoneybook(moneybook);
+					boolean result = moneybookServiceImpl.insertCorpMoneybook(moneybook);
 					jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
 				}
 			} catch (Exception e) {
@@ -177,7 +177,7 @@ public class MoneybookController {
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		String memberId = null;
 		if (member == null) {
-			logger.info("-> Session in null!");
+			logger.info("-> Session is null!");
 			jsonResult.put("result", Constants.NOT_OK);
 		}
 		else {
@@ -191,7 +191,7 @@ public class MoneybookController {
 					jsonResult.put("result", Constants.NOT_OK);
 				}
 				else {
-					Moneybook moneybook = new Moneybook();
+					CorpMoneybook moneybook = new CorpMoneybook();
 					moneybook.setSeq(Integer.parseInt(seq));
 					moneybook.setUsedDate(usedDate);
 					moneybook.setCategory(category);
@@ -201,7 +201,7 @@ public class MoneybookController {
 					moneybook.setNote(note);
 					moneybook.setMemberId(member.getMemberId());
 					
-					boolean result = moneybookServiceImpl.updateMoneybook(moneybook);
+					boolean result = moneybookServiceImpl.updateCorpMoneybook(moneybook);
 					jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
 				}
 			} catch (Exception e) {
@@ -229,7 +229,7 @@ public class MoneybookController {
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		String memberId = null;
 		if (member == null) {
-			logger.info("-> Session in null!");
+			logger.info("-> Session is null!");
 			jsonResult.put("result", Constants.NOT_OK);
 		}
 		else {
@@ -243,11 +243,11 @@ public class MoneybookController {
 					jsonResult.put("result", Constants.NOT_OK);
 				}
 				else {
-					Moneybook moneybook = new Moneybook();
+					CorpMoneybook moneybook = new CorpMoneybook();
 					moneybook.setSeq(Integer.parseInt(seq));
 					moneybook.setMemberId(member.getMemberId());
 					
-					boolean result = moneybookServiceImpl.deleteMoneybook(moneybook);
+					boolean result = moneybookServiceImpl.deleteCorpMoneybook(moneybook);
 					jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
 				}
 			} catch (Exception e) {
@@ -278,7 +278,7 @@ public class MoneybookController {
 		HttpSession session = request.getSession(false);
 		
 		if (session == null) {
-			logger.info("-> Session in null!");
+			logger.info("-> Session is null!");
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			responseStatusCode = HttpServletResponse.SC_UNAUTHORIZED;
 		}
@@ -287,7 +287,7 @@ public class MoneybookController {
 			String memberId = null;
 			
 			if (member == null) {
-				logger.info("-> Session in null!");
+				logger.info("-> Session is null!");
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				responseStatusCode = HttpServletResponse.SC_UNAUTHORIZED;
 			}
@@ -307,8 +307,8 @@ public class MoneybookController {
 						byte[] signBytes = DatatypeConverter.parseBase64Binary(sign.replaceAll("data:image/.+;base64,", ""));
 						modelMap.addAttribute("sign", signBytes);
 						
-						List<Moneybook> moneybookList = moneybookServiceImpl.getMoneybookList(memberId, startDate, endDate, 0, Integer.MAX_VALUE, sort, order);
-						Map<String, Object> totalMap = moneybookServiceImpl.getMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
+						List<CorpMoneybook> moneybookList = moneybookServiceImpl.getCorpMoneybookList(memberId, startDate, endDate, 0, Integer.MAX_VALUE, sort, order);
+						Map<String, Object> totalMap = moneybookServiceImpl.getCorpMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
 						
 						int totalCnt = (int) totalMap.get("totalCnt");
 						

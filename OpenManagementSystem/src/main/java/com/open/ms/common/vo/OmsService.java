@@ -2,16 +2,17 @@ package com.open.ms.common.vo;
 
 import org.json.simple.JSONObject;
 
-public class MyService extends CommonVo {
+public class OmsService extends CommonVo {
 	
 	private Integer serviceId	= null;
+	private Integer roleId	= null;
 	private String title		= null;
 	private String description	= null;
 	private String sliderImage	= null;
 	private String iconImage	= null;
 	private String pageName		= null;
 
-	public MyService() {
+	public OmsService() {
 	}
 
 	public Integer getServiceId() {
@@ -20,6 +21,14 @@ public class MyService extends CommonVo {
 
 	public void setServiceId(Integer serviceId) {
 		this.serviceId = serviceId;
+	}
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getTitle() {
@@ -67,6 +76,7 @@ public class MyService extends CommonVo {
 	public JSONObject toJSONObject() {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("serviceId", serviceId);
+		jsonObject.put("roleId", roleId);
 		jsonObject.put("title", title);
 		jsonObject.put("description", description);
 		jsonObject.put("sliderImage", sliderImage);
@@ -80,6 +90,7 @@ public class MyService extends CommonVo {
 	@Override
 	public String toString() {
 		return "Service [serviceId=" + serviceId
+				+ ", roleId=" + roleId
 				+ ", title=" + title
 				+ ", description=" + description
 				+ ", sliderImage=" + sliderImage

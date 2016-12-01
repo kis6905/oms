@@ -5,7 +5,7 @@
 
 <%@ include file="../include/include.jsp" %>
 
-<script type="text/javascript" src="/resources/js/service/moneybook.js"></script>
+<script type="text/javascript" src="/resources/js/service/corp_moneybook.js"></script>
 
 </head>
 
@@ -15,7 +15,7 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<div class="page-header-custom">
-			<span class="page-header-title-custom" style="margin-top: 10px;">${myService.title}</span>
+			<span class="page-header-title-custom" style="margin-top: 10px;">${omsService.title}</span>
 			<span class="page-header-btn-write">
 				<button type="button" class="btn btn-default" id="insertOpenBtn">
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>

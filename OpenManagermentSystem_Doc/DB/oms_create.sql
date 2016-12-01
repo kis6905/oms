@@ -10,74 +10,101 @@ USE `{#db_database_name#}` ;
 -- -----------------------------------------------------
 -- Table `oms_com_code`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_com_code` ;
+
 CREATE TABLE IF NOT EXISTS `oms_com_code` (
-  `codeGroup` INT NOT NULL ,
-  `code` INT NOT NULL ,
-  `codeTitle` VARCHAR(255) NULL ,
-  `codeValue` VARCHAR(255) NULL ,
-  PRIMARY KEY (`codeGroup`, `code`)  )
-ENGINE = InnoDB
-DEFAULT CHARSET = utf8;
+  `codeGroup` INT NOT NULL,
+  `code` INT NOT NULL,
+  `codeTitle` VARCHAR(255) NOT NULL,
+  `codeValue` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`codeGroup`, `code`))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `oms_member`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_member` ;
+
 CREATE TABLE IF NOT EXISTS `oms_member` (
-  `memberId` VARCHAR(255) NOT NULL ,
-  `password` VARCHAR(255) NOT NULL ,
-  `passwordFailCnt` INT NOT NULL DEFAULT 0 ,
-  `nickname` VARCHAR(255) NOT NULL ,
-  `gradeCodeGroup` INT NOT NULL ,
-  `gradeCode` INT NOT NULL ,
-  `registeredDate` DATETIME NOT NULL ,
-  `modifiedDate` DATETIME NOT NULL ,
-  `lastLoginDate` DATETIME ,
-  PRIMARY KEY (`memberId`)  ,
-  INDEX `fk_oms_member_oms_com_code_idx` (`gradeCodeGroup` ASC, `gradeCode` ASC)  ,
-  CONSTRAINT `fk_oms_member_oms_com_code`
+  `memberId` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `passwordFailCnt` INT NOT NULL DEFAULT 0,
+  `memberName` VARCHAR(255) NOT NULL,
+  `gradeCodeGroup` INT NOT NULL,
+  `gradeCode` INT NOT NULL,
+  `registeredDate` DATETIME NOT NULL,
+  `modifiedDate` DATETIME NOT NULL,
+  `lastLoginDate` DATETIME NOT NULL,
+  PRIMARY KEY (`memberId`),
+  INDEX `fk_oms_member_oms_com_code1_idx` (`gradeCodeGroup` ASC, `gradeCode` ASC),
+  CONSTRAINT `fk_oms_member_oms_com_code1`
     FOREIGN KEY (`gradeCodeGroup` , `gradeCode`)
     REFERENCES `oms_com_code` (`codeGroup` , `code`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARSET = utf8;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `oms_persistent_login`
+-- Table `oms_persitent_login`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `oms_persistent_login` (
-  `memberId` VARCHAR(255) NOT NULL ,
-  `series` VARCHAR(64) NOT NULL ,
-  `tokenValue` VARCHAR(64) NOT NULL ,
-  `lastUsed` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-  PRIMARY KEY (`memberId`)  )
-ENGINE = InnoDB
-DEFAULT CHARSET = utf8;
+DROP TABLE IF EXISTS `oms_persitent_login` ;
+
+CREATE TABLE IF NOT EXISTS `oms_persitent_login` (
+  `memberId` VARCHAR(255) NOT NULL,
+  `series` VARCHAR(64) NOT NULL,
+  `token` VARCHAR(64) NOT NULL,
+  `lastUsed` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`memberId`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `oms_role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_role` ;
+
+CREATE TABLE IF NOT EXISTS `oms_role` (
+  `roleId` INT NOT NULL,
+  `roleName` VARCHAR(255) NOT NULL,
+  `registeredDate` DATETIME NOT NULL,
+  `modifiedDate` DATETIME NOT NULL,
+  PRIMARY KEY (`roleId`))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `oms_service`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_service` ;
+
 CREATE TABLE IF NOT EXISTS `oms_service` (
-  `serviceId` INT NOT NULL ,
-  `title` VARCHAR(255) NOT NULL ,
-  `description` VARCHAR(255) NOT NULL ,
-  `sliderImage` VARCHAR(255) NOT NULL ,
-  `iconImage` VARCHAR(255) NOT NULL ,
-  `pageName` VARCHAR(255) NOT NULL ,
-  `registeredDate` DATETIME NOT NULL ,
-  `modifiedDate` DATETIME NOT NULL ,
-  PRIMARY KEY (`serviceId`)  )
-ENGINE = InnoDB
-DEFAULT CHARSET = utf8;
+  `serviceId` INT NOT NULL,
+  `roleId` INT NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
+  `sliderImage` VARCHAR(255) NOT NULL,
+  `iconImage` VARCHAR(255) NOT NULL,
+  `pageName` VARCHAR(255) NOT NULL,
+  `registeredDate` DATETIME NOT NULL,
+  `modifiedDate` DATETIME NOT NULL,
+  PRIMARY KEY (`serviceId`),
+  INDEX `fk_oms_service_oms_role1_idx` (`roleId` ASC),
+  CONSTRAINT `fk_oms_service_oms_role1`
+    FOREIGN KEY (`roleId`)
+    REFERENCES `oms_role` (`roleId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `oms_moneybook`
+-- Table `oms_corp_moneybook`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `oms_moneybook` (
+DROP TABLE IF EXISTS `oms_corp_moneybook` ;
+
+CREATE TABLE IF NOT EXISTS `oms_corp_moneybook` (
   `seq` INT NOT NULL,
   `usedDate` VARCHAR(10) NOT NULL,
   `category` VARCHAR(255) NOT NULL,
@@ -88,11 +115,32 @@ CREATE TABLE IF NOT EXISTS `oms_moneybook` (
   `memberId` VARCHAR(255) NOT NULL,
   `registeredDate` DATETIME NOT NULL,
   `modifiedDate` DATETIME NOT NULL,
-  PRIMARY KEY (`seq`)
-  INDEX `queryCondition_inx` (`memberId` ASC, `usedDate` ASC))
-ENGINE = InnoDB
-DEFAULT CHARSET = utf8
-COMMENT = '- member 를 삭제하더라도 기록을 남기기 위해 member 테이블과 관계맺지 않는다.';
+  PRIMARY KEY (`seq`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `oms_role_member_map`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_role_member_map` ;
+
+CREATE TABLE IF NOT EXISTS `oms_role_member_map` (
+  `roleId` INT NOT NULL,
+  `memberId` VARCHAR(255) NOT NULL,
+  INDEX `fk_oms_role_member_map_oms_role1_idx` (`roleId` ASC),
+  INDEX `fk_oms_role_member_map_oms_member1_idx` (`memberId` ASC),
+  PRIMARY KEY (`roleId`, `memberId`),
+  CONSTRAINT `fk_oms_role_member_map_oms_role1`
+    FOREIGN KEY (`roleId`)
+    REFERENCES `oms_role` (`roleId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_oms_role_member_map_oms_member1`
+    FOREIGN KEY (`memberId`)
+    REFERENCES `oms_member` (`memberId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

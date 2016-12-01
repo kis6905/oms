@@ -2,6 +2,8 @@ package com.open.ms.common.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -14,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.open.ms.common.service.MyServiceService;
-import com.open.ms.common.vo.MyService;
+import com.open.ms.common.service.OmsServiceService;
+import com.open.ms.common.vo.Member;
+import com.open.ms.common.vo.OmsService;
 
 @Controller
 public class MainController {
@@ -26,7 +29,7 @@ public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	
 	@Autowired
-	private MyServiceService myServiceServiceImpl;
+	private OmsServiceService omsServiceServiceImpl;
 	
 	/**
 	 * 메인 페이지 이동
@@ -46,20 +49,22 @@ public class MainController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/service/list", method = RequestMethod.POST)
 	@ResponseBody
-	public String postMyServiceList() {
+	public String postOmsServiceList(HttpServletRequest request) {
 		
 		logger.info("-> []");
 		
+		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
+		
 		JSONObject jsonResult = new JSONObject();
-		JSONArray jsonMyServiceArray = new JSONArray();
+		JSONArray jsonOmsServiceArray = new JSONArray();
 		
-		List<MyService> myServiceList = myServiceServiceImpl.getMyServiceList();
-		for (MyService myService : myServiceList)
-			jsonMyServiceArray.add(myService.toJSONObject());
+		List<OmsService> omsServiceList = omsServiceServiceImpl.getOmsServiceList(member);
+		for (OmsService omsService : omsServiceList)
+			jsonOmsServiceArray.add(omsService.toJSONObject());
 		
-		jsonResult.put("myServiceList", jsonMyServiceArray);
+		jsonResult.put("omsServiceList", jsonOmsServiceArray);
 		
-		logger.info("<- [myServiceListSize = {}]", myServiceList.size());
+		logger.info("<- [omsServiceListSize = {}]", omsServiceList.size());
 		return jsonResult.toString();
 	}
 	
@@ -73,15 +78,15 @@ public class MainController {
 		
 		logger.info("-> [serviceId = {}]", serviceId);
 		
-		MyService myService = myServiceServiceImpl.getMyService(serviceId);
+		OmsService omsService = omsServiceServiceImpl.getOmsService(serviceId);
 		
-		if (myService == null)
+		if (omsService == null)
 			return "redirect:/error/204";
 		
-		modelMap.addAttribute("myService", myService);
+		modelMap.addAttribute("omsService", omsService);
 		
-		logger.info("<- [myService = {}]", myService.toString());
-		return PREFIX_DIRECTORY + myService.getPageName();
+		logger.info("<- [omsService = {}]", omsService.toString());
+		return PREFIX_DIRECTORY + omsService.getPageName();
 	}
 	
 }

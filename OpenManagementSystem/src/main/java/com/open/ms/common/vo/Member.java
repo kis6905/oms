@@ -1,5 +1,7 @@
 package com.open.ms.common.vo;
 
+import java.util.List;
+
 import org.json.simple.JSONObject;
 
 public class Member extends CommonVo {
@@ -11,6 +13,8 @@ public class Member extends CommonVo {
 	private Integer gradeCodeGroup	= null;
 	private Integer gradeCode		= null;
 	private String lastLoginDate	= null;
+	
+	private List<Role> roleList 	= null;
 	
 	public Member() {
 	}
@@ -71,6 +75,14 @@ public class Member extends CommonVo {
 		this.lastLoginDate = lastLoginDate;
 	}
 	
+	public List<Role> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject toJSONObject() {
@@ -82,6 +94,7 @@ public class Member extends CommonVo {
 		jsonObject.put("registeredDate", getRegisteredDate());
 		jsonObject.put("modifiedDate", getModifiedDate());
 		jsonObject.put("lastLoginDate", lastLoginDate);
+		jsonObject.put("roleList", roleList);
 		return jsonObject;
 	}
 	

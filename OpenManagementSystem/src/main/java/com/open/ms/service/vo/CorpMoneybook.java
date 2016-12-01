@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 
 import com.open.ms.common.vo.CommonVo;
 
-public class Moneybook extends CommonVo {
+public class CorpMoneybook extends CommonVo {
 	
 	private Integer no = null;
 	private Integer seq = null;
@@ -108,7 +108,7 @@ public class Moneybook extends CommonVo {
 
 	@Override
 	public String toString() {
-		return "Moneybook [no=" + no + ", seq=" + seq + ", memberId=" + memberId + ", usedDate=" + usedDate
+		return "CorpMoneybook [no=" + no + ", seq=" + seq + ", memberId=" + memberId + ", usedDate=" + usedDate
 				+ ", category=" + category + ", customer=" + customer + ", usedPlace=" + usedPlace + ", price=" + price
 				+ ", note=" + note + "]";
 	}

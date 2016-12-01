@@ -15,8 +15,13 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/join/**" access="permitAll" />
-		<intercept-url pattern="/main/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-		<intercept-url pattern="/service/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+		<intercept-url pattern="/main/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_CORP_MONEYBOOK', 'ROLE_PERSON_MONEYBOOK', 'ROLE_STATISTIC', 'ROLE_ANALYSIS')" />
+		<intercept-url pattern="/service/admin/**" access="hasAnyRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/service/corp/moneybook/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_CORP_MONEYBOOK')" />
+		<intercept-url pattern="/service/person/moneybook/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PERSON_MONEYBOOK')" />
+		<intercept-url pattern="/service/statistic/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_STATISTIC')" />
+		<intercept-url pattern="/service/analysis/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYSIS')" />
+		
         <form-login
             login-page="/"
             username-parameter="memberId" password-parameter="password"

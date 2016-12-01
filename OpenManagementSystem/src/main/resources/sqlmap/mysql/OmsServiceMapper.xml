@@ -3,11 +3,12 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.open.ms.common.mapper.MyServiceMapper">
+<mapper namespace="com.open.ms.common.mapper.OmsServiceMapper">
 
-    <select id="getMyServiceList" resultType="com.open.ms.common.vo.MyService">
+    <select id="getOmsServiceList" parameterType="com.open.ms.common.vo.Member" resultType="com.open.ms.common.vo.OmsService">
         SELECT 
 			serviceId,
+			roleId,
 			title,
 			description,
 			sliderImage,
@@ -16,9 +17,14 @@
 			DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
 			DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
 		FROM oms_service
+		WHERE roleId IN ( SELECT R.roleId
+						  FROM oms_role R, oms_member M, oms_role_member_map RM
+						  WHERE M.memberId = RM.memberId
+						    AND R.roleId = RM.roleId
+						    AND M.memberId = #{memberId} )
     </select>
     
-    <select id="getMyServiceOfServiceId" parameterType="Integer" resultType="com.open.ms.common.vo.MyService">
+    <select id="getOmsServiceOfServiceId" parameterType="Integer" resultType="com.open.ms.common.vo.OmsService">
 		SELECT 
 			serviceId,
 			title,
