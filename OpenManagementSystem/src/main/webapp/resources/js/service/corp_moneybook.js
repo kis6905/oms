@@ -127,6 +127,7 @@ function setCurrentDate() {
  * Excel Download 버튼 클릭 시 
  */
 function openSignModal() {
+	$('html, body').animate({scrollTop: '0px'}, 300);
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
 	$('#signModal').modal();
@@ -370,7 +371,7 @@ function createTable() {
 			$('#totalCnt').html(data.total);
 			var totalPrice = data.totalPrice == null ? 0 : data.totalPrice;
 			$('#payment').html(numberFormat(totalPrice));
-			$('#balance').html(numberFormat(1000000 - totalPrice)); // 1,000,000원 - 총 결제액
+			$('#balance').html(numberFormat(data.corpCardLimit - totalPrice)); // 자신의 한도 - 총 결제액
 		},
 		onLoadError: function(status, res) {
 			if (status == 401 || status == 403) {

@@ -73,8 +73,8 @@ public class MainController {
 	/**
 	 * 서비스에 맞는 페이지 이동
 	 * 
-	 * @see 2016-12-01 by.iskwon
-	 * 		- page 리턴 방식 변경으로 인해 더이상 사용하지 않음
+	 * @Deprecated 2016-12-01 by.iskwon
+	 * 			   - page 리턴 방식 변경으로 인해 더이상 사용하지 않음
 	 */
 	@Deprecated
 	@RequestMapping(value = "/service/page/{serviceId}", method = RequestMethod.GET)

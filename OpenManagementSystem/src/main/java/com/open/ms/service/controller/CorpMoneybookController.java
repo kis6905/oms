@@ -101,8 +101,9 @@ public class CorpMoneybookController {
 			jsonResult.put("rows", rows);
 			jsonResult.put("total", totalMap.get("totalCnt"));
 			jsonResult.put("totalPrice", totalMap.get("totalPrice"));
+			jsonResult.put("corpCardLimit", member.getCorpCardLimit());
 			
-			logger.info("~~ [totalCnt = {}], [totalPrice = {}], [rows = {}]", new Object[] { totalMap.get("totalCnt"), totalMap.get("totalPrice"), rows.size() });
+			logger.info("~~ [totalCnt = {}], [totalPrice = {}], [corpCardLimit = {}], [rows = {}]", new Object[] { totalMap.get("totalCnt"), totalMap.get("totalPrice"), member.getCorpCardLimit(), rows.size() });
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
 		}

@@ -81,7 +81,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>법인카드 한도</label>
+									<label>법카 한도</label>
 								</div>
 								<div class="col-sm-10">
 									<input type="number" class="form-control input-group-lg" id="iCorpCardLimit" placeholder="법인카드 한도를 입력하세요.">	
@@ -153,7 +153,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>법인카드 한도</label>
+									<label>법카 한도</label>
 								</div>
 								<div class="col-sm-10">
 									<input type="number" class="form-control input-group-lg" id="uCorpCardLimit" placeholder="법인카드 한도를 입력하세요.">	
@@ -164,6 +164,14 @@
 									<label>권한</label>
 								</div>
 								<div class="col-sm-10 role-group" id="uRoleGroup">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-2">
+									<label>접속일시</label>
+								</div>
+								<div class="col-sm-10">
+									<input type="text" class="form-control input-group-lg" id="uLastLoginDate" disabled="disabled">
 								</div>
 							</div>
 							<div class="form-group">

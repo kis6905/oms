@@ -13,7 +13,7 @@ import com.open.ms.common.vo.OmsService;
 @Service
 public interface OmsServiceService {
 	
-	public List<OmsService> getOmsServiceList(Member member);
-	public OmsService getOmsService(Integer serviceId);
+	List<OmsService> getOmsServiceList(Member member);
+	OmsService getOmsService(Integer serviceId);
 	
 }

@@ -43,7 +43,7 @@ code {
 /* commons
 -------------------------------------------------- */
 .page-header-custom {
-	padding-top: 30px;
+	padding-top: 20px;
 }
 
 .page-header-title-custom {
@@ -110,5 +110,11 @@ code {
 .form-horizontal .checkbox {
 	padding-top: 0px;
 	padding-bottom: 7px;
+}
+
+/* ³» Á¤º¸
+-------------------------------------------------- */
+.form-btn-right {
+	text-align: right;
 }
 

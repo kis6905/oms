@@ -283,6 +283,7 @@ function openUpdateModal(row) {
 	$('#uMemberName').val(row.memberName);
 	$('#uGradeCode').val(row.gradeCode);
 	$('#uCorpCardLimit').val(row.corpCardLimit);
+	$('#uLastLoginDate').val(row.lastLoginDate);
 	$('#uRegisteredDate').val(row.registeredDate);
 	$('#uModifiedDate').val(row.modifiedDate);
 	$('#updateModal').modal();

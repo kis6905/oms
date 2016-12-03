@@ -35,11 +35,11 @@ INSERT INTO `oms_role_member_map` VALUES (0, 'admin'), (1, 'admin'), (2, 'admin'
 --------------------------------------------------------
 INSERT INTO `oms_service` (`serviceId`, `roleId`, `title`, `description`, `sliderImage`, `iconImage`, `pageName`, `pageUrl`, `registeredDate`, `modifiedDate`)
 VALUES (1, 1, '법카 관리', '법인카드 사용 내역을 관리할 수 있습니다.', 'slider-service-01.png', 'icon-service-01.png', 'corp_moneybook', '/service/corp/moneybook', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
-	   (2, 2, '개인 지출 관리', '개인 지출 내역을 관리할 수 있습니다.', 'slider-service-02.png', 'icon-service-02.png', 'person_moneybook', '/service/person/moneybook', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
-	   (3, 3, '통계', '법카,  개인 지출의 통계를 확인할 수 있습니다.', 'slider-service-03.png', 'icon-service-03.png', 'statistic', '/service/statistic', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
-	   (4, 4, '분석', '법카,  개인 지출을 분석 및 예측할 수 있습니다.', 'slider-service-04.png', 'icon-service-04.png', 'analysis', '/service/analysis', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
+	   (2, 2, '지출 관리', '개인 지출 내역을 관리할 수 있습니다.', 'slider-service-02.png', 'icon-service-02.png', 'person_moneybook', '/service/person/moneybook', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
+	   (3, 3, '통계', '법인카드, 개인 지출 통계를 확인할 수 있습니다.', 'slider-service-03.png', 'icon-service-03.png', 'statistic', '/service/statistic', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
+	   (4, 4, '분석', '법인카드, 개인 지출을 분석할 수 있습니다.', 'slider-service-04.png', 'icon-service-04.png', 'analysis', '/service/analysis', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
 	   (100, 0, '회원 관리', '회원을 관리할 수 있습니다.', 'slider-service-100.png', 'icon-service-100.png', 'member', '/admin/member', '2016-09-03 00:00:00', '2016-09-03 00:00:00'),
-	   (101, 0, '회원별 통계', '회원의 법인카드, 개인 지출 통계를 확인할 수 있습니다.', 'slider-service-101.png', 'icon-service-101.png', 'statistic', '/admin/statistic', '2016-09-03 00:00:00', '2016-09-03 00:00:00');
+	   (101, 0, 'Data 조회', '각 회원 별 법인카드, 개인 지출 내역 및 통계를 확인할 수 있습니다.', 'slider-service-101.png', 'icon-service-101.png', 'data', '/admin/data', '2016-09-03 00:00:00', '2016-09-03 00:00:00');
 
 
 

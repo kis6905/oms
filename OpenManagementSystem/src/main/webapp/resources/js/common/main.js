@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 	getServiceList();
 });
@@ -6,47 +7,56 @@ function getServiceList() {
 	var data = {};
 	
 	var callbackSuccess = function(data, textStatus, jqXHR) {
-		var carouselIndicators = '';
-		var carouselInner = '';
-		var serviceIconRow = '';
+		var sliderHtml = '';
+		var iconHtml = '';
 		
 		var omsServiceList = data.omsServiceList;
 		
 		for (var inx = 0; inx < omsServiceList.length; inx++) {
 			var omsService = omsServiceList[inx];
 			
-			if (inx == 0) {
-				carouselIndicators += '<li data-target="#myCarousel" data-slide-to="' + inx + '" class="active"></li>';
-				carouselInner += '<div class="item active">';
-			}
-			else {
-				carouselIndicators += '<li data-target="#myCarousel" data-slide-to="' + inx + '"></li>';
-				carouselInner += '<div class="item">';
-			}
+			sliderHtml += '<li style="background-image: url(\'/resources/images/' + omsService.sliderImage + '\'); background-size: 100%;" onclick="location.href=\'' + omsService.pageUrl + '\'">';
+			sliderHtml += '<br><br><span style="font-size: 25px;">' + omsService.title + '</span><br><br>';
+			sliderHtml += '<span style="font-size: 15px; margin: 0 5px 0 5px;">' + omsService.description + '</span>';
+			sliderHtml += '</li>';
 			
-			carouselInner += '<img class="slide' + omsService.serviceId + '" src="/resources/images/' + omsService.sliderImage + '" alt="slide' + omsService.serviceId + '">'
-							+ '<div class="container">'
-								+ '<div class="carousel-caption">'
-									+ '<h1>' + omsService.title + '</h1>'
-									+ '<p>' + omsService.description + '</p>'
-									+ '<p>&nbsp;</p>'
-									+ '<p>&nbsp;</p>'
-//									+ '<p>' + omsService.description + '</p>'
-//									+ '<p><a class="btn btn-primary" href="/service/page/' + omsService.serviceId + '" role="button">바로가기</a></p>'
-//									+ '<p><a class="btn btn-primary" href="' + omsService.pageUrl + '" role="button">바로가기</a></p>'
-								+ '</div>'
-							+ '</div>'
-						+ '</div>';
-			
-//			serviceIconRow += '<div id="iconArea" class="col-xs-6 col-sm-3"><span id="iconClickArea" onclick="location.href=\'/service/page/' + omsService.serviceId + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
-			serviceIconRow += '<div id="iconArea" class="col-xs-6 col-sm-3"><span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
+			iconHtml += '<div id="iconArea" class="col-xs-4 col-sm-3"><span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
 		}
 		
-		$('#carouselIndicators').html(carouselIndicators);
-		$('#carouselInner').html(carouselInner);
-		$('#serviceIconRow').html(serviceIconRow);
+		$('#sliderServiceItemArea').html(sliderHtml);
+		$('#serviceIconRow').html(iconHtml);
+		
+		createSlider();
 	};
 	
 	callAjax('/service/list', data, callbackSuccess);
+}
+
+function createSlider() {
+	var $frame  = $('#sliderServiceArea');
+	var $slidee = $frame.children('ul').eq(0);
+	var $wrap   = $frame.parent();
+
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateOn: 'click',
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		startAt: 0,
+		scrollBar: $wrap.find('.scrollbar'),
+		scrollBy: 1,
+		pagesBar: $wrap.find('.pages'),
+		activatePageOn: 'click',
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
 }
 

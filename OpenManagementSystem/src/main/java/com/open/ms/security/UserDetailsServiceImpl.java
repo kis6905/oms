@@ -49,8 +49,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			boolean accountNonLocked = true; // true = 잠김x, false = 잠김o
 			
 			List<Role> roleList = roleMapper.getRoleListOfMemberId(member);
-			member.setRoleList(roleList);
-			
 			// 권한 설정
 			for (Role role : roleList)
 				authorities.add(new SimpleGrantedAuthority(role.getRoleName()));

@@ -23,6 +23,7 @@
 						  WHERE M.memberId = RM.memberId
 						    AND R.roleId = RM.roleId
 						    AND M.memberId = #{memberId} )
+		ORDER BY roleId ASC
     </select>
     
     <select id="getOmsServiceOfServiceId" parameterType="Integer" resultType="com.open.ms.common.vo.OmsService">

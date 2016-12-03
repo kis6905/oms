@@ -147,8 +147,10 @@
 		SET <if test="password != null">
 				password = #{password},
 			</if>
+			<if test="gradeCode != null">
+				gradeCode = #{gradeCode},
+			</if>
 			memberName = #{memberName},
-			gradeCode = #{gradeCode},
 			corpCardLimit = #{corpCardLimit},
 			modifiedDate = SYSDATE()
 		WHERE memberId = #{memberId}

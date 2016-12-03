@@ -5,9 +5,11 @@
 
 <%@ include file="../include/include.jsp" %>
 
-<link href="/resources/css/bootstrap/main.css" rel="stylesheet">
+<link href="/resources/css/sly/sly-custom.css" rel="stylesheet">
 
 <script type="text/javascript" src="/resources/js/common/main.js"></script>
+<script type="text/javascript" src="/resources/js/sly.min.js"></script>
+<script type="text/javascript" src="/resources/js/jquery-easing-1.3.js"></script>
 
 </head>
 
@@ -17,30 +19,13 @@
 	<!-- Begin page content -->
 	<div class="container">
 		
-		<!-- Carousel
-		================================================== -->
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-			<!-- Indicators -->
-			<ol class="carousel-indicators" id="carouselIndicators">
-			</ol>
-			
-			<div class="carousel-inner" role="listbox" id="carouselInner">
-			</div>
-			<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div><!-- /.carousel -->
-		
-		<div id="serviceIconArea">
-			<div class="row" id="serviceIconRow">
-			</div>
+		<div class="frame" id="sliderServiceArea">
+			<ul class="clearfix" id="sliderServiceItemArea"></ul>
 		</div>
 		
+		<div id="serviceIconArea">
+			<div class="row" id="serviceIconRow"></div>
+		</div>
 	</div>
 
 	<%@ include file="../include/footer.jsp" %>

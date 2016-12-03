@@ -9,6 +9,6 @@ import com.open.ms.common.vo.Role;
  */
 public interface RoleService {
 	
-	public List<Role> getRoleList();
+	List<Role> getRoleList();
 	
 }
