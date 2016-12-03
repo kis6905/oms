@@ -33,7 +33,7 @@ $(document).ready(function() {
 		checkId();
 	});
 	
-	$('#iMemberId').on('keypress', function() {
+	$('#iMemberId').on('keyup', function() {
 		checkedId = false;
 	});
 
