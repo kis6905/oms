@@ -2,23 +2,36 @@ package com.open.ms.common.vo;
 
 import java.util.List;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+/**
+ * @author iskwon
+ */
 public class Member extends CommonVo {
 	
+	private Integer no				= null;
 	private String memberId			= null;
 	private String password			= null;
 	private Integer passwordFailCnt	= null;
-	private String nickname			= null;
+	private String memberName		= null;
 	private Integer gradeCodeGroup	= null;
 	private Integer gradeCode		= null;
+	private Integer corpCardLimit	= null;
 	private String lastLoginDate	= null;
-	
 	private List<Role> roleList 	= null;
 	
 	public Member() {
 	}
 
+	public Integer getNo() {
+		return no;
+	}
+
+	public void setNo(Integer no) {
+		this.no = no;
+	}
+	
 	public String getMemberId() {
 		return memberId;
 	}
@@ -35,12 +48,12 @@ public class Member extends CommonVo {
 		this.password = password;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public String getMemberName() {
+		return memberName;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 
 	public Integer getPasswordFailCnt() {
@@ -67,6 +80,14 @@ public class Member extends CommonVo {
 		this.gradeCode = gradeCode;
 	}
 	
+	public Integer getCorpCardLimit() {
+		return corpCardLimit;
+	}
+
+	public void setCorpCardLimit(Integer corpCardLimit) {
+		this.corpCardLimit = corpCardLimit;
+	}
+
 	public String getLastLoginDate() {
 		return lastLoginDate;
 	}
@@ -82,30 +103,41 @@ public class Member extends CommonVo {
 	public void setRoleList(List<Role> roleList) {
 		this.roleList = roleList;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject toJSONObject() {
 		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("no", no);
 		jsonObject.put("memberId", memberId);
-		jsonObject.put("memberName", nickname);
+		jsonObject.put("memberName", memberName);
 		jsonObject.put("gradeCodeGroup", gradeCodeGroup);
 		jsonObject.put("gradeCode", gradeCode);
+		jsonObject.put("corpCardLimit", corpCardLimit);
 		jsonObject.put("registeredDate", getRegisteredDate());
 		jsonObject.put("modifiedDate", getModifiedDate());
 		jsonObject.put("lastLoginDate", lastLoginDate);
-		jsonObject.put("roleList", roleList);
+		
+		JSONArray jsonRoleList = new JSONArray();
+		if (roleList != null) {
+			for (Role role : roleList)
+				jsonRoleList.add(role.toJSONObject());
+		}
+		jsonObject.put("roleList", jsonRoleList);
+		
 		return jsonObject;
 	}
 	
 	@Override
 	public String toString() {
-		return "Member [memberId=" + memberId
+		return "Member [no=" + no
+				+ ", memberId=" + memberId
 //				+ ", password=" + password // 보안상 출력 안함
-				+ ", nickname=" + nickname
+				+ ", memberName=" + memberName
 				+ ", passwordFailCnt=" + passwordFailCnt
 				+ ", gradeCodeGroup=" + gradeCodeGroup
 				+ ", gradeCode=" + gradeCode
+				+ ", corpCardLimit=" + corpCardLimit
 				+ ", registeredDate=" + getRegisteredDate()
 				+ ", modifiedDate=" + getModifiedDate()
 				+ ", lastLoginDate=" + lastLoginDate

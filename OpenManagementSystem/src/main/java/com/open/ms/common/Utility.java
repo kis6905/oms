@@ -12,6 +12,9 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author iskwon
+ */
 public class Utility {
 
 	private static final Logger logger = LoggerFactory.getLogger(Utility.class);

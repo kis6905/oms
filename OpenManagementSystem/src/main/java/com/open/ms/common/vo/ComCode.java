@@ -1,5 +1,8 @@
 package com.open.ms.common.vo;
 
+/**
+ * @author iskwon
+ */
 public class ComCode {
 	
 	private Integer codeGroup = null;

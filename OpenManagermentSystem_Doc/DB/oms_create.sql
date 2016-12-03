@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `oms_member` (
   `memberName` VARCHAR(255) NOT NULL,
   `gradeCodeGroup` INT NOT NULL,
   `gradeCode` INT NOT NULL,
+  `corpCardLimit` INT,
   `registeredDate` DATETIME NOT NULL,
   `modifiedDate` DATETIME NOT NULL,
   `lastLoginDate` DATETIME NOT NULL,
@@ -134,13 +135,13 @@ CREATE TABLE IF NOT EXISTS `oms_role_member_map` (
   CONSTRAINT `fk_oms_role_member_map_oms_role1`
     FOREIGN KEY (`roleId`)
     REFERENCES `oms_role` (`roleId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_oms_role_member_map_oms_member1`
     FOREIGN KEY (`memberId`)
     REFERENCES `oms_member` (`memberId`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+  	ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

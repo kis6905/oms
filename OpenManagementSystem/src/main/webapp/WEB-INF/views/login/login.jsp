@@ -29,7 +29,6 @@
 			</div>
 			
 			<button class="btn btn-lg btn-primary btn-block" id="loginBtn" type="button">Login</button>
-			<button class="btn btn-lg btn-primary btn-block" id="joinBtn" type="button">회원가입</button>
 		</form>
 	</div><!-- /container -->
 </body>

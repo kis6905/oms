@@ -4,6 +4,9 @@ import java.util.Date;
 
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 
+/**
+ * @author iskwon
+ */
 public class PersistentLogin {
 	
 	private String memberId;

@@ -25,6 +25,8 @@ import net.sf.jxls.transformer.XLSTransformer;
 
 /**
  * 엑셀 파일 다운로드 시 템플릿 파일에 값을 파싱해 완성된 파일을 내려준다.
+ * 
+ * @author iskwon
  */
 public class ExcelDownloadView extends AbstractExcelView {
 	

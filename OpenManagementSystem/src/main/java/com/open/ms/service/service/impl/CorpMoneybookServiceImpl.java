@@ -11,12 +11,18 @@ import com.open.ms.service.mapper.CorpMoneybookMapper;
 import com.open.ms.service.service.CorpMoneybookService;
 import com.open.ms.service.vo.CorpMoneybook;
 
+/**
+ * @author iskwon
+ */
 @Service(value = "corpMoneybookServiceImpl")
 public class CorpMoneybookServiceImpl implements CorpMoneybookService {
 
 	@Autowired
 	private CorpMoneybookMapper corpMoneybookMapper;
 	
+	/**
+	 * 법인카드 사용 내역 목록 리턴
+	 */
 	@Override
 	public List<CorpMoneybook> getCorpMoneybookList(
 			String memberId, String startDate, String endDate,
@@ -32,6 +38,9 @@ public class CorpMoneybookServiceImpl implements CorpMoneybookService {
 		return corpMoneybookMapper.getCorpMoneybookList(map);
 	}
 	
+	/**
+	 * 법인카드 사용 내역 목록 Count 리턴
+	 */
 	@Override
 	public Map<String, Object> getCorpMoneybookListTotalCntAndPrice(String memberId, String startDate, String endDate) throws Exception {
 		Map<String, Object> map = new HashMap<>();
@@ -41,16 +50,31 @@ public class CorpMoneybookServiceImpl implements CorpMoneybookService {
 		return corpMoneybookMapper.getCorpMoneybookListTotalCntAndPrice(map);
 	}
 	
+	/**
+	 * 법인카드 사용 내역 등록
+	 * 
+	 * @return 성공 = true, 실패 = false
+	 */
 	@Override
 	public boolean insertCorpMoneybook(CorpMoneybook corpMoneybook) throws Exception {
 		return corpMoneybookMapper.insertCorpMoneybook(corpMoneybook) > 0;
 	}
 
+	/**
+	 * 법인카드 사용 내역 수정
+	 * 
+	 * @return 성공 = true, 실패 = false
+	 */
 	@Override
 	public boolean updateCorpMoneybook(CorpMoneybook corpMoneybook) throws Exception {
 		return corpMoneybookMapper.updateCorpMoneybook(corpMoneybook) > 0;
 	}
 
+	/**
+	 * 법인카드 사용 내역 삭제
+	 * 
+	 * @return 성공 = true, 실패 = false
+	 */
 	@Override
 	public boolean deleteCorpMoneybook(CorpMoneybook corpMoneybook) throws Exception {
 		return corpMoneybookMapper.deleteCorpMoneybook(corpMoneybook) > 0;

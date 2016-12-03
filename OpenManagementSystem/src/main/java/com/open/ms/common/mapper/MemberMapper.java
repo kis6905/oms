@@ -10,12 +10,17 @@ import com.open.ms.common.vo.Member;
  */
 public interface MemberMapper {
 	
-	Member getMemberOfId(String memberId);
-	List<Member> getSearchMemberList(Map<String, Object> map);
-	Member getMemberOfNickname(String nickname);
+	List<Member> getMemberList(Map<String, Object> map);
+	int getMemberListTotalCnt();
 	
-	int insertMember(Member member);
+	Member getMemberOfId(String memberId);
+	Member getMemberOfMemberName(String memberName);
+	
 	int updateWhenLoginSuccess(String memberId);
 	int increasePasswordFailCnt(String memberId);
+	
+	int insertMember(Member member);
+	int updateMember(Member member);
+	int deleteMember(Member member);
 	
 }

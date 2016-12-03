@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import com.open.ms.common.vo.Member;
 import com.open.ms.common.vo.OmsService;
 
+/**
+ * @author iskwon
+ */
 @Service
 public interface OmsServiceService {
 	

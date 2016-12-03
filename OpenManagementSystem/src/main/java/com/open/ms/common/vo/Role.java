@@ -2,6 +2,9 @@ package com.open.ms.common.vo;
 
 import org.json.simple.JSONObject;
 
+/**
+ * @author iskwon
+ */
 public class Role extends CommonVo {
 	
 	private Integer roleId 		= null;

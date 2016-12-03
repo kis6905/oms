@@ -4,59 +4,126 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="com.open.ms.common.mapper.MemberMapper">
+	
+	<select id="getMemberList" parameterType="Map" resultType="com.open.ms.common.vo.Member">
+		SELECT
+			`no`,
+		    memberId,
+			password,
+            passwordFailCnt,
+            memberName,
+            gradeCodeGroup,
+            gradeCode,
+            corpCardLimit,
+			registeredDate,
+			modifiedDate,
+            lastLoginDate
+		FROM ( SELECT
+				  @ROWNUM := @ROWNUM + 1 AS `no`,
+				  memberId,
+				  password,
+                  passwordFailCnt,
+                  memberName,
+                  gradeCodeGroup,
+                  gradeCode,
+                  corpCardLimit,
+				  registeredDate,
+				  modifiedDate,
+                  lastLoginDate
+			   FROM ( SELECT @ROWNUM := 0 AS `no`) R,
+				    ( SELECT
+					     memberId,
+					     password,
+                         passwordFailCnt,
+                         memberName,
+                         gradeCodeGroup,
+                         gradeCode,
+                         corpCardLimit,
+					     DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
+					     DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
+                         DATE_FORMAT(lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
+				      FROM oms_member
+				      ORDER BY ${sort} ${order}
+					) T
+			  ) T1
+		WHERE `no` BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="getMemberListTotalCnt" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM oms_member
+	</select>
     
-    <select id="getMemberOfId" parameterType="String" resultType="com.open.ms.common.vo.Member">
+	<select id="getMemberOfId" parameterType="String" resultType="com.open.ms.common.vo.Member">
         SELECT
         	memberId,
         	password,
         	passwordFailCnt,
-        	nickname,
+        	memberName,
         	gradeCodeGroup,
         	gradeCode,
+        	corpCardLimit,
         	DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
         	DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
         	DATE_FORMAT(lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
         FROM oms_member
         WHERE memberId = #{memberId}
-    </select>
+	</select>
     
-    <select id="getSearchMemberList" parameterType="Map" resultType="com.open.ms.common.vo.Member">
+	<select id="getSearchMemberList" parameterType="Map" resultType="com.open.ms.common.vo.Member">
 		SELECT
 			memberId,
-		    nickname,
+		    memberName,
 		    gradeCodeGroup,
 		    gradeCode,
+		    corpCardLimit,
 		    DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
         	DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
         	DATE_FORMAT(lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
 		FROM oms_member
 		WHERE memberId != #{memberId}
-		  AND nickname LIKE CONCAT('%', #{search}, '%')
+		  AND memberName LIKE CONCAT('%', #{search}, '%')
 		  AND gradeCodeGroup = 0
 		  AND gradeCode = #{gradeCode}
-		ORDER BY nickname ASC
-    </select>
+		ORDER BY memberName ASC
+	</select>
     
-    <select id="getMemberOfNickname" parameterType="String" resultType="com.open.ms.common.vo.Member">
+	<select id="getMemberOfMemberName" parameterType="String" resultType="com.open.ms.common.vo.Member">
         SELECT
         	memberId,
-        	nickname,
+        	memberName,
         	gradeCode,
+        	corpCardLimit,
         	DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
         	DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
         	DATE_FORMAT(lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
         FROM oms_member
-        WHERE nickname = #{nickname}
-    </select>
+        WHERE memberName = #{memberName}
+	</select>
     
-    <insert id="insertMember" parameterType="com.open.ms.common.vo.Member">
+	<update id="updateWhenLoginSuccess" parameterType="String">
+        UPDATE oms_member
+        SET passwordFailCnt = 0,
+        	lastLoginDate = SYSDATE()
+        WHERE memberId = #{memberId}
+	</update>
+    
+	<update id="increasePasswordFailCnt" parameterType="String">
+        UPDATE oms_member
+        SET passwordFailCnt = passwordFailCnt + 1
+        WHERE memberId = #{memberId}
+	</update>
+    
+	<insert id="insertMember" parameterType="com.open.ms.common.vo.Member">
 		INSERT INTO oms_member (
 			`memberId`,
 			`password`,
 			`passwordFailCnt`,
-			`nickname`,
+			`memberName`,
 			`gradeCodeGroup`,
 			`gradeCode`,
+			`corpCardLimit`,
 			`registeredDate`,
 			`modifiedDate`,
 			`lastLoginDate`
@@ -65,26 +132,31 @@
 			#{memberId},
 			#{password},
 			0,
-			#{nickname},
+			#{memberName},
 			#{gradeCodeGroup},
 			#{gradeCode},
+			#{corpCardLimit},
 			SYSDATE(),
 			SYSDATE(),
 			NULL
 		)
-    </insert>
-    
-    <update id="updateWhenLoginSuccess" parameterType="String">
-        UPDATE oms_member
-        SET passwordFailCnt = 0,
-        	lastLoginDate = SYSDATE()
-        WHERE memberId = #{memberId}
-    </update>
-    
-    <update id="increasePasswordFailCnt" parameterType="String">
-        UPDATE oms_member
-        SET passwordFailCnt = passwordFailCnt + 1
-        WHERE memberId = #{memberId}
-    </update>
+	</insert>
+	
+	<update id="updateMember" parameterType="com.open.ms.common.vo.Member">
+		UPDATE oms_member
+		SET <if test="password != null">
+				password = #{password},
+			</if>
+			memberName = #{memberName},
+			gradeCode = #{gradeCode},
+			corpCardLimit = #{corpCardLimit},
+			modifiedDate = SYSDATE()
+		WHERE memberId = #{memberId}
+	</update>
+	
+	<delete id="deleteMember" parameterType="com.open.ms.common.vo.Member">
+		DELETE FROM oms_member
+		WHERE memberId = #{memberId}
+	</delete>
     
 </mapper>

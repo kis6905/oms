@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.open.ms.service.vo.CorpMoneybook;
 
+/**
+ * @author iskwon
+ */
 @Service
 public interface CorpMoneybookService {
 	

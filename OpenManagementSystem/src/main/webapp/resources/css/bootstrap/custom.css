@@ -104,3 +104,11 @@ code {
 .modal-body.center {
 	text-align: center;
 }
+
+/* 법카 사용 내역
+-------------------------------------------------- */
+.form-horizontal .checkbox {
+	padding-top: 0px;
+	padding-bottom: 7px;
+}
+

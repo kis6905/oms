@@ -10,6 +10,9 @@ import com.open.ms.common.service.OmsServiceService;
 import com.open.ms.common.vo.Member;
 import com.open.ms.common.vo.OmsService;
 
+/**
+ * @author iskwon
+ */
 @Service(value = "omsServiceServiceImpl")
 public class OmsServiceServiceImpl implements OmsServiceService {
 

@@ -4,6 +4,9 @@ import org.json.simple.JSONObject;
 
 import com.open.ms.common.vo.CommonVo;
 
+/**
+ * @author iskwon
+ */
 public class CorpMoneybook extends CommonVo {
 	
 	private Integer no = null;

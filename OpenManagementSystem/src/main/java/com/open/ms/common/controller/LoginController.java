@@ -16,6 +16,9 @@ import com.open.ms.common.Codes;
 import com.open.ms.common.mapper.ComCodeMapper;
 import com.open.ms.common.vo.ComCode;
 
+/**
+ * @author iskwon
+ */
 @Controller
 public class LoginController {
 

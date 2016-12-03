@@ -31,6 +31,9 @@ import com.open.ms.common.vo.Member;
 import com.open.ms.service.service.CorpMoneybookService;
 import com.open.ms.service.vo.CorpMoneybook;
 
+/**
+ * @author iskwon
+ */
 @Controller
 @RequestMapping(value = "/service/corp/moneybook/**")
 public class CorpMoneybookController {
@@ -223,7 +226,7 @@ public class CorpMoneybookController {
 		
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		String memberId = member.getMemberId();
-			
+		
 		logger.info("-> [seq = {}]", seq);
 		logger.info("-> [memberId = {}]", memberId);
 		
@@ -299,8 +302,8 @@ public class CorpMoneybookController {
 				
 				ServletContext context = session.getServletContext();
 			    modelMap.addAttribute("templateFileName", context.getRealPath("/") + "resources/excel/" + "corp_moneybook_template.xls");
-			    modelMap.addAttribute("destFileName", "법인카드_사용_내역서_" + member.getNickname() + "_" + Utility.getCurrentDateToString("yyMMddHHmm") + ".xls");
-			    modelMap.addAttribute("nickname", member.getNickname());
+			    modelMap.addAttribute("destFileName", "법인카드_사용_내역서_" + member.getMemberName() + "_" + Utility.getCurrentDateToString("yyMMddHHmm") + ".xls");
+			    modelMap.addAttribute("nickname", member.getMemberName());
 			    
 			    logger.info("<- []");
 			    return "excelDown";

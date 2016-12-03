@@ -5,7 +5,16 @@
     
 <mapper namespace="com.open.ms.common.mapper.RoleMapper">
 
-    <select id="getRoleListOfMemberId" parameterType="com.open.ms.common.vo.Member" resultType="com.open.ms.common.vo.Role">
+	<select id="getRoleList" resultType="com.open.ms.common.vo.Role">
+		SELECT
+			roleId,
+			roleName,
+			DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
+			DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
+		FROM oms_role
+	</select>
+
+	<select id="getRoleListOfMemberId" parameterType="com.open.ms.common.vo.Member" resultType="com.open.ms.common.vo.Role">
 		SELECT
 			R.roleId,
 			R.roleName,
@@ -15,6 +24,19 @@
 		WHERE M.memberId = RM.memberId
 		  AND R.roleId = RM.roleId
 		  AND M.memberId = #{memberId}
-    </select>
+	</select>
+	
+	<insert id="insertRoleMemberMap" parameterType="Map">
+		INSERT INTO oms_role_member_map (`roleId`, `memberId`)
+		VALUES
+			<foreach collection="roleMemberMapList" item="item" separator=",">
+				(#{item.roleId}, #{item.memberId})
+			</foreach>
+	</insert>
+	
+	<delete id="deleteRoleMemberMapOfMember" parameterType="String">
+		DELETE FROM oms_role_member_map
+		WHERE memberId = #{memberId}
+	</delete>
     
 </mapper>

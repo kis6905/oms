@@ -133,6 +133,11 @@ var boardTitleFormatter = function(value, row, index) {
 }
 
 // 날짜 포매터
+var dateFormatter = function(value, row, index) {
+	return value.substring(0, 10);
+}
+
+// 게시판에서의 등록 일 포매터(오늘이면 시간/분, 오늘이 지난 경우 월/일)
 var registeredDateFormatter = function(value, row, index) {
 	var arr = row.registeredDate.substring(0, 10).split("-");
 	var date = new Date(arr[0], arr[1] - 1, arr[2]); // 년, 월, 일
@@ -141,6 +146,17 @@ var registeredDateFormatter = function(value, row, index) {
 		return row.registeredDate.substring(5, 10);
 	else
 		return row.registeredDate.substring(11, 16);
+}
+
+// 등급 포매터
+var gradeFormatter = function(value, row, index) {
+	switch (row.gradeCode) {
+		case 1001:
+			return 'Admin';
+		case 1002:
+		default:
+			return 'User';
+	}
 }
 
 
@@ -155,6 +171,7 @@ function callAjax(url, data, success) {
 		data: data,
 		success: success,
 		error: function(xhr, stats, errorThrown) {
+			$('#loadingDialog').modal('hide');
 			if (xhr.status === 401 || xhr.status === 403) {
 				alert('Session이 만료되었거나 잘못된 접근입니다.');
 				location.href = '/out';

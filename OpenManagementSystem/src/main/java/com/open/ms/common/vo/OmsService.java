@@ -2,6 +2,9 @@ package com.open.ms.common.vo;
 
 import org.json.simple.JSONObject;
 
+/**
+ * @author iskwon
+ */
 public class OmsService extends CommonVo {
 	
 	private Integer serviceId	= null;
