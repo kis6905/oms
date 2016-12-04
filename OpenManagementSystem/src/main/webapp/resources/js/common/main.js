@@ -21,6 +21,13 @@ function getServiceList() {
 			sliderHtml += '</li>';
 			
 			iconHtml += '<div id="iconArea" class="col-xs-4 col-sm-3"><span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
+			
+//			iconHtml += '<div id="iconArea" class="col-xs-4 col-sm-3">';
+//			iconHtml += '<div class="panel panel-default">';
+//			iconHtml += '<div class="panel-body">';
+//			iconHtml += '<span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
+//			iconHtml += '</div>';
+//			iconHtml += '</div>';
 		}
 		
 		$('#sliderServiceItemArea').html(sliderHtml);

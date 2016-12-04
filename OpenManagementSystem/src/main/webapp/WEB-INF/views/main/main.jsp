@@ -5,7 +5,7 @@
 
 <%@ include file="../include/include.jsp" %>
 
-<link href="/resources/css/sly/sly-custom.css" rel="stylesheet">
+<link rel="stylesheet" href="/resources/css/sly/sly-main.css">
 
 <script type="text/javascript" src="/resources/js/common/main.js"></script>
 <script type="text/javascript" src="/resources/js/sly.min.js"></script>
@@ -19,12 +19,27 @@
 	<!-- Begin page content -->
 	<div class="container">
 		
-		<div class="frame" id="sliderServiceArea">
-			<ul class="clearfix" id="sliderServiceItemArea"></ul>
+		<div class="panel panel-default" id="sliderServicePanel">
+			<div class="panel-body">
+				<div class="frame" id="sliderServiceArea">
+					<ul class="clearfix" id="sliderServiceItemArea"></ul>
+				</div>
+			</div>
 		</div>
 		
+<!-- 		<div id="serviceIconArea"> -->
+<!-- 			<div class="row" id="serviceIconRow"></div> -->
+<!-- 		</div> -->
+		
 		<div id="serviceIconArea">
-			<div class="row" id="serviceIconRow"></div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Services</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row" id="serviceIconRow"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 

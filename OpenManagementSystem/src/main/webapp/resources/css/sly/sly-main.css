@@ -10,7 +10,6 @@
 
 /* Frame */
 .frame {
-	padding-top: 10px;
 	height: 250px;
 /* 	line-height: 250px; */
 	overflow: hidden;
@@ -93,7 +92,3 @@
 .oneperframe ul li { width: 1140px; }
 .oneperframe ul li.active { background: #333; }
 
-
-#serviceIconArea {
-	padding-top: 30px;
-}

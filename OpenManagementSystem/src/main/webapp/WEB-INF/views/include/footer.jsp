@@ -11,15 +11,14 @@
 	            </div>
 	            <div class="modal-body">
 	                <div class="progress">
-	                    <div class="progress-bar progress-bar-info
-	                    progress-bar-striped active"
-	                    style="width: 100%">
+	                    <div class="progress-bar progress-bar-info progress-bar-striped active" style="width: 100%">
 	                    </div>
 	                </div>
 	            </div>
 	        </div>
 	    </div>
-	</div> <!-- Loading modal end -->
+	</div>
+	<!-- Loading modal end -->
 	
 	<footer class="footer">
 		<div class="container">

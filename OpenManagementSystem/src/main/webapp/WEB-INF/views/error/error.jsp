@@ -13,7 +13,7 @@
 	<%@ include file="../include/header.jsp" %>
 	
 	<div class="container">
-		<div class="panel panel-danger" style="margin-top: 10px;">
+		<div class="panel panel-danger" style="margin-top: 20px;">
 			<div class="panel-heading">
 				<h3 class="panel-title">Error...</h3>
 			</div>
