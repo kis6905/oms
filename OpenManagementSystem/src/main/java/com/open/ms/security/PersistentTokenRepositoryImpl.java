@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.open.ms.common.mapper.MemberMapper;
 import com.open.ms.common.mapper.PersistentLoginMapper;
+import com.open.ms.common.mapper.RoleMapper;
 import com.open.ms.common.vo.Member;
 import com.open.ms.common.vo.PersistentLogin;
 
@@ -30,6 +31,8 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
 	private PersistentLoginMapper persistentLoginMapper;
 	@Autowired
 	private MemberMapper memberMapper;
+	@Autowired
+	private RoleMapper roleMapper;
 	@Autowired
 	private HttpServletRequest request;
 	
@@ -53,6 +56,7 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
 			// request를 가져와 session에 MEMBER 세팅
 			HttpSession session = request.getSession(true);
 			Member member = memberMapper.getMemberOfId(token.getMemberId());
+			member.setRoleList(roleMapper.getRoleListOfMemberId(member));
 			session.setAttribute("MEMBER", member);
 			
 			logger.info("<- [member = {}]", member.toString());
