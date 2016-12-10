@@ -310,12 +310,6 @@ function createTable() {
 		url: '/admin/member/list',
 		contentType: 'application/json',
 		dataType: 'json',
-//		queryParams: function(params) {
-//			location.href = '#';
-//			params['startDate'] = $('#startDate').val();
-//			params['endDate'] = $('#endDate').val();
-//			return params;
-//		},
 		cache: false,
 		pagination: true,
 		sidePagination: 'server',

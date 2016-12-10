@@ -124,13 +124,22 @@ function setCurrentDate() {
 }
 
 /**
- * Excel Download 버튼 클릭 시 
+ * Excel Download 버튼 클릭 시 서명 modal 오픈
  */
 function openSignModal() {
+	// 스크롤이 내려가있으면 그림이 정확한 위치에 그려지지 않는다.
+	// 때문에 스크롤을 top으로 이동시킨다.
 	$('html, body').animate({scrollTop: '0px'}, 300);
+	
+	// canvas 초기화
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-	$('#signModal').modal();
+    
+    // boostrap-paper theme 적용 후 삼성 기본 웹브라우져에서 canvas에 안그려지는 버그가 있다.
+    // 0.5초 정도 후 모달 창을 띄우면 버그가 발생하지 않는다.
+    setTimeout(function() {
+    	$('#signModal').modal();
+    }, 500);
 }
 
 /**

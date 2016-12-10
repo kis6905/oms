@@ -15,6 +15,18 @@ var ajaxOption = {
 	};
 
 $(document).ready(function() {
+
+	// navbar가 열린 후 스크롤 움직일 시 닫기
+    $(window).scroll(function (event) {
+        var expanded = $('.navbar-collapse').attr('aria-expanded');
+        if (expanded === 'true')
+        	$('.navbar-collapse').collapse('hide');
+    });
+	
+	// navbar가 열린 후 다른 곳 클릭 시 닫기
+	$('.container').click(function(event) {
+		$('.navbar-collapse').collapse('hide');
+	});
 	
 	// button 클릭 후 포커스 해제
 	$('.btn').mouseup(function() { this.blur() });
