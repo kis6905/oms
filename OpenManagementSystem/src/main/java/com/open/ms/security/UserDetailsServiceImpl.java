@@ -22,7 +22,7 @@ import com.open.ms.common.vo.Role;
 
 /**
  * 로그인 시 비밀번호 확인해 성공, 실패 처리
- * DB에 저장된 등급에 따라 권한 부여
+ * DB에 저장된 권한 부여
  * 
  * @author iskwon
  */
@@ -48,14 +48,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			Collection<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 			boolean accountNonLocked = true; // true = 잠김x, false = 잠김o
 			
-			List<Role> roleList = roleMapper.getRoleListOfMemberId(member);
+			List<Role> roleList = roleMapper.getRoleListOfMember(member);
 			// 권한 설정
 			for (Role role : roleList)
 				authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
 			
 			// 관리자일 경우 passwordFailCnt를 확인하지 않는다.
-			if (member.getGradeCode() == Codes.USER_CODE) {
-				ComCode comCode = new ComCode(Codes.INFO_CODE_GROUP, Codes.VALID_PASSWORD_CNT_CODE);
+			if (member.getGradeCode() == Codes.GRADE_CODE_USER) {
+				ComCode comCode = new ComCode(Codes.INFO_CODE_GROUP, Codes.INFO_CODE_VALID_PASSWORD_CNT);
 				int validPasswordFailCnt = Integer.parseInt(comCodeMapper.getComCode(comCode).getCodeValue());
 				if (validPasswordFailCnt <= member.getPasswordFailCnt())
 					accountNonLocked = false; // 비밀번호를 일정 횟수 이상 틀린 경우, 계정 잠김 상태로 본다.

@@ -5,7 +5,7 @@
 
 <%@ include file="../include/include.jsp" %>
 
-<script type="text/javascript" src="/resources/js/service/corp_moneybook.js"></script>
+<script type="text/javascript" src="/resources/js/service/person_moneybook.js"></script>
 
 </head>
 
@@ -15,7 +15,7 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<div class="page-header-custom">
-			<span class="page-header-title-custom" style="margin-top: 10px;">법카 관리</span>
+			<span class="page-header-title-custom" style="margin-top: 10px;">지출 관리</span>
 			<span class="page-header-btn-write">
 				<button type="button" class="btn btn-default" id="insertOpenBtn">
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -37,25 +37,16 @@
 				</div>
 			</div>
 			
-			<div id="defaultArea">
-				<div class="alert alert-success" role="alert">
-					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>&nbsp;&nbsp;알림</strong><br>
-					법인카드 초기화 일은 매월 <strong>3일</strong>입니다.<br>
-					법인카드 사용 내역 제출 시 <strong>시작일은 3일, 종료일은 다음달 2일</strong>로 설정해 주세요.
-				</div>
-			</div>
-			
-			<div id="excelDownArea">
-				<button class="btn btn-success btn-block" type="button" id="excelDownOpenBtn">
-					<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;Excel Download
+			<div id="signOpenBtnArea">
+				<button class="btn btn-success btn-block" type="button" id="signOpenBtn">
+					<span class="glyphicon glyphicon-paste" aria-hidden="true"></span>&nbsp;&nbsp;지출결의 결재 올리기
 				</button>
 			</div>
 			
 			<div class="total-info" id="totalInfoArea">
 				<span style="float: left; padding-bottom: 5px;">Total: <span id="totalCnt"></span> 건&nbsp;&nbsp;</span>
 				<span style="float: right; padding-bottom: 5px;">
-					<span style="color: red;">지출: <span id="payment"></span> 원</span>&nbsp;&nbsp;
-					<span style="color: green;">잔액: <span id="balance"></span> 원</span>
+					<span style="color: red;">총액: <span id="payment"></span> 원</span>
 				</span>
 			</div>
 			
@@ -69,7 +60,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">사용내역 등록</h4>
+						<h4 class="modal-title">지출 내역 등록</h4>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="insertForm">
@@ -78,31 +69,15 @@
 									<label>사용 일</label>
 								</div>
 								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg datepicker" readonly="readonly" id="iUsedDate">	
+									<input type="text" class="form-control input-group-lg datepicker" required="required" readonly="readonly" id="iUsedDate">	
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>분류</label>
+									<label>적요</label>
 								</div>
 								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="iCategory" placeholder="Ex) 식대, 회의, 접대...">	
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2">
-									<label>고객사</label>
-								</div>
-								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="iCustomer" placeholder="Ex) 팀원, 현대카드, 신한카드...">	
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2">
-									<label>사용 장소</label>
-								</div>
-								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="iUsedPlace">	
+									<input type="text" class="form-control input-group-lg" id="iSummary" required="required" placeholder="Ex) 저녁 식대, 야근 택시비...">	
 								</div>
 							</div>
 							<div class="form-group">
@@ -110,12 +85,12 @@
 									<label>금액</label>
 								</div>
 								<div class="col-sm-10">
-									<input type="number" class="form-control input-group-lg" id="iPrice">	
+									<input type="number" class="form-control input-group-lg" id="iPrice" required="required">
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>사용 목적</label>
+									<label>비고</label>
 								</div>
 								<div class="col-sm-10">
 									<input type="text" class="form-control input-group-lg" id="iNote" placeholder="50자 이내로 적어주세요">
@@ -139,7 +114,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">사용내역 상세 및 수정</h4>
+						<h4 class="modal-title">지출 내역 상세 및 수정</h4>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="insertForm">
@@ -154,26 +129,10 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>분류</label>
+									<label>적요</label>
 								</div>
 								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="uCategory" placeholder="Ex) 식대, 회의, 접대...">	
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2">
-									<label>고객사</label>
-								</div>
-								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="uCustomer" placeholder="Ex) 팀원, 현대카드, 신한카드...">	
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2">
-									<label>사용 장소</label>
-								</div>
-								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="uUsedPlace">	
+									<input type="text" class="form-control input-group-lg" id="uSummary" placeholder="Ex) 저녁 식대, 야근 택시비...">	
 								</div>
 							</div>
 							<div class="form-group">
@@ -186,7 +145,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>사용 목적</label>
+									<label>비고</label>
 								</div>
 								<div class="col-sm-10">
 									<input type="text" class="form-control input-group-lg" id="uNote" placeholder="50자 이내로 적어주세요">
@@ -230,13 +189,25 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">서명</h4>
+					<h4 class="modal-title">결재 올리기</h4>
 				</div>
 				<div class="modal-body center">
 					<canvas id="signCanvas" width="300" height="200" style="border: 1px solid black;"></canvas>
+					<br>
+					<span>&lt; 내 서명 &gt;</span>
+					<br><br><br>
+					<div class="form-group">
+						<input type="text" id="signTitle" class="form-control" placeholder="결재 제목 (Ex: 12월 지출결의)">
+					</div>
+					
+					<div class="form-group">
+						<select class="form-control" id="targetMemberId">
+							<option selected="selected" style="display:none;">결재받을 팀장님을 선택하세요.</option>
+						</select>
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" id="excelDownBtn">
+					<button type="button" class="btn btn-default" id="signReqBtn">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;확인
 					</button>
 				</div>

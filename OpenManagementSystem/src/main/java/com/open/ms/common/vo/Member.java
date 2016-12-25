@@ -110,6 +110,7 @@ public class Member extends CommonVo {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("no", no);
 		jsonObject.put("memberId", memberId);
+//		jsonObject.put("password", password); // 보안상 넣지 않음
 		jsonObject.put("memberName", memberName);
 		jsonObject.put("gradeCodeGroup", gradeCodeGroup);
 		jsonObject.put("gradeCode", gradeCode);

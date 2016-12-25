@@ -40,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		List<Member> memberList = memberMapper.getMemberList(map);
 		for (int inx = 0; inx < memberList.size(); inx++) {
-			List<Role> roleList = roleMapper.getRoleListOfMemberId(memberList.get(inx));
+			List<Role> roleList = roleMapper.getRoleListOfMember(memberList.get(inx));
 			memberList.get(inx).setRoleList(roleList);
 		}
 		
@@ -154,6 +154,14 @@ public class MemberServiceImpl implements MemberService {
 	public boolean deleteMember(Member member) throws Exception {
 		// role_member_map 테이블은 cascade 옵션으로 자동삭제 된다.
 		return memberMapper.deleteMember(member) > 0;
+	}
+
+	/**
+	 * 팀장 목록 리턴
+	 */
+	@Override
+	public List<Member> getSignRoleMemberList() throws Exception {
+		return memberMapper.getSignRoleMemberList();
 	}
 	
 }

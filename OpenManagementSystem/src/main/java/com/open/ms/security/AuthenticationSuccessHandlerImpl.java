@@ -48,7 +48,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 		logger.info("-> [sessionId = {}]", request.getSession(false).getId());
 		
 		Member member = memberMapper.getMemberOfId(memberId);
-		List<Role> roleList = roleMapper.getRoleListOfMemberId(member);
+		List<Role> roleList = roleMapper.getRoleListOfMember(member);
 		member.setRoleList(roleList);
 		
 		HttpSession session = request.getSession(false);

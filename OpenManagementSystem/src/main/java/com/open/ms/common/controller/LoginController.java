@@ -65,7 +65,7 @@ public class LoginController {
 		
 		logger.info("-> [cause = {}]", cause);
 		
-		ComCode comCode = new ComCode(Codes.INFO_CODE_GROUP, Codes.VALID_PASSWORD_CNT_CODE);
+		ComCode comCode = new ComCode(Codes.INFO_CODE_GROUP, Codes.INFO_CODE_VALID_PASSWORD_CNT);
 		Integer validPasswordFailCnt = Integer.parseInt(comCodeMapper.getComCode(comCode).getCodeValue());
 		modelMap.put("cause", cause);
 		modelMap.put("validPasswordFailCnt", validPasswordFailCnt);

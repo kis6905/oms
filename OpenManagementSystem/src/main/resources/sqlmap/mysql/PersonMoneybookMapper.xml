@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.open.ms.service.mapper.PersonMoneybookMapper">
+
+	<resultMap id="totalMap" type="Map">
+        <result javaType="Integer" column="totalCnt" property="totalCnt"/>
+        <result javaType="Integer" column="totalPrice" property="totalPrice"/>
+	</resultMap> 
+    
+    <select id="getPersonMoneybookList" parameterType="Map" resultType="com.open.ms.service.vo.PersonMoneybook">
+    	SELECT
+			`no`,
+		    seq,
+			usedDate,
+			summary,
+			usedPlace,
+			price,
+			note,
+			memberId,
+			registeredDate,
+			modifiedDate
+		FROM ( SELECT
+				  @ROWNUM := @ROWNUM + 1 AS `no`,
+				  seq,
+				  usedDate,
+				  summary,
+				  usedPlace,
+				  price,
+				  note,
+				  memberId,
+				  registeredDate,
+				  modifiedDate
+			   FROM ( SELECT @ROWNUM := 0 AS `no`) R,
+				    ( SELECT
+					     seq,
+					     usedDate,
+					     summary,
+					     usedPlace,
+					     price,
+					     note,
+					     memberId,
+					     DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
+					     DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
+				      FROM oms_person_moneybook
+				      WHERE memberId = #{memberId}
+					    AND usedDate BETWEEN #{startDate} AND #{endDate}
+				      ORDER BY ${sort} ${order}
+					) T
+			  ) T1
+		WHERE `no` BETWEEN #{start} AND #{end}
+    </select>
+    
+    <select id="getPersonMoneybookListTotalCntAndPrice" parameterType="Map" resultMap="totalMap">
+    	SELECT
+    		COUNT(seq) AS totalCnt,
+    		SUM(price) AS totalPrice
+		FROM oms_person_moneybook
+		WHERE memberId = #{memberId}
+		  AND usedDate BETWEEN #{startDate} AND #{endDate}
+    </select>
+    
+    <insert id="insertPersonMoneybook" parameterType="com.open.ms.service.vo.PersonMoneybook">
+    	INSERT INTO `oms_person_moneybook` (
+	    	`seq`,
+	    	`usedDate`,
+	    	`summary`,
+	    	`usedPlace`,
+	    	`price`,
+	    	`note`,
+	    	`memberId`,
+	    	`registeredDate`,
+	    	`modifiedDate`
+	    )
+		VALUES (
+			IF((SELECT MAX(seq) FROM oms_person_moneybook t) IS NULL, 0, (SELECT MAX(seq) + 1 FROM oms_person_moneybook t1) ), 
+			#{usedDate},
+			#{summary},
+			#{usedPlace},
+			#{price},
+			#{note},
+			#{memberId},
+			SYSDATE(),
+			SYSDATE()
+		)
+    </insert>
+
+	<update id="updatePersonMoneybook" parameterType="com.open.ms.service.vo.PersonMoneybook">
+		UPDATE `oms_person_moneybook`
+		SET usedDate = #{usedDate},
+			summary = #{summary},
+			price = #{price},
+			note = #{note},
+			modifiedDate = SYSDATE()
+		WHERE seq = #{seq}
+		  AND memberId = #{memberId}
+	</update>
+	
+	<delete id="deletePersonMoneybook" parameterType="com.open.ms.service.vo.PersonMoneybook">
+		DELETE FROM `oms_person_moneybook`
+		WHERE seq = #{seq}
+		  AND memberId = #{memberId}
+	</delete>
+	
+</mapper>

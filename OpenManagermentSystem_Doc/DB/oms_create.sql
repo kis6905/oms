@@ -122,6 +122,65 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `oms_person_moneybook`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_person_moneybook` ;
+
+CREATE TABLE IF NOT EXISTS `oms_person_moneybook` (
+  `seq` INT NOT NULL,
+  `usedDate` VARCHAR(10) NOT NULL,
+  `summary` VARCHAR(255) NOT NULL,
+  `price` INT NOT NULL,
+  `usedPlace` VARCHAR(255) NULL,
+  `note` VARCHAR(255) NULL,
+  `memberId` VARCHAR(255) NOT NULL,
+  `registeredDate` DATETIME NOT NULL,
+  `modifiedDate` DATETIME NOT NULL,
+  PRIMARY KEY (`seq`),
+  INDEX `fk_oms_person_moneybook_oms_member1_idx` (`memberId` ASC),
+  CONSTRAINT `fk_oms_person_moneybook_oms_member1`
+    FOREIGN KEY (`memberId`)
+    REFERENCES `oms_member` (`memberId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `oms_person_moneybook_approval`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_person_moneybook_approval` ;
+
+CREATE TABLE IF NOT EXISTS `oms_person_moneybook_approval` (
+  `seq` INT NOT NULL,
+  `sentMemberId` VARCHAR(255) NOT NULL,
+  `receivedMemberId` VARCHAR(255) NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `sentMemberSign` BLOB NULL,
+  `receivedMemberSign` BLOB NULL,
+  `statusCodeGroup` INT NOT NULL,
+  `statusCode` INT NOT NULL,
+  `startDate` DATETIME NOT NULL,
+  `endDate` DATETIME NOT NULL,
+  `completedDate` DATETIME NULL,
+  `registeredDate` DATETIME NOT NULL,
+  PRIMARY KEY (`seq`),
+  INDEX `fk_oms_person_moneybook_approval_oms_member1_idx` (`requestMemberId` ASC),
+  INDEX `fk_oms_person_moneybook_approval_oms_com_code1_idx` (`statusCodeGroup` ASC, `statusCode` ASC),
+  CONSTRAINT `fk_oms_person_moneybook_approval_oms_member1`
+    FOREIGN KEY (`requestMemberId`)
+    REFERENCES `oms_member` (`memberId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_oms_person_moneybook_approval_oms_com_code1`
+    FOREIGN KEY (`statusCodeGroup` , `statusCode`)
+    REFERENCES `oms_com_code` (`codeGroup` , `code`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `oms_role_member_map`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `oms_role_member_map` ;

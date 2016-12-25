@@ -56,7 +56,7 @@ public class PersistentTokenRepositoryImpl implements PersistentTokenRepository 
 			// request를 가져와 session에 MEMBER 세팅
 			HttpSession session = request.getSession(true);
 			Member member = memberMapper.getMemberOfId(token.getMemberId());
-			member.setRoleList(roleMapper.getRoleListOfMemberId(member));
+			member.setRoleList(roleMapper.getRoleListOfMember(member));
 			session.setAttribute("MEMBER", member);
 			
 			logger.info("<- [member = {}]", member.toString());

@@ -12,7 +12,7 @@ import com.open.ms.common.vo.Role;
 public interface RoleMapper {
 	
 	List<Role> getRoleList();
-	List<Role> getRoleListOfMemberId(Member member);
+	List<Role> getRoleListOfMember(Member member);
 	
 	int insertRoleMemberMap(Map<String, List<Map<String, Object>>> map);
 	int deleteRoleMemberMapOfMember(String memberId);

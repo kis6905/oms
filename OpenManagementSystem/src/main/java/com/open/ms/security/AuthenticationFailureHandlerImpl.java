@@ -54,7 +54,7 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
 		}
 		else if (authnticationException.getClass().equals(BadCredentialsException.class)) { // 비밀번호 불일치
 			Member member = memberMapper.getMemberOfId(memberId);
-			if (member.getGradeCode() == Codes.USER_CODE)
+			if (member.getGradeCode() == Codes.GRADE_CODE_USER)
 				memberMapper.increasePasswordFailCnt(memberId); // 유저일 때만 비밀번호 실패 횟수 +1
 			cause = Constants.LOGIN_FAIL_MISMATCH;
 		}

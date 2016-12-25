@@ -7,8 +7,11 @@ $(document).ready(function() {
 	// 조회 날짜에 현재 달에 해당하는 시작 일, 종료 일 설정
 	setCurrentDate();
 	
+	// 결재권한이 있는 멤버 목록을 가져와 설정
+	getApprovalRoleMemberList();
+	
 	// 조회 정보 hide
-	$('#excelDownArea').hide();
+	$('#signOpenBtnArea').hide();
 	$('#totalInfoArea').hide();
 	
 	$('#inquiryBtn').on('click', function() {
@@ -32,12 +35,12 @@ $(document).ready(function() {
 			deleteMoneybook();
 	});
 	
-	$('#excelDownOpenBtn').on('click', function() {
+	$('#signOpenBtn').on('click', function() {
 		openSignModal();
 	});
 	
-	$('#excelDownBtn').on('click', function() {
-		downloadExcel();
+	$('#signReqBtn').on('click', function() {
+		requestSign();
 	});
 
 	// 서명 canvas
@@ -111,22 +114,20 @@ function setCurrentDate() {
 	var month = date.getMonth() + 1;
 	var day = date.getDate();
 	
-	var startMonth = month < 10 ? '0' + month : month;
-	if (day < 3)
-		startMonth = (month - 1) < 10 ? '0' + (month - 1) : (month - 1);
-	var endMonth = month < 10 ? '0' + month : month;
-	
+	month = month < 10 ? '0' + month : month;
 	day = day < 10 ? '0' + day : day;
 	
-	$('#startDate').val(year + '-' + startMonth + '-03'); // 시작 일은 3일
-	
-	$('#endDate').val(year + '-' + endMonth + '-' + day);
+	$('#startDate').val(year + '-' + month + '-01'); // 시작 일은 3일
+	$('#endDate').val(year + '-' + month + '-' + day);
 }
 
 /**
- * Excel Download 버튼 클릭 시 서명 modal 오픈
+ * 결재올리기 버튼 클릭 시 서명 modal 오픈
  */
 function openSignModal() {
+	$('#signTitle').val('');
+	$('#targetMemberId').val('');
+	
 	// 스크롤이 내려가있으면 그림이 정확한 위치에 그려지지 않는다.
 	// 때문에 스크롤을 top으로 이동시킨다.
 	$('html, body').animate({scrollTop: '0px'}, 300);
@@ -143,18 +144,47 @@ function openSignModal() {
 }
 
 /**
+ * 결재 권한이 있는 사용자 목록 가져와 설정
+ */
+function getApprovalRoleMemberList() {
+	var callbackSuccess = function(data, textStatus, jqXHR) {
+		if (data.result === OK) {
+			setApprovalRoleMemberList(data.approvalRoleMemberList);
+		}
+		else {
+			alert('팀장 목록을 가져오는데 실패했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
+		}
+	};
+	callAjax('/service/person/moneybook/signrole/list', {}, callbackSuccess);
+}
+
+function setApprovalRoleMemberList(signRoleMemberList) {
+	var html = '';
+	if (signRoleMemberList.length > 0) {
+		html = '<option value="" selected="selected" style="display:none;">결재받을 팀장님을 선택하세요.</option>';
+		for (var inx = 0; inx < signRoleMemberList.length; inx++) {
+			var member = signRoleMemberList[inx];
+			html += '<option value="' + member.memberId + '">' + member.memberName + '</option>';
+		}
+	}
+	else {
+		html = '<option selected="selected" style="display:none;">등록된 팀장이 없습니다. 관리자에게 문의하세요.</option>';
+	}
+	$('#targetMemberId').html(html);
+}
+
+
+/**
  * 등록 
  */
 function insertMoneybook() {
 	var usedDate = $('#iUsedDate').val();
-	var category = $('#iCategory').val();
-	var customer = $('#iCustomer').val();
-	var usedPlace = $('#iUsedPlace').val();
+	var summary = $('#iSummary').val();
 	var price = $('#iPrice').val();
 	var note = $('#iNote').val();
 	
-	if (usedDate === null || category === null || usedPlace === null || price === null || note === null ||
-			usedDate === '' || category === '' || usedPlace === '' || price === '' || note === '') {
+	if (usedDate === null || summary === null || price === null || note === null ||
+			usedDate === '' || summary === '' || price === '' || note === '') {
 		alert('입력정보를 확인하세요!');
 		return false;
 	}
@@ -173,9 +203,7 @@ function insertMoneybook() {
 	
 	var data = {
 		usedDate: usedDate,
-		category: category,
-		customer: customer,
-		usedPlace: usedPlace,
+		summary: summary,
 		price: price,
 		note: note
 	};
@@ -193,7 +221,7 @@ function insertMoneybook() {
 	};
 	
 	$('#loadingDialog').modal();
-	callAjax('/service/corp/moneybook/insert', data, callbackSuccess);
+	callAjax('/service/person/moneybook/insert', data, callbackSuccess);
 }
 
 /**
@@ -202,14 +230,12 @@ function insertMoneybook() {
 function updateMoneybook() {
 	var seq = $('#uSeq').val();
 	var usedDate = $('#uUsedDate').val();
-	var category = $('#uCategory').val();
-	var customer = $('#uCustomer').val();
-	var usedPlace = $('#uUsedPlace').val();
+	var summary = $('#uSummary').val();
 	var price = $('#uPrice').val();
 	var note = $('#uNote').val();
 	
-	if (seq === null || usedDate === null || category === null || usedPlace === null || price === null || note === null ||
-			seq === '' || usedDate === '' || category === '' || usedPlace === '' || price === '' || note === '') {
+	if (seq === null || usedDate === null || summary === null || price === null || note === null ||
+			seq === '' || usedDate === '' || summary === '' || price === '' || note === '') {
 		alert('입력정보를 확인하세요!');
 		return false;
 	}
@@ -229,9 +255,7 @@ function updateMoneybook() {
 	var data = {
 		seq: seq,
 		usedDate: usedDate,
-		category: category,
-		customer: customer,
-		usedPlace: usedPlace,
+		summary: summary,
 		price: price,
 		note: note
 	};
@@ -249,7 +273,7 @@ function updateMoneybook() {
 	};
 	
 	$('#loadingDialog').modal();
-	callAjax('/service/corp/moneybook/update', data, callbackSuccess);
+	callAjax('/service/person/moneybook/update', data, callbackSuccess);
 }
 
 /**
@@ -280,7 +304,7 @@ function deleteMoneybook() {
 	};
 	
 	$('#loadingDialog').modal();
-	callAjax('/service/corp/moneybook/delete', data, callbackSuccess);
+	callAjax('/service/person/moneybook/delete', data, callbackSuccess);
 }
 
 /**
@@ -288,9 +312,7 @@ function deleteMoneybook() {
  */
 function openInsertModal() {
 	$('#iUsedDate').val('');
-	$('#iCategory').val('');
-	$('#iCustomer').val('');
-	$('#iUsedPlace').val('');
+	$('#iSummary').val('');
 	$('#iPrice').val('');
 	$('#iNote').val('');
 	$('#insertModal').modal();
@@ -302,9 +324,7 @@ function openInsertModal() {
 function openUpdateModal(row) {
 	$('#uSeq').val(row.seq);
 	$('#uUsedDate').val(row.usedDate);
-	$('#uCategory').val(row.category);
-	$('#uCustomer').val(row.customer);
-	$('#uUsedPlace').val(row.usedPlace);
+	$('#uSummary').val(row.summary);
 	$('#uPrice').val(row.price);
 	$('#uNote').val(row.note);
 	$('#uRegisteredDate').val(row.registeredDate);
@@ -324,8 +344,7 @@ function inquiry(tableType) {
 		return false;
 	}
 	
-	$('#defaultArea').hide();
-	$('#excelDownArea').show();
+	$('#signOpenBtnArea').show();
 	$('#totalInfoArea').show();
 	
 	if (typeof table == 'undefined' || table == null)
@@ -352,7 +371,7 @@ function createTable() {
 	table = $('#table').bootstrapTable({
 		ajaxOptions: ajaxOption,
 		method: 'post',
-		url: '/service/corp/moneybook/list',
+		url: '/service/person/moneybook/list',
 		contentType: 'application/json',
 		dataType: 'json',
 		queryParams: function(params) {
@@ -381,7 +400,6 @@ function createTable() {
 			$('#totalCnt').html(data.total);
 			var totalPrice = data.totalPrice == null ? 0 : data.totalPrice;
 			$('#payment').html(numberFormat(totalPrice));
-			$('#balance').html(numberFormat(data.corpCardLimit - totalPrice)); // 자신의 한도 - 총 결제액
 		},
 		onLoadError: function(status, res) {
 			if (status == 401 || status == 403) {
@@ -407,8 +425,8 @@ function createTable() {
 			valign: 'middle',
 			sortable: true
 		}, {
-			field: 'usedPlace',
-			title: '사용 장소',
+			field: 'summary',
+			title: '적요',
 			width: '40%',
 			align: 'center',
 			valign: 'middle',
@@ -426,37 +444,52 @@ function createTable() {
 }
 
 /**
- * Excel 다운로드
+ * 결재 올리기
  */
-function downloadExcel() {
+function requestSign() {
 	
-	$('#signModal').modal('hide');
-	
-	var option = table.bootstrapTable('getOptions');
-	var sort = option.sortName;
-	var order = option.sortOrder;
 	var startDate = $('#startDate').val();
 	var endDate = $('#endDate').val();
-	var signImage = canvas.toDataURL('image/png');
+	var requestMemberSign = canvas.toDataURL('image/png');
+	var signTitle = $('#signTitle').val();
+	var targetMemberId = $('#targetMemberId').val();
 	
 	if (startDate === null || startDate === '' || endDate === null || endDate === '') {
 		alert('시작 일, 종료 일을 입력해주세요.');
+		$('#signModal').modal('hide');
 		return false;
 	}
 	
-	var sortInput = $('<input>').attr('type', 'hidden').attr('name', 'sort').val(sort);
-	var orderInput = $('<input>').attr('type', 'hidden').attr('name', 'order').val(order);
-	var startDateInput = $('<input>').attr('type', 'hidden').attr('name', 'startDate').val(startDate);
-	var endDateInput = $('<input>').attr('type', 'hidden').attr('name', 'endDate').val(endDate);
-	var signInput = $('<input>').attr('type', 'hidden').attr('name', 'sign').val(signImage);
+	if (signTitle === null || signTitle === '') {
+		alert('결재 제목을 입력해주세요.');
+		return false;
+	}
 	
-	$form = $("<form></form>");
-	$form.attr('method', 'post')
-		.attr('action', '/service/corp/moneybook/excel')
-		.append($(sortInput))
-		.append($(orderInput))
-		.append($(startDateInput))
-		.append($(endDateInput))
-		.append($(signInput))
-		.submit();
+	if (targetMemberId === null || targetMemberId === '') {
+		alert('결재받을 팀장님을 선택해주세요.');
+		return false;
+	}
+	
+	var data = {
+		startDate: startDate,
+		endDate: endDate,
+		requestMemberSign: requestMemberSign,
+		signTitle: signTitle,
+		targetMemberId: targetMemberId // receviedMemberId
+	};
+	var callbackSuccess = function(data, textStatus, jqXHR) {
+		setTimeout(function() {
+			$('#loadingDialog').modal('hide');
+			if (data.result === OK) {
+				alert('결재를 올렸습니다. 결재가 완료되면 자동으로 제출됩니다.');
+				$('#signModal').modal('hide');
+			}
+			else {
+				alert('결재올리기가 실패했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
+			}
+		}, 800);
+	};
+	
+	$('#loadingDialog').modal();
+	callAjax('/service/person/moneybook/approval/request', data, callbackSuccess);
 }

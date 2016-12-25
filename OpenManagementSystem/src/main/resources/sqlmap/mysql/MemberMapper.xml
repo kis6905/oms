@@ -160,5 +160,25 @@
 		DELETE FROM oms_member
 		WHERE memberId = #{memberId}
 	</delete>
+	
+	<select id="getSignRoleMemberList" resultType="com.open.ms.common.vo.Member">
+		SELECT
+			M.memberId,
+        	M.password,
+        	M.passwordFailCnt,
+        	M.memberName,
+        	M.gradeCodeGroup,
+        	M.gradeCode,
+        	M.corpCardLimit,
+        	DATE_FORMAT(M.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
+        	DATE_FORMAT(M.modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
+        	DATE_FORMAT(M.lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
+		FROM oms_member M, oms_role_member_map RMM, oms_role R
+		WHERE M.memberId = RMM.memberId
+		  AND RMM.roleId = R.roleId
+		  AND M.gradeCode = 1002
+		  AND RMM.roleId = 5
+		ORDER BY M.memberName ASC
+	</select>
     
 </mapper>
