@@ -128,3 +128,16 @@ code {
 	text-align: right;
 }
 
+/* 테이블 안의 체크박스
+-------------------------------------------------- */
+.table input[type="checkbox"]:BEFORE,
+.table input[type="checkbox"]:AFTER {
+	margin: 5px 0 0 0;
+}
+
+/* boostrap-table pagination-detail 숨기기
+-------------------------------------------------- */
+.pull-left.pagination-detail {
+	display: none;
+}
+

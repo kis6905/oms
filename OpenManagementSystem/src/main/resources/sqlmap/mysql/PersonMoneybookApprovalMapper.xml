@@ -5,60 +5,140 @@
     
 <mapper namespace="com.open.ms.service.mapper.PersonMoneybookApprovalMapper">
 
-	<resultMap id="totalMap" type="Map">
-        <result javaType="Integer" column="totalCnt" property="totalCnt"/>
-        <result javaType="Integer" column="totalPrice" property="totalPrice"/>
-	</resultMap> 
-    
-    <select id="getPersonMoneybookApprovalList" parameterType="Map" resultType="com.open.ms.service.vo.PersonMoneybookApproval">
-    	SELECT
+    <select id="getSentApprovalList" parameterType="Map" resultType="com.open.ms.service.vo.PersonMoneybookApproval">
+		SELECT
 			`no`,
-		    seq,
-			usedDate,
-			summary,
-			usedPlace,
-			price,
-			note,
-			memberId,
-			registeredDate,
-			modifiedDate
+			seq,
+			sentMemberId,
+		    sentMemberName,
+            receivedMemberId,
+            receivedMemberName,
+            title,
+            statusCodeGroup,
+            statusCode,
+            startDate,
+            endDate,
+            completedDate,
+			registeredDate
 		FROM ( SELECT
 				  @ROWNUM := @ROWNUM + 1 AS `no`,
 				  seq,
-				  usedDate,
-				  summary,
-				  usedPlace,
-				  price,
-				  note,
-				  memberId,
-				  registeredDate,
-				  modifiedDate
+				  sentMemberId,
+				  sentMemberName,
+                  receivedMemberId,
+                  receivedMemberName,
+                  title,
+                  statusCodeGroup,
+                  statusCode,
+                  startDate,
+                  endDate,
+                  completedDate,
+				  registeredDate
 			   FROM ( SELECT @ROWNUM := 0 AS `no`) R,
 				    ( SELECT
-					     seq,
-					     usedDate,
-					     summary,
-					     usedPlace,
-					     price,
-					     note,
-					     memberId,
-					     DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
-					     DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
-				      FROM oms_person_moneybook_approval
-				      WHERE memberId = #{memberId}
-					    AND usedDate BETWEEN #{startDate} AND #{endDate}
-				      ORDER BY ${sort} ${order}
+					     PMA.seq,
+					     PMA.sentMemberId,
+					     M.memberName AS sentMemberName,
+                         PMA.receivedMemberId,
+                         M2.memberName AS receivedMemberName,
+                         PMA.title,
+                         PMA.statusCodeGroup,
+                         PMA.statusCode,
+                         PMA.startDate,
+                         PMA.endDate,
+                         DATE_FORMAT(PMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
+					     DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
+				      FROM oms_person_moneybook_approval PMA, oms_member M, oms_member M2
+				      WHERE  PMA.sentMemberId = M.memberId
+				        AND PMA.receivedMemberId = M2.memberId
+				        AND PMA.sentMemberId = #{sentMemberId}
+				        <if test="statusCode != null">
+				        	AND PMA.statusCode = #{statusCode}
+				        </if>
+					    AND DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+				      ORDER BY PMA.${sort} ${order}
 					) T
 			  ) T1
 		WHERE `no` BETWEEN #{start} AND #{end}
     </select>
     
-    <select id="getPersonMoneybookApprovalListTotalCnt" parameterType="Map" resultMap="totalMap">
+    <select id="getSentApprovalListTotalCnt" parameterType="Map" resultType="Integer">
     	SELECT
     		COUNT(seq) AS totalCnt
 		FROM oms_person_moneybook_approval
-		WHERE memberId = #{memberId}
-		  AND usedDate BETWEEN #{startDate} AND #{endDate}
+		WHERE sentMemberId = #{sentMemberId}
+		  <if test="statusCode != null">
+			  AND statusCode = #{statusCode}
+		  </if>
+		  AND DATE_FORMAT(registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+    </select>
+    
+	<select id="getReceivedApprovalList" parameterType="Map" resultType="com.open.ms.service.vo.PersonMoneybookApproval">
+		SELECT
+			`no`,
+			seq,
+			sentMemberId,
+		    sentMemberName,
+            receivedMemberId,
+            receivedMemberName,
+            title,
+            statusCodeGroup,
+            statusCode,
+            startDate,
+            endDate,
+            completedDate,
+			registeredDate
+		FROM ( SELECT
+				  @ROWNUM := @ROWNUM + 1 AS `no`,
+				  seq,
+				  sentMemberId,
+				  sentMemberName,
+                  receivedMemberId,
+                  receivedMemberName,
+                  title,
+                  statusCodeGroup,
+                  statusCode,
+                  startDate,
+                  endDate,
+                  completedDate,
+				  registeredDate
+			   FROM ( SELECT @ROWNUM := 0 AS `no`) R,
+				    ( SELECT
+					     PMA.seq,
+					     PMA.sentMemberId,
+					     M.memberName AS sentMemberName,
+                         PMA.receivedMemberId,
+                         M2.memberName AS receivedMemberName,
+                         PMA.title,
+                         PMA.statusCodeGroup,
+                         PMA.statusCode,
+                         PMA.startDate,
+                         PMA.endDate,
+                         DATE_FORMAT(PMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
+					     DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
+				      FROM oms_person_moneybook_approval PMA, oms_member M, oms_member M2
+				      WHERE PMA.sentMemberId = M.memberId
+				        AND PMA.receivedMemberId = M2.memberId
+				        AND PMA.receivedMemberId = #{receivedMemberId}
+				        <if test="statusCode != null">
+				        	AND PMA.statusCode = #{statusCode}
+				        </if>
+					    AND DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+				      ORDER BY PMA.${sort} ${order}
+					) T
+			  ) T1
+		WHERE `no` BETWEEN #{start} AND #{end}
+    </select>
+    
+    <select id="getReceivedApprovalListTotalCnt" parameterType="Map" resultType="Integer">
+    	SELECT
+    		COUNT(seq) AS totalCnt
+		FROM oms_person_moneybook_approval
+		WHERE receivedMemberId = #{receivedMemberId}
+		  <if test="statusCode != null">
+			  AND statusCode = #{statusCode}
+		  </if>
+		  AND DATE_FORMAT(registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
     </select>
     
     <insert id="insertPersonMoneybookApproval" parameterType="com.open.ms.service.vo.PersonMoneybookApproval">
@@ -91,22 +171,30 @@
 			SYSDATE()
 		)
     </insert>
-
-	<update id="updatePersonMoneybookApproval" parameterType="com.open.ms.service.vo.PersonMoneybookApproval">
+	
+	<update id="updateProcessingPersonMoneybookApproval" parameterType="Map">
 		UPDATE `oms_person_moneybook_approval`
-		SET usedDate = #{usedDate},
-			summary = #{summary},
-			price = #{price},
-			note = #{note},
-			modifiedDate = SYSDATE()
-		WHERE seq = #{seq}
-		  AND memberId = #{memberId}
+		SET completedDate = SYSDATE(),
+			<if test="vo.receivedMemberSign != null">
+				receivedMemberSign = #{vo.receivedMemberSign},
+			</if>
+			statusCode = #{vo.statusCode}
+		WHERE seq IN 
+			<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+				#{seq}
+			</foreach>
+		  AND receivedMemberId = #{vo.receivedMemberId}
 	</update>
 	
 	<delete id="deletePersonMoneybookApproval" parameterType="com.open.ms.service.vo.PersonMoneybookApproval">
 		DELETE FROM `oms_person_moneybook_approval`
 		WHERE seq = #{seq}
-		  AND memberId = #{memberId}
+			<if test="sentMemberId != null">
+				AND sentMemberId = #{sentMemberId} 
+			</if>
+			<if test="receivedMemberId != null">
+				AND receivedMemberId = #{receivedMemberId} 
+			</if>
 	</delete>
 	
 </mapper>

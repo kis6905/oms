@@ -363,6 +363,7 @@ function createTable() {
 		},
 		cache: false,
 		pagination: true,
+		paginationLoop: false,
 		sidePagination: 'server',
 //		pageNumber: pageNumber,
 		pageSize: 15,

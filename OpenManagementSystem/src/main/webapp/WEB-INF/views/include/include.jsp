@@ -18,7 +18,7 @@
 	
 	<!-- CSS -->
 	<link href="/resources/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-	<link href="/resources/css/bootstrap/bootstrap-table.css" rel="stylesheet">
+	<link href="/resources/css/bootstrap/bootstrap-table-1.11.0.css" rel="stylesheet">
 	<link href="/resources/css/bootstrap/custom.css" rel="stylesheet">
 	<link href="/resources/css/jquery-datepicker.css" rel="stylesheet">
 	
@@ -28,7 +28,7 @@
 	<script type="text/javascript" src="/resources/js/jquery-datepicker.js"></script>
 	<script type="text/javascript" src="/resources/js/common/commons.js"></script>
 	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/resources/js/bootstrap-table.js"></script>
+	<script type="text/javascript" src="/resources/js/bootstrap-table-1.11.0.js"></script>
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="/resources/js/ie10-viewport-bug-workaround.js"></script>

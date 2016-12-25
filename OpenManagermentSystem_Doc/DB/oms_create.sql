@@ -89,17 +89,24 @@ CREATE TABLE IF NOT EXISTS `oms_service` (
   `iconImage` VARCHAR(255) NOT NULL,
   `pageName` VARCHAR(255) NOT NULL,
   `pageUrl` VARCHAR(255) NOT NULL,
+  `useYNCodeGroup` INT NOT NULL,
+  `useYNCode` INT NOT NULL,
   `registeredDate` DATETIME NOT NULL,
   `modifiedDate` DATETIME NOT NULL,
   PRIMARY KEY (`serviceId`),
   INDEX `fk_oms_service_oms_role1_idx` (`roleId` ASC),
+  INDEX `fk_oms_service_oms_com_code1_idx` (`useYNCodeGroup` ASC, `useYNCode` ASC),
   CONSTRAINT `fk_oms_service_oms_role1`
     FOREIGN KEY (`roleId`)
     REFERENCES `oms_role` (`roleId`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_oms_service_oms_com_code1`
+    FOREIGN KEY (`useYNCodeGroup` , `useYNCode`)
+    REFERENCES `oms_com_code` (`codeGroup` , `code`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `oms_corp_moneybook`
@@ -111,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `oms_corp_moneybook` (
   `usedDate` VARCHAR(10) NOT NULL,
   `category` VARCHAR(255) NOT NULL,
   `customer` VARCHAR(255) NULL,
-  `usedPlace` VARCHAR(255) NOT NULL,
+  `usedPlace` VARCHAR(255) NULL,
   `price` INT NOT NULL,
   `note` VARCHAR(255) NOT NULL,
   `memberId` VARCHAR(255) NOT NULL,

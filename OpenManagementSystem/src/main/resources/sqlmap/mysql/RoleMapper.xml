@@ -14,7 +14,7 @@
 		FROM oms_role
 	</select>
 
-	<select id="getRoleListOfMemberId" parameterType="com.open.ms.common.vo.Member" resultType="com.open.ms.common.vo.Role">
+	<select id="getRoleListOfMember" parameterType="com.open.ms.common.vo.Member" resultType="com.open.ms.common.vo.Role">
 		SELECT
 			R.roleId,
 			R.roleName,

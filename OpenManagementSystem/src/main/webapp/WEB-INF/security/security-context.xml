@@ -19,6 +19,8 @@
 		<intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/service/corp/moneybook/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_CORP_MONEYBOOK')" />
 		<intercept-url pattern="/service/person/moneybook/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PERSON_MONEYBOOK')" />
+		<intercept-url pattern="/service/received/approval/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_APPROVAL')" />
+		<intercept-url pattern="/service/sent/approval/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PERSON_MONEYBOOK')" />
 		<intercept-url pattern="/service/statistic/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_STATISTIC')" />
 		<intercept-url pattern="/service/analysis/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_ANALYSIS')" />
 		

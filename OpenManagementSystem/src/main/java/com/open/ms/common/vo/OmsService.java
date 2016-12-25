@@ -7,14 +7,16 @@ import org.json.simple.JSONObject;
  */
 public class OmsService extends CommonVo {
 	
-	private Integer serviceId	= null;
-	private Integer roleId	= null;
-	private String title		= null;
-	private String description	= null;
-	private String sliderImage	= null;
-	private String iconImage	= null;
-	private String pageName		= null;
-	private String pageUrl		= null;
+	private Integer serviceId = null;
+	private Integer roleId = null;
+	private String title = null;
+	private String description = null;
+	private String sliderImage = null;
+	private String iconImage = null;
+	private String pageName = null;
+	private String pageUrl = null;
+	private Integer useYNCodeGroup = null;
+	private String useYNCode = null;
 
 	public OmsService() {
 	}
@@ -83,6 +85,22 @@ public class OmsService extends CommonVo {
 		this.pageUrl = pageUrl;
 	}
 	
+	public Integer getUseYNCodeGroup() {
+		return useYNCodeGroup;
+	}
+
+	public void setUseYNCodeGroup(Integer useYNCodeGroup) {
+		this.useYNCodeGroup = useYNCodeGroup;
+	}
+
+	public String getUseYNCode() {
+		return useYNCode;
+	}
+
+	public void setUseYNCode(String useYNCode) {
+		this.useYNCode = useYNCode;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject toJSONObject() {
@@ -95,6 +113,8 @@ public class OmsService extends CommonVo {
 		jsonObject.put("iconImage", iconImage);
 		jsonObject.put("pageName", pageName);
 		jsonObject.put("pageUrl", pageUrl);
+		jsonObject.put("useYNCodeGroup", useYNCodeGroup);
+		jsonObject.put("useYNCode", useYNCode);
 		jsonObject.put("registeredDate", getRegisteredDate());
 		jsonObject.put("modifiedDate", getModifiedDate());
 		return jsonObject;
@@ -110,6 +130,8 @@ public class OmsService extends CommonVo {
 				+ ", iconImage=" + iconImage
 				+ ", pageName=" + pageName
 				+ ", pageUrl=" + pageUrl
+				+ ", useYNCodeGroup=" + useYNCodeGroup
+				+ ", useYNCode=" + useYNCode
 				+ ", registeredDate=" + getRegisteredDate()
 				+ ", modifiedDate=" + getModifiedDate()
 				+ "]";

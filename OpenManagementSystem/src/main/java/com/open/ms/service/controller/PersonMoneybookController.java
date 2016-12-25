@@ -23,7 +23,7 @@ import com.open.ms.common.Constants;
 import com.open.ms.common.service.MemberService;
 import com.open.ms.common.vo.Member;
 import com.open.ms.service.service.PersonMoneybookService;
-import com.open.ms.service.service.PersonMoneybookApprovalService;
+import com.open.ms.service.service.ApprovalService;
 import com.open.ms.service.vo.PersonMoneybook;
 import com.open.ms.service.vo.PersonMoneybookApproval;
 
@@ -41,7 +41,7 @@ public class PersonMoneybookController {
 	@Autowired
 	private MemberService memberServiceImpl;
 	@Autowired
-	private PersonMoneybookApprovalService personMoneybookApprovalServiceImpl;
+	private ApprovalService approvalServiceImpl;
 	
 	/**
 	 * 페이지 리턴
@@ -101,9 +101,8 @@ public class PersonMoneybookController {
 			jsonResult.put("rows", rows);
 			jsonResult.put("total", totalMap.get("totalCnt"));
 			jsonResult.put("totalPrice", totalMap.get("totalPrice"));
-			jsonResult.put("corpCardLimit", member.getCorpCardLimit());
 			
-			logger.info("~~ [totalCnt = {}], [totalPrice = {}], [corpCardLimit = {}], [rows = {}]", new Object[] { totalMap.get("totalCnt"), totalMap.get("totalPrice"), member.getCorpCardLimit(), rows.size() });
+			logger.info("~~ [totalCnt = {}], [totalPrice = {}], [rows = {}]", new Object[] { totalMap.get("totalCnt"), totalMap.get("totalPrice"), rows.size() });
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
 		}
@@ -308,7 +307,7 @@ public class PersonMoneybookController {
 				personMoneybookApproval.setStatusCodeGroup(Codes.SIGN_STATUS_CODE_GROUP);
 				personMoneybookApproval.setStatusCode(Codes.SIGN_STATUS_CODE_STAND_BY);
 				
-				boolean result = personMoneybookApprovalServiceImpl.insertPersonMoneybookApproval(personMoneybookApproval);
+				boolean result = approvalServiceImpl.insertPersonMoneybookApproval(personMoneybookApproval);
 				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
 			}
 		} catch (Exception e) {

@@ -5,7 +5,7 @@
     
 <mapper namespace="com.open.ms.common.mapper.OmsServiceMapper">
 
-    <select id="getOmsServiceList" parameterType="com.open.ms.common.vo.Member" resultType="com.open.ms.common.vo.OmsService">
+    <select id="getOmsServiceList" parameterType="Map" resultType="com.open.ms.common.vo.OmsService">
         SELECT 
 			serviceId,
 			roleId,
@@ -15,6 +15,8 @@
 			iconImage,
 			pageName,
 			pageUrl,
+			useYNCodeGroup,
+			useYNCode,
 			DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
 			DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
 		FROM oms_service
@@ -23,6 +25,7 @@
 						  WHERE M.memberId = RM.memberId
 						    AND R.roleId = RM.roleId
 						    AND M.memberId = #{memberId} )
+		  AND useYNCode = #{useYNCode}
 		ORDER BY roleId ASC
     </select>
     
@@ -35,6 +38,8 @@
 			iconImage,
 			pageName,
 			pageUrl,
+			useYNCodeGroup,
+			useYNCode,
 			DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
 			DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
 		FROM oms_service

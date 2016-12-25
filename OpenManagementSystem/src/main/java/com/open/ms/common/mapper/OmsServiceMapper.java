@@ -1,8 +1,8 @@
 package com.open.ms.common.mapper;
 
 import java.util.List;
+import java.util.Map;
 
-import com.open.ms.common.vo.Member;
 import com.open.ms.common.vo.OmsService;
 
 /**
@@ -10,7 +10,7 @@ import com.open.ms.common.vo.OmsService;
  */
 public interface OmsServiceMapper {
 	
-	List<OmsService> getOmsServiceList(Member member);
+	List<OmsService> getOmsServiceList(Map<String, Object> map);
 	OmsService getOmsServiceOfServiceId(Integer serviceId);
 	
 }
