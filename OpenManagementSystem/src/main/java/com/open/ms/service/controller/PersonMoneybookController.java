@@ -72,7 +72,6 @@ public class PersonMoneybookController {
 		JSONObject jsonResult = new JSONObject();
 		
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
-		
 		String memberId = member.getMemberId();
 			
 		logger.info("-> [body = {}]", body);
@@ -83,6 +82,8 @@ public class PersonMoneybookController {
 		try {
 			JSONObject requestJson = (JSONObject) jsonParser.parse(body);
 			
+			String sentMemberId = (String) requestJson.get("sentMemberId");
+			sentMemberId = sentMemberId == null || sentMemberId.isEmpty() ? memberId : sentMemberId;
 			String startDate = (String) requestJson.get("startDate");
 			String endDate = (String) requestJson.get("endDate");
 			long offset = (long) requestJson.get("offset");
@@ -92,11 +93,11 @@ public class PersonMoneybookController {
 			
 			JSONArray rows = new JSONArray();
 			
-			List<PersonMoneybook> personMoneybookList = personMoneybookServiceImpl.getPersonMoneybookList(memberId, startDate, endDate, offset, limit, sort, order);
+			List<PersonMoneybook> personMoneybookList = personMoneybookServiceImpl.getPersonMoneybookList(sentMemberId, startDate, endDate, offset, limit, sort, order);
 			for (PersonMoneybook vo : personMoneybookList)
 				rows.add(vo.toJSONObject());
 			
-			Map<String, Object> totalMap = personMoneybookServiceImpl.getPersonMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
+			Map<String, Object> totalMap = personMoneybookServiceImpl.getPersonMoneybookListTotalCntAndPrice(sentMemberId, startDate, endDate);
 			
 			jsonResult.put("rows", rows);
 			jsonResult.put("total", totalMap.get("totalCnt"));
@@ -304,8 +305,8 @@ public class PersonMoneybookController {
 				personMoneybookApproval.setStartDate(startDate);
 				personMoneybookApproval.setEndDate(endDate);
 				personMoneybookApproval.setSentMemberSign(requestMemberSign);
-				personMoneybookApproval.setStatusCodeGroup(Codes.SIGN_STATUS_CODE_GROUP);
-				personMoneybookApproval.setStatusCode(Codes.SIGN_STATUS_CODE_STAND_BY);
+				personMoneybookApproval.setStatusCodeGroup(Codes.APPROVAL_STATUS_CODE_GROUP);
+				personMoneybookApproval.setStatusCode(Codes.APPROVAL_STATUS_CODE_STAND_BY);
 				
 				boolean result = approvalServiceImpl.insertPersonMoneybookApproval(personMoneybookApproval);
 				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);

@@ -58,7 +58,7 @@ function createSlider() {
 		scrollBy: 1,
 		pagesBar: $wrap.find('.pages'),
 		activatePageOn: 'click',
-		speed: 300,
+		speed: 1,
 		elasticBounds: 1,
 		easing: 'easeOutExpo',
 		dragHandle: 1,

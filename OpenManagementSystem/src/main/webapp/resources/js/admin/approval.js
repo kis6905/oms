@@ -1,6 +1,7 @@
 
 var table, detailPersonMoneybookTable;
 var canvas, ctx;
+var detailRow;
 
 $(document).ready(function() {
 	
@@ -14,80 +15,13 @@ $(document).ready(function() {
 		inquiry();
 	});
 	
-	$('#approvalCompletionBtn').on('click', function() { // 결재 버튼
-		openSignModal();
-	});
-	
-	$('#approvalCompletionReqBtn').on('click', function() { // 서명 Modal 창에서 확인 버튼
-		processingApproval(true);
-	});
-	
-	$('#approvalReturnBtn').on('click', function() { // 반려 버튼
-		processingApproval(false);
-	});
-	
 	$('#personMoneybookDetailCloseBtn').on('click', function() {
 		$('#personMoneybookDetailModal').modal('hide');
 	});
-
-	// 서명 canvas
-    var lastPt = null;
-	canvas = document.getElementById('signCanvas');
 	
-	if (canvas.getContext) {
-		canvas.addEventListener("touchmove", touchDraw, false);
-		canvas.addEventListener("touchend", touchEnd, false);
-		ctx = canvas.getContext('2d');
-
-		function touchDraw(e) {
-			e.preventDefault();
-			var rect = canvas.getBoundingClientRect();
-			if (lastPt != null) {
-				ctx.beginPath();
-				ctx.moveTo(lastPt.x, lastPt.y);
-				ctx.lineTo(e.touches[0].pageX - rect.left, e.touches[0].pageY - rect.top);
-				ctx.stroke();
-			}
-			lastPt = { x: e.touches[0].pageX - rect.left, y:e.touches[0].pageY - rect.top };
-		}
-
-        function touchEnd(e) {
-			e.preventDefault();
-			// Terminate touch path
-			lastPt = null;
-        }
-        
-    	var isDraw = false;
-    	$('#signCanvas').mousemove(function(e) {
-        	if (isDraw) draw(e);        
-		});
-
-    	$('#signCanvas').mousedown(function(e) {
-    		if (e.button === 0) {
-    			isDraw = true;
-    			draw(e);
-    		}
-    	});
-
-    	$('#signCanvas').mouseup(function(e) {
-    		isDraw = false;
-    		lastPt = null;
-    	});
-
-		function draw(e) {
-			if (lastPt != null) {
-				ctx.beginPath();
-				ctx.moveTo(lastPt.x, lastPt.y);
-				ctx.lineTo(e.offsetX, e.offsetY);
-				ctx.stroke();
-			}
-			lastPt = {x: e.offsetX, y:e.offsetY};
-		}
-	}
-	else {
-	    alert('canvas가 지원되지 않는 브라우저입니다. 구글 크롬을 권장합니다.');
-	    return;
-	}
+	$('#excelDownBtn').on('click', function() {
+		downloadExcel();
+	});
 	
 });
 
@@ -119,81 +53,18 @@ function setCurrentDate() {
 }
 
 /**
- * 결재 버튼 클릭 시 서명 modal 오픈
- */
-function openSignModal() {
-	// 스크롤이 내려가있으면 그림이 정확한 위치에 그려지지 않는다.
-	// 때문에 스크롤을 top으로 이동시킨다.
-	$('html, body').animate({scrollTop: '0px'}, 300);
-	
-	// canvas 초기화
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath();
-    
-    // boostrap-paper theme 적용 후 삼성 폰 기본 웹브라우져에서 canvas에 안그려지는 버그가 있다.
-    // 0.5초 정도 후 모달 창을 띄우면 버그가 발생하지 않는다.
-    setTimeout(function() {
-    	$('#signModal').modal();
-    }, 500);
-}
-
-/**
- * 결재하기 or 반력하기
- */
-function processingApproval(isApproval) {
-	
-	var checkedRows = table.bootstrapTable('getAllSelections');
-	if (checkedRows.length === 0) {
-		alert('처리할 항목을 선택하세요.');
-		return false;
-	}
-	
-	var seqs = [];
-	for (var inx = 0; inx < checkedRows.length; inx++)
-		seqs.push(checkedRows[inx].seq);
-	
-	var statusCode = isApproval ? '1202' : '1204';
-	var receivedMemberSign = canvas.toDataURL('image/png');
-	
-	var data = {
-			seqs: seqs,
-			statusCode: statusCode,
-			receivedMemberSign: receivedMemberSign
-	};
-	var callbackSuccess = function(data, textStatus, jqXHR) {
-		setTimeout(function() {
-			$('#loadingDialog').modal('hide');
-			
-			if (data.result === OK) {
-				if (isApproval)
-					alert('처리되었습니다. 결재 내용은 자동으로 제출됩니다.');
-				else
-					alert('처리되었습니다.');
-				
-				$('#signModal').modal('hide');
-				refreshTable();
-			}
-			else {
-				alert('요청이 실패했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
-			}
-		}, 800);
-	};
-	
-	$('#loadingDialog').modal();
-	callAjax('/service/received/approval/processing', data, callbackSuccess);
-}
-
-/**
  * Table의 Row 클릭 시 상세 Modal 창 띄우기
  * 결재 종류 추가 시 row.approvalKind 에 따라 띄울 Modal 창 구분
  */
 function openDetailModal(row) {
+	detailRow = row; // 엑셀 다운시 값을 가져오기 위해 전역변수에 넣어준다.
+	
 	$('#personMoneybookDetailModal').modal();
 	$('#personMoneybookDetailTitle').html(row.title);
 	
 	var statusHtml = getLabelOfStatusCode(row.statusCode);
 	if (row.statusCode != 1201)
-		statusHtml += '&nbsp;&nbsp;' + row.completedDate;
+		statusHtml += '&nbsp;&nbsp;처리 일시: ' + row.completedDate;
 	$('#personMoneybookDetailStatus').html(statusHtml);
 	
 	$('#personMoneybookDetailTerm').html(row.startDate + ' ~ ' + row.endDate);
@@ -234,7 +105,7 @@ function inquiry(tableType) {
  * 테이블 refresh
  */
 function refreshTable() {
-	if (typeof table !== 'undefined' && table !== null)
+	if (typeof table !== 'undefined' || table !== null)
 		table.bootstrapTable('refresh');
 }
 
@@ -246,7 +117,7 @@ function createTable() {
 	table = $('#table').bootstrapTable({
 		ajaxOptions: ajaxOption,
 		method: 'post',
-		url: '/service/received/approval/list',
+		url: '/admin/approval/list',
 		contentType: 'application/json',
 		dataType: 'json',
 		queryParams: function(params) {
@@ -274,25 +145,23 @@ function createTable() {
 		},
 		onLoadError: btOnLoadErrorHandler,
 		columns: [{
-			field: 'no',
-			title: '',
+			field: 'sentMemberName',
+			title: '기안자',
 			width: '10%',
 			align: 'center',
 			valign: 'middle',
-			checkbox: true,
-			checkboxEnable: false,
-			formatter: approvalCheckboxFormatter
+			sortable: false
 		}, {
-			field: 'sentMemberName',
-			title: '기안자',
-			width: '15%',
+			field: 'receivedMemberName',
+			title: '결재자',
+			width: '10%',
 			align: 'center',
 			valign: 'middle',
 			sortable: false
 		}, {
 			field: 'title',
 			title: '결재 제목',
-			width: '35%',
+			width: '40%',
 			align: 'center',
 			valign: 'middle',
 			sortable: false,
@@ -300,15 +169,15 @@ function createTable() {
 		}, {
 			field: 'statusCode',
 			title: '상태',
-			width: '10%',
+			width: '5%',
 			align: 'center',
 			valign: 'middle',
-			sortable: true,
+			sortable: false,
 			formatter: approvalStatusLabelFormatter
 		}, {
 			field: 'registeredDate',
-			title: '기안 일',
-			width: '30%',
+			title: '기안일',
+			width: '35%',
 			align: 'center',
 			valign: 'middle',
 			sortable: true,
@@ -340,6 +209,7 @@ function createPersonMoneybookDetailTable(data) {
 		contentType: 'application/json',
 		dataType: 'json',
 		queryParams: function(params) {
+//			location.href = '#';
 			params['sentMemberId'] = data.sentMemberId;
 			params['startDate'] = data.startDate;
 			params['endDate'] = data.endDate;
@@ -394,4 +264,26 @@ function createPersonMoneybookDetailTable(data) {
 			formatter: priceFormatter
 		}]
 	});
+}
+
+/**
+ * Excel 다운로드
+ */
+function downloadExcel() {
+	
+	var option = detailTable.bootstrapTable('getOptions');
+	var sort = option.sortName;
+	var order = option.sortOrder;
+	
+	var sortInput = $('<input>').attr('type', 'hidden').attr('name', 'sort').val(sort);
+	var orderInput = $('<input>').attr('type', 'hidden').attr('name', 'order').val(order);
+	var seq = $('<input>').attr('type', 'hidden').attr('name', 'seq').val(detailRow.seq);
+	
+	$form = $("<form></form>");
+	$form.attr('method', 'post')
+		.attr('action', '/admin/approval/excel')
+		.append($(sortInput))
+		.append($(orderInput))
+		.append($(seq))
+		.submit();
 }

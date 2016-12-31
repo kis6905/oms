@@ -15,6 +15,8 @@ public interface MemberService {
 	List<Member> getMemberList(long offset, long limit, String sort, String order) throws Exception;
 	Integer getMemberListTotalCnt() throws Exception;
 	
+	Member getMemberOfId(String memberId);
+	
 	boolean checkId(String memberId) throws Exception;
 	boolean checkMemberName(String memberName) throws Exception;
 	

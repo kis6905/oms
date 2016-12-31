@@ -24,11 +24,11 @@ public class Codes {
 	/*
 	 * 결재 상태 코드
 	 */
-	public static final int SIGN_STATUS_CODE_GROUP = 2;
-	public static final int SIGN_STATUS_CODE_STAND_BY = 1201;
-	public static final int SIGN_STATUS_CODE_COMPLETION = 1202;
-	public static final int SIGN_STATUS_CODE_CANCEL = 1203;
-	public static final int SIGN_STATUS_CODE_RETURN = 1204;
+	public static final int APPROVAL_STATUS_CODE_GROUP = 2;
+	public static final int APPROVAL_STATUS_CODE_STAND_BY = 1201;
+	public static final int APPROVAL_STATUS_CODE_COMPLETION = 1202;
+	public static final int APPROVAL_STATUS_CODE_CANCEL = 1203;
+	public static final int APPROVAL_STATUS_CODE_RETURN = 1204;
 	
 	/*
 	 * 서비스 사용 여부 코드

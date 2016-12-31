@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,38 +23,21 @@ import com.open.ms.service.vo.Approval;
 @Service(value = "approvalServiceImpl")
 public class ApprovalServiceImpl implements ApprovalService {
 
+	private static final Logger logger = LoggerFactory.getLogger(ApprovalServiceImpl.class);
+	
 	@Autowired
 	private PersonMoneybookApprovalMapper personMoneybookApprovalMapper;
 	
 	/**
-	 * 내가 올린 결재 목록 리턴
-	 * 
-	 * @param startDate 테이블의 registeredDate이다. 테이블의 startDate와는 무관하다.
-	 * @param endDate 테이블의 registeredDate이다. 테이블의 endDate와는 무관하다.
+	 * 내가 받은 or 내가 올린 or 모든 결재 목록 리턴<br>
+	 * 내가 받은 목록 -> sentMemberId = null, 		receivedMemberId = myMemberId<br>
+	 * 내가 올린 목록 -> sentMemberId = myMemberId, receivedMemberId == null<br>
+	 * 모든 목록 -> sentMemberId = null, receivedMemberId == null
 	 */
 	@Override
-	public List<Approval> getSentApprovalList(String sentMemberId, String startDate, String endDate, String statusCode, long offset, long limit, String sort, String order) throws Exception {
+	public List<Approval> getApprovalList(String sentMemberId, String receivedMemberId, String startDate, String endDate, String statusCode, long offset, long limit, String sort, String order) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("sentMemberId", sentMemberId);
-		map.put("startDate", startDate);
-		map.put("endDate", endDate);
-		map.put("statusCode", statusCode.isEmpty() ? null : statusCode);
-		map.put("start", offset + 1);
-		map.put("end", offset + limit);
-		map.put("sort", sort);
-		map.put("order", order);
-		return personMoneybookApprovalMapper.getReceivedApprovalList(map);
-	}
-
-	/**
-	 * 내가 받은 결재 목록 리턴
-	 * 
-	 * @param startDate 테이블의 registeredDate이다. 테이블의 startDate와는 무관하다.
-	 * @param endtDate 테이블의 registeredDate이다. 테이블의 endDate와는 무관하다.
-	 */
-	@Override
-	public List<Approval> getReceivedApprovalList(String receivedMemberId, String startDate, String endDate, String statusCode, long offset, long limit, String sort, String order) throws Exception {
-		Map<String, Object> map = new HashMap<>();
 		map.put("receivedMemberId", receivedMemberId);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
@@ -61,39 +46,32 @@ public class ApprovalServiceImpl implements ApprovalService {
 		map.put("end", offset + limit);
 		map.put("sort", sort);
 		map.put("order", order);
-		return personMoneybookApprovalMapper.getReceivedApprovalList(map);
+		return personMoneybookApprovalMapper.getApprovalList(map);
 	}
-
+	
 	/**
-	 * 내가 올린 결재 목록 Count 리턴
-	 * 
-	 * @param startDate 테이블의 registeredDate이다. 테이블의 startDate와는 무관하다.
-	 * @param endtDate 테이블의 registeredDate이다. 테이블의 endDate와는 무관하다.
+	 * 내가 받은 or 내가 올린 or 모든 결재 목록 Count 리턴<br>
+	 * 내가 받은 목록 -> sentMemberId = null, 		receivedMemberId = myMemberId<br>
+	 * 내가 올린 목록 -> sentMemberId = myMemberId, receivedMemberId == null<br>
+	 * 모든 목록 -> sentMemberId = null, receivedMemberId == null
 	 */
 	@Override
-	public int getSentApprovalListTotalCnt(String sentMemberId, String startDate, String endDate, String statusCode) throws Exception {
+	public int getApprovalListTotalCnt(String sentMemberId, String receivedMemberId, String startDate, String endDate, String statusCode) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("sentMemberId", sentMemberId);
-		map.put("startDate", startDate);
-		map.put("endDate", endDate);
-		map.put("statusCode", statusCode.isEmpty() ? null : statusCode);
-		return personMoneybookApprovalMapper.getSentApprovalListTotalCnt(map);
-	}
-
-	/**
-	 * 내가 받은 결재 목록 Count 리턴
-	 * 
-	 * @param startDate 테이블의 registeredDate이다. 테이블의 startDate와는 무관하다.
-	 * @param endtDate 테이블의 registeredDate이다. 테이블의 endDate와는 무관하다.
-	 */
-	@Override
-	public int getReceivedApprovalListTotalCnt(String receivedMemberId, String startDate, String endDate, String statusCode) throws Exception {
-		Map<String, Object> map = new HashMap<>();
 		map.put("receivedMemberId", receivedMemberId);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
 		map.put("statusCode", statusCode.isEmpty() ? null : statusCode);
-		return personMoneybookApprovalMapper.getReceivedApprovalListTotalCnt(map);
+		return personMoneybookApprovalMapper.getApprovalListTotalCnt(map);
+	}
+	
+	/**
+	 * 결재 정보 리턴
+	 */
+	@Override
+	public Approval getApproval(String seq) throws Exception {
+		return personMoneybookApprovalMapper.getApprovalOfSeq(seq);
 	}
 	
 	/**
@@ -113,6 +91,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 	 */
 	@Override
 	public boolean updateProcessingPersonMoneybookApproval(Approval personMoneybookApproval, String[] seqs) throws Exception {
+		if (personMoneybookApproval.getSentMemberId() == null && personMoneybookApproval.getReceivedMemberId() == null) {
+			logger.info("~~ [sendMemberId == null AND receivedMemberId == null !!]");
+			return false;
+		}
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("vo", personMoneybookApproval);
 		map.put("seqs", seqs);

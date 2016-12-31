@@ -37,6 +37,13 @@
 				</div>
 			</div>
 			
+			<div id="defaultArea">
+				<div class="alert alert-success" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>&nbsp;&nbsp;알림</strong><br>
+					곧 영수증 업로드가 추가될 예정입니다.
+				</div>
+			</div>
+			
 			<div id="signOpenBtnArea">
 				<button class="btn btn-success btn-block" type="button" id="signOpenBtn">
 					<span class="glyphicon glyphicon-paste" aria-hidden="true"></span>&nbsp;&nbsp;지출결의 결재 올리기
@@ -60,7 +67,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">지출 내역 등록</h4>
+						<h5 class="modal-title">지출 내역 등록</h5>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="insertForm">
@@ -114,7 +121,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">지출 내역 상세 및 수정</h4>
+						<h5 class="modal-title">지출 내역 상세 및 수정</h5>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="insertForm">
@@ -189,17 +196,19 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">결재 올리기</h4>
+					<h5 class="modal-title">결재 올리기</h5>
 				</div>
 				<div class="modal-body center">
 					<canvas id="signCanvas" width="300" height="200" style="border: 1px solid black;"></canvas>
 					<br>
-					<span>&lt; 내 서명 &gt;</span>
+					<span>&lt; 서명 &gt;</span>
 					<br><br><br>
+					<div class="form-group has-success">
+						<input type="text" id="term" class="form-control" readonly="readonly">
+					</div>
 					<div class="form-group">
 						<input type="text" id="signTitle" class="form-control" placeholder="결재 제목 (Ex: 12월 지출결의)">
 					</div>
-					
 					<div class="form-group">
 						<select class="form-control" id="targetMemberId">
 							<option selected="selected" style="display:none;">결재받을 팀장님을 선택하세요.</option>

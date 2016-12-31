@@ -72,7 +72,6 @@ public class CorpMoneybookController {
 		JSONObject jsonResult = new JSONObject();
 		
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
-		
 		String memberId = member.getMemberId();
 			
 		logger.info("-> [body = {}]", body);
@@ -285,7 +284,8 @@ public class CorpMoneybookController {
 				byte[] signBytes = DatatypeConverter.parseBase64Binary(sign.replaceAll("data:image/.+;base64,", ""));
 				modelMap.addAttribute("sign", signBytes);
 				
-				List<CorpMoneybook> corpMoneybookList = corpMoneybookServiceImpl.getCorpMoneybookList(memberId, startDate, endDate, 0, Integer.MAX_VALUE, sort, order);
+				// 정렬은 무조건 usedDate, ASC로 하드코딩해서 조회하자.
+				List<CorpMoneybook> corpMoneybookList = corpMoneybookServiceImpl.getCorpMoneybookList(memberId, startDate, endDate, 0, Integer.MAX_VALUE, "usedDate", "ASC");
 				Map<String, Object> totalMap = corpMoneybookServiceImpl.getCorpMoneybookListTotalCntAndPrice(memberId, startDate, endDate);
 				
 				int totalCnt = (int) totalMap.get("totalCnt");
@@ -307,7 +307,7 @@ public class CorpMoneybookController {
 			    modelMap.addAttribute("nickname", member.getMemberName());
 			    
 			    logger.info("<- []");
-			    return "excelDown";
+			    return "corpMoneybookExcelDownView";
 			} catch (Exception e) {
 				logger.error("~~ [An error occurred]", e);
 				responseStatusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

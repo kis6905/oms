@@ -1,4 +1,4 @@
-package com.open.ms.common;
+package com.open.ms.common.view;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -24,13 +24,13 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 import net.sf.jxls.transformer.XLSTransformer;
 
 /**
- * 엑셀 파일 다운로드 시 템플릿 파일에 값을 파싱해 완성된 파일을 내려준다.
+ * 법인카드 사용 내역 엑셀 파일 다운로드 View
  * 
  * @author iskwon
  */
-public class ExcelDownloadView extends AbstractExcelView {
+public class CorpMoneybookExcelDownView extends AbstractExcelView {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ExcelDownloadView.class);
+	private static final Logger logger = LoggerFactory.getLogger(CorpMoneybookExcelDownView.class);
 	
 	@Override
 	protected void buildExcelDocument(
@@ -55,11 +55,7 @@ public class ExcelDownloadView extends AbstractExcelView {
 		workbook.addPicture(signBytes, Workbook.PICTURE_TYPE_PNG);
 		
 		CreationHelper helper = workbook.getCreationHelper();
-		
-		// Creates the top-level drawing patriarch.
 		Drawing drawing = sheet.createDrawingPatriarch();
-		
-		// Create an anchor that is attached to the worksheet
 		ClientAnchor anchor = helper.createClientAnchor();
 		
 		// Create an anchor with upper left cell _and_ bottom right cell
@@ -68,7 +64,6 @@ public class ExcelDownloadView extends AbstractExcelView {
 		anchor.setCol2(18); // Column R
 		anchor.setRow2(7); // Row 8
 		
-//		Picture pict = drawing.createPicture(anchor, pictureIdx);
 		drawing.createPicture(anchor, pictureIdx);
 		
 		ByteArrayOutputStream xlsOutput = new ByteArrayOutputStream();

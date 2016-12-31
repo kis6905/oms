@@ -23,13 +23,13 @@
 	<link href="/resources/css/jquery-datepicker.css" rel="stylesheet">
 	
 	<!-- JS -->
-	<script type="text/javascript" src="/resources/js/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery.cookie.js"></script>
-	<script type="text/javascript" src="/resources/js/jquery-datepicker.js"></script>
+	<script type="text/javascript" src="/resources/js/libs/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/resources/js/libs/jquery.cookie.js"></script>
+	<script type="text/javascript" src="/resources/js/libs/jquery-datepicker.js"></script>
 	<script type="text/javascript" src="/resources/js/common/commons.js"></script>
-	<script type="text/javascript" src="/resources/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/resources/js/bootstrap-table-1.11.0.js"></script>
+	<script type="text/javascript" src="/resources/js/libs/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/resources/js/libs/bootstrap-table-1.11.0.js"></script>
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script src="/resources/js/ie10-viewport-bug-workaround.js"></script>
+	<script src="/resources/js/libs/ie10-viewport-bug-workaround.js"></script>
 	

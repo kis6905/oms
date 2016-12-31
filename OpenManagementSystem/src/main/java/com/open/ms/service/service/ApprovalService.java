@@ -12,10 +12,11 @@ import com.open.ms.service.vo.Approval;
 @Service
 public interface ApprovalService {
 	
-	List<Approval> getSentApprovalList(String sentMemberId, String startDate, String endDate, String statusCode, long offset, long limit, String sort, String order) throws Exception;
-	List<Approval> getReceivedApprovalList(String receivedMemberId, String startDate, String endDate, String statusCode, long offset, long limit, String sort, String order) throws Exception;
-	int getSentApprovalListTotalCnt(String requestMemberId, String startDate, String endDate, String statusCode) throws Exception;
-	int getReceivedApprovalListTotalCnt(String targetMemberId, String startDate, String endDate, String statusCode) throws Exception;
+	List<Approval> getApprovalList(String sentMemberId, String receivedMemberId, String startDate, String endDate, String statusCode, long offset, long limit, String sort, String order) throws Exception;
+	int getApprovalListTotalCnt(String sentMemberId, String receivedMemberId, String startDate, String endDate, String statusCode) throws Exception;
+	
+	Approval getApproval(String seq) throws Exception;
+	
 	boolean insertPersonMoneybookApproval(Approval personMoneybookApproval) throws Exception;
 	boolean updateProcessingPersonMoneybookApproval(Approval personMoneybookApproval, String[] seqs) throws Exception;
 	boolean deletePersonMoneybookApproval(Approval personMoneybookApproval) throws Exception;

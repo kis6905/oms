@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="/resources/css/sly/sly-main.css">
 
 <script type="text/javascript" src="/resources/js/common/main.js"></script>
-<script type="text/javascript" src="/resources/js/sly.min.js"></script>
-<script type="text/javascript" src="/resources/js/jquery-easing-1.3.js"></script>
+<script type="text/javascript" src="/resources/js/libs/sly.min.js"></script>
+<script type="text/javascript" src="/resources/js/libs/jquery-easing-1.3.js"></script>
 
 </head>
 

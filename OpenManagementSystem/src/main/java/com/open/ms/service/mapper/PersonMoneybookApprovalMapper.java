@@ -10,14 +10,12 @@ import com.open.ms.service.vo.Approval;
  */
 public interface PersonMoneybookApprovalMapper {
 	
-	List<Approval> getSentApprovalList(Map<String, Object> map);
-	int getSentApprovalListTotalCnt(Map<String, Object> map);
+	List<Approval> getApprovalList(Map<String, Object> map);
+	int getApprovalListTotalCnt(Map<String, Object> map);
 	
-	List<Approval> getReceivedApprovalList(Map<String, Object> map);
-	int getReceivedApprovalListTotalCnt(Map<String, Object> map);
+	Approval getApprovalOfSeq(String seq);
 	
 	int insertPersonMoneybookApproval(Approval approval);
 	int updateProcessingPersonMoneybookApproval(Map<String, Object> map);
 	int deletePersonMoneybookApproval(Approval approval);
-	
 }

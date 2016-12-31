@@ -222,4 +222,27 @@ public class Utility {
 		return (result == null || result.isEmpty()) ? null : result;
 	}
 	
+	/**
+	 * 숫자로 된 문자열을 한글로 변환한다.
+	 * @param input number string
+	 * @return hangul string
+	 */
+	public static String convertNumberToHangul(String input) {
+		String[] han1 = { "", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구" };
+		String[] han2 = { "", "십", "백", "천" };
+		String[] han3 = { "", "만", "억", "조", "경" };
+		
+		StringBuilder result = new StringBuilder();
+		int len = input.length();
+		for (int i = len - 1; i >= 0; i--) {
+			result.append(han1[Integer.parseInt(input.substring(len - i - 1, len - i))]);
+			if (Integer.parseInt(input.substring(len - i - 1, len - i)) > 0)
+				result.append(han2[i % 4]);
+			if (i % 4 == 0)
+				result.append(han3[i / 4]);
+		}
+		
+		return result.toString();
+	}
+	
 }

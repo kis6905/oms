@@ -31,12 +31,12 @@
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	
-	<!-- Set excel download -->
+	<!-- Set excel down view -->
 	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<beans:property name="order" value="0" />
 	</beans:bean>
-	
-	<beans:bean name="excelDown" class="com.open.ms.common.ExcelDownloadView" />
+	<beans:bean name="corpMoneybookExcelDownView" class="com.open.ms.common.view.CorpMoneybookExcelDownView" />
+	<beans:bean name="personMoneybookExcelDownView" class="com.open.ms.common.view.PersonMoneybookExcelDownView" />
 	
 	<!-- Websocket -->
 <!-- 	<websocket:handlers> -->

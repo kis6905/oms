@@ -72,8 +72,8 @@ var emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,
 var numberRegex = /^[0-9]*$/;
 var dateRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
 
-function validateEmail(email) {
-    return emailRegex.test(email);
+function validateEmail(input) {
+    return emailRegex.test(input);
 }
 
 function validateNumber(input) {
@@ -88,20 +88,20 @@ function validateDateFormat(input) {
 /****************************************************
  * 유틸리티
  ****************************************************/
-// 현재 날짜에서 입력받은 날짜를 빼서 나온 일 수를 리턴한다.
+// 현재 날짜에서 입력받은 날짜를 빼서 나온 일 수를 리턴
 function diffFromSysdate(inputDate) {
 	var sysdate = new Date();
 	return Math.floor((sysdate.getTime() - inputDate.getTime()) / 1000 / 60 / 60 / 24);
 }
 
-// 입력된 숫자에 ,를 찍은 형태로 돌려준다.
+// 입력된 숫자에 ,를 찍은 형태로 리턴
 function numberFormat(input) {
     var input = String(input);
     var reg = /(\-?\d+)(\d{3})($|\.\d+)/;
     if(reg.test(input)){
         return input.replace(reg, function(str, p1, p2, p3) {
                 return numberFormat(p1) + "," + p2 + "" + p3;
-            }    
+            }
         );
     }
     else {
@@ -109,67 +109,67 @@ function numberFormat(input) {
     }
 }
 
+// 결재상태에 따라 Label을 만들어 리턴
+function getLabelOfStatusCode(statusCode) {
+	if (statusCode == 1201)
+		return '<span class="label label-primary">대기</span>';
+	else if (statusCode == 1202)
+		return '<span class="label label-success">결재</span>';
+	else if (statusCode == 1203)
+		return '<span class="label label-default">철회</span>';
+	else if (statusCode == 1204)
+		return '<span class="label label-danger">반려</span>';
+	else
+		return statusCode;
+}
+
 
 /****************************************************
- * bootstrap-table에서 사용될 각종 포매터
+ * bootstrap-table에서 사용될 각종 포매터 or 콜백함수
  ****************************************************/
 // 금액 포매터
 var priceFormatter = function(value, row, index) {
 	return numberFormat(row.price);
-}
-
-// 닉네임 포매터
-var nicknameFormatter = function(value, row, index) {
-	if (row.nickname.length > 3)
-		return row.nickname.substring(0, 3) + '..';
-	else
-		return row.nickname;
-}
+};
 
 // 제목 포매터
-var boardTitleFormatter = function(value, row, index) {
-	var result;
-	if (row.title.length > 15)
-		result = row.title.substring(0, 16) + '...';
-	else 
-		result = row.title;
-	
-	result += '&nbsp; <span class="comment">[' + row.commentCount + ']</span>';
-	
-	var arr = row.registeredDate.substring(0, 10).split("-");
-	var date = new Date(arr[0], arr[1] - 1, arr[2]); // 년, 월, 일
-	if (diffFromSysdate(date) == 0)
-		result += '&nbsp;&nbsp;<span class=\"label label-danger\">N</span>';
-	
+var titleFormatter = function(data) {
+	var result = data;
+	if (data.length > 9)
+		result = data.substring(0, 9) + '...';
 	return result;
-}
+};
 
 // 날짜 포매터
-var dateFormatter = function(value, row, index) {
-	return value.substring(0, 10);
-}
+var dateFormatter = function(data) {
+	return data.substring(0, 10);
+};
 
-// 게시판에서의 등록 일 포매터(오늘이면 시간/분, 오늘이 지난 경우 월/일)
-var registeredDateFormatter = function(value, row, index) {
-	var arr = row.registeredDate.substring(0, 10).split("-");
-	var date = new Date(arr[0], arr[1] - 1, arr[2]); // 년, 월, 일
-	
-	if (diffFromSysdate(date) > 0)
-		return row.registeredDate.substring(5, 10);
-	else
-		return row.registeredDate.substring(11, 16);
-}
+// 결재 상태에 따른 Label 포매터
+var approvalStatusLabelFormatter = function(data) {
+	return getLabelOfStatusCode(data);
+};
 
-// 등급 포매터
-var gradeFormatter = function(value, row, index) {
-	switch (row.gradeCode) {
-		case 1001:
-			return 'Admin';
-		case 1002:
-		default:
-			return 'User';
+// 결재 상태에 따른 Checkbox 포매터
+var approvalCheckboxFormatter = function(value, row, index) {
+	if (row.statusCode != 1201) { // 대기 상태가 아니면 Disable
+		return {
+            disabled: true
+        }
 	}
-}
+    return value;
+};
+
+// onLoadError 콜백 핸들러
+var btOnLoadErrorHandler = function(status, res) {
+	if (status == 401 || status == 403) {
+		alert('Session이 만료되었거나 잘못된 접근입니다.');
+		location.href = '/out';
+	}
+	else {
+		alert("예외가 발생했습니다. 관리자에게 문의하세요.");
+	}
+};
 
 
 /****************************************************

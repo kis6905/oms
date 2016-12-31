@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.open.ms.common.Codes;
 import com.open.ms.common.Constants;
 import com.open.ms.common.vo.Member;
 import com.open.ms.service.service.ApprovalService;
@@ -27,10 +28,10 @@ import com.open.ms.service.vo.PersonMoneybookApproval;
  * @author iskwon
  */
 @Controller
-@RequestMapping(value = "/service/received/approval/**")
-public class ReceivedApprovalController {
-
-	private static final Logger logger = LoggerFactory.getLogger(ReceivedApprovalController.class);
+@RequestMapping(value = "/service/sent/approval/**")
+public class SentApprovalController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SentApprovalController.class);
 	
 	@Autowired
 	private ApprovalService approvalServiceImpl;
@@ -48,7 +49,7 @@ public class ReceivedApprovalController {
 		logger.info("-> []");
 		
 		logger.info("<- []");
-		return "/service/received_approval";
+		return "/service/sent_approval";
 	}
 	
 	/**
@@ -84,11 +85,11 @@ public class ReceivedApprovalController {
 			
 			JSONArray rows = new JSONArray();
 			
-			List<Approval> receivedApprovalList = approvalServiceImpl.getApprovalList(null, memberId, startDate, endDate, statusCode, offset, limit, sort, order);
-			for (Approval vo : receivedApprovalList)
+			List<Approval> approvalList = approvalServiceImpl.getApprovalList(memberId, null, startDate, endDate, statusCode, offset, limit, sort, order);
+			for (Approval vo : approvalList)
 				rows.add(vo.toJSONObject());
 			
-			int totalCnt = approvalServiceImpl.getApprovalListTotalCnt(null, memberId, startDate, endDate, statusCode);
+			int totalCnt = approvalServiceImpl.getApprovalListTotalCnt(memberId, null, startDate, endDate, statusCode);
 			
 			jsonResult.put("rows", rows);
 			jsonResult.put("total", totalCnt);
@@ -103,7 +104,7 @@ public class ReceivedApprovalController {
 	}
 	
 	/**
-	 * 결재 처리(완료 or 반려)
+	 * 결재 철회
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/processing", method = RequestMethod.POST)
@@ -111,7 +112,6 @@ public class ReceivedApprovalController {
 	public String postProcessing(
 			@RequestParam(value = "seqs[]", required = false) String[] seqs,
 			@RequestParam(value = "statusCode", required = true, defaultValue = "") String statusCode,
-			@RequestParam(value = "receivedMemberSign", required = false) String receivedMemberSign,
 			HttpServletRequest request) {
 		
 		JSONObject jsonResult = new JSONObject();
@@ -119,17 +119,20 @@ public class ReceivedApprovalController {
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		String memberId = member.getMemberId();
 		
-		logger.info("-> [seqsSize = {}], [statusCode = {}], [receivedMemberSign = {}]", new Object[] { seqs.length, statusCode, receivedMemberSign.length() });
+		logger.info("-> [seqsSize = {}], [statusCode = {}]", new Object[] { seqs.length, statusCode });
 		logger.info("-> [memberId = {}]", memberId);
 		
 		try {
 			if (seqs.length == 0 || statusCode.isEmpty() || memberId.isEmpty()) {
 				jsonResult.put("result", Constants.NOT_OK);
 			}
+			// 변경할 상태 코드가 철회가 아니면 잘못된 요청이다.
+			else if (Integer.parseInt(statusCode) != Codes.APPROVAL_STATUS_CODE_CANCEL) {
+				jsonResult.put("result", Constants.NOT_OK);
+			}
 			else {
 				PersonMoneybookApproval personMoneybookApproval = new PersonMoneybookApproval();
-				personMoneybookApproval.setReceivedMemberId(memberId);
-				personMoneybookApproval.setReceivedMemberSign(receivedMemberSign);
+				personMoneybookApproval.setSentMemberId(memberId);
 				personMoneybookApproval.setStatusCode(Integer.parseInt(statusCode));
 				
 				boolean result = approvalServiceImpl.updateProcessingPersonMoneybookApproval(personMoneybookApproval, seqs);

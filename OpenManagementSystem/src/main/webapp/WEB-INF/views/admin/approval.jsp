@@ -5,7 +5,7 @@
 
 <%@ include file="../include/include.jsp" %>
 
-<script type="text/javascript" src="/resources/js/service/received_approval.js"></script>
+<script type="text/javascript" src="/resources/js/admin/approval.js"></script>
 
 </head>
 
@@ -15,7 +15,7 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<div class="page-header-custom">
-			<span class="page-header-title-custom" style="margin-top: 10px;">결재 처리</span>
+			<span class="page-header-title-custom" style="margin-top: 10px;">결재 조회</span>
 			<span class="page-header-btn-write">
 				<button type="button" class="btn btn-default" id="insertOpenBtn">
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -44,14 +44,9 @@
 				</div>
 			</div>
 			
-			<div class="total-info" id="processingBtnArea" style="float: right; padding-bottom: 10px;">
-				<button type="button" class="btn btn-success" id="approvalCompletionBtn">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;결재
-				</button>
-				<button type="button" class="btn btn-danger" id="approvalReturnBtn">
-					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;&nbsp;반려
-				</button>
-			</div>
+<!-- 			<div class="total-info" id="processingBtnArea" style="float: right; padding-bottom: 10px;"> -->
+<!-- 				<span style="float: left; padding-bottom: 5px;">Total: <span id="totalCnt"></span> 건</span> -->
+<!-- 			</div> -->
 			
 			<table id="table"></table>
 		</div>
@@ -67,8 +62,12 @@
 						<span id="personMoneybookDetailTerm"></span>
 					</div>
 					<div class="modal-body">
-						<div>
-							<span id="personMoneybookDetailStatus"></span>
+						<span id="personMoneybookDetailStatus"></span>
+						<br><br>
+						<div id="excelDownArea">
+							<button class="btn btn-success btn-block" type="button" id="excelDownBtn">
+								<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;Excel Download
+							</button>
 						</div>
 						<div class="total-info">
 							<span style="float: left; padding-bottom: 5px;">Total: <span id="personMoneybookDetailTotalCnt"></span> 건&nbsp;&nbsp;</span>
@@ -86,29 +85,6 @@
 				</div>
 			</div>
 		</div><!-- personMoneybookDetailModal modal end -->
-		
-		<!-- sign modal start -->
-		<div id="signModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h5 class="modal-title">결재하기</h5>
-					</div>
-					<div class="modal-body center">
-						<canvas id="signCanvas" width="300" height="200" style="border: 1px solid black;"></canvas>
-						<br>
-						<span>&lt; 서명 &gt;</span>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" id="approvalCompletionReqBtn">
-							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;확인
-						</button>
-					</div>
-				</div>
-			</div>
-		</div><!-- sign modal end -->
 	</div>
 	
 	<%@ include file="../include/footer.jsp" %>

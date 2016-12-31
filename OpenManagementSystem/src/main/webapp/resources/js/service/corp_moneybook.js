@@ -183,7 +183,7 @@ function insertMoneybook() {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
 			if (data.result === OK) {
-				reCreateTable();
+				refreshTable();
 				$('#insertModal').modal('hide');
 			}
 			else {
@@ -239,7 +239,7 @@ function updateMoneybook() {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
 			if (data.result === OK) {
-				reCreateTable();
+				refreshTable();
 				$('#updateModal').modal('hide');
 			}
 			else {
@@ -270,7 +270,7 @@ function deleteMoneybook() {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
 			if (data.result === OK) {
-				reCreateTable();
+				refreshTable();
 				$('#updateModal').modal('hide');
 			}
 			else {
@@ -328,20 +328,18 @@ function inquiry(tableType) {
 	$('#excelDownArea').show();
 	$('#totalInfoArea').show();
 	
-	if (typeof table == 'undefined' || table == null)
+	if (typeof table === 'undefined' || table === null)
 		createTable();
 	else
-		reCreateTable();
+		refreshTable();
 }
 
 /**
- * 테이블 제거 후 생성
+ * 테이블 refresh
  */
-function reCreateTable() {
-	if (typeof table != 'undefined' || table != null) {
-		table.bootstrapTable('destroy');
-		createTable();
-	}
+function refreshTable() {
+	if (typeof table !== 'undefined' && table !== null)
+		table.bootstrapTable('refresh');
 }
 
 /**
@@ -384,15 +382,7 @@ function createTable() {
 			$('#payment').html(numberFormat(totalPrice));
 			$('#balance').html(numberFormat(data.corpCardLimit - totalPrice)); // 자신의 한도 - 총 결제액
 		},
-		onLoadError: function(status, res) {
-			if (status == 401 || status == 403) {
-				alert('Session이 만료되었거나 잘못된 접근입니다.');
-				location.href = '/out';
-			}
-			else {
-				alert("예외가 발생했습니다. 관리자에게 문의하세요.");
-			}
-		},
+		onLoadError: btOnLoadErrorHandler,
 		columns: [{
 			field: 'no',
 			title: 'No',

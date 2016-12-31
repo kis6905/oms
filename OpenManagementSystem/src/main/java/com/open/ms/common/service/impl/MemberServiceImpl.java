@@ -56,6 +56,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	/**
+	 * 멤버 정보 리턴
+	 */
+	@Override
+	public Member getMemberOfId(String memberId) {
+		return memberMapper.getMemberOfId(memberId);
+	}
+	
+	/**
 	 * ID 중복 확인
 	 * 
 	 * @return true = 사용가능, false = 중복
@@ -163,5 +171,5 @@ public class MemberServiceImpl implements MemberService {
 	public List<Member> getSignRoleMemberList() throws Exception {
 		return memberMapper.getSignRoleMemberList();
 	}
-	
+
 }

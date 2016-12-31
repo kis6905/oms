@@ -5,7 +5,7 @@
     
 <mapper namespace="com.open.ms.service.mapper.PersonMoneybookApprovalMapper">
 
-    <select id="getSentApprovalList" parameterType="Map" resultType="com.open.ms.service.vo.PersonMoneybookApproval">
+	<select id="getApprovalList" parameterType="Map" resultType="com.open.ms.service.vo.PersonMoneybookApproval">
 		SELECT
 			`no`,
 			seq,
@@ -44,14 +44,19 @@
                          PMA.title,
                          PMA.statusCodeGroup,
                          PMA.statusCode,
-                         PMA.startDate,
-                         PMA.endDate,
+                         DATE_FORMAT(PMA.startDate, '%Y-%m-%d') AS startDate,
+                         DATE_FORMAT(PMA.endDate, '%Y-%m-%d') AS endDate,
                          DATE_FORMAT(PMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
 					     DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
 				      FROM oms_person_moneybook_approval PMA, oms_member M, oms_member M2
 				      WHERE  PMA.sentMemberId = M.memberId
 				        AND PMA.receivedMemberId = M2.memberId
-				        AND PMA.sentMemberId = #{sentMemberId}
+				        <if test="sentMemberId != null">
+				        	AND PMA.sentMemberId = #{sentMemberId}
+				        </if>
+				        <if test="receivedMemberId != null">
+				        	AND PMA.receivedMemberId = #{receivedMemberId}
+				        </if>
 				        <if test="statusCode != null">
 				        	AND PMA.statusCode = #{statusCode}
 				        </if>
@@ -62,85 +67,45 @@
 		WHERE `no` BETWEEN #{start} AND #{end}
     </select>
     
-    <select id="getSentApprovalListTotalCnt" parameterType="Map" resultType="Integer">
+	<select id="getApprovalListTotalCnt" parameterType="Map" resultType="Integer">
     	SELECT
     		COUNT(seq) AS totalCnt
 		FROM oms_person_moneybook_approval
-		WHERE sentMemberId = #{sentMemberId}
+		WHERE 1 = 1
+		  <if test="sentMemberId != null">
+			  AND sentMemberId = #{sentMemberId}
+		  </if>
+		  <if test="receivedMemberId != null">
+			  AND receivedMemberId = #{receivedMemberId}
+		  </if>
 		  <if test="statusCode != null">
 			  AND statusCode = #{statusCode}
 		  </if>
 		  AND DATE_FORMAT(registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
     </select>
     
-	<select id="getReceivedApprovalList" parameterType="Map" resultType="com.open.ms.service.vo.PersonMoneybookApproval">
+    <select id="getApprovalOfSeq" parameterType="String" resultType="com.open.ms.service.vo.PersonMoneybookApproval">
 		SELECT
-			`no`,
-			seq,
-			sentMemberId,
-		    sentMemberName,
-            receivedMemberId,
-            receivedMemberName,
-            title,
-            statusCodeGroup,
-            statusCode,
-            startDate,
-            endDate,
-            completedDate,
-			registeredDate
-		FROM ( SELECT
-				  @ROWNUM := @ROWNUM + 1 AS `no`,
-				  seq,
-				  sentMemberId,
-				  sentMemberName,
-                  receivedMemberId,
-                  receivedMemberName,
-                  title,
-                  statusCodeGroup,
-                  statusCode,
-                  startDate,
-                  endDate,
-                  completedDate,
-				  registeredDate
-			   FROM ( SELECT @ROWNUM := 0 AS `no`) R,
-				    ( SELECT
-					     PMA.seq,
-					     PMA.sentMemberId,
-					     M.memberName AS sentMemberName,
-                         PMA.receivedMemberId,
-                         M2.memberName AS receivedMemberName,
-                         PMA.title,
-                         PMA.statusCodeGroup,
-                         PMA.statusCode,
-                         PMA.startDate,
-                         PMA.endDate,
-                         DATE_FORMAT(PMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
-					     DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
-				      FROM oms_person_moneybook_approval PMA, oms_member M, oms_member M2
-				      WHERE PMA.sentMemberId = M.memberId
-				        AND PMA.receivedMemberId = M2.memberId
-				        AND PMA.receivedMemberId = #{receivedMemberId}
-				        <if test="statusCode != null">
-				        	AND PMA.statusCode = #{statusCode}
-				        </if>
-					    AND DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
-				      ORDER BY PMA.${sort} ${order}
-					) T
-			  ) T1
-		WHERE `no` BETWEEN #{start} AND #{end}
+			PMA.seq,
+			PMA.sentMemberId,
+			M.memberName AS sentMemberName,
+			CONVERT(PMA.sentMemberSign USING utf8) AS sentMemberSign,
+			PMA.receivedMemberId,
+			M2.memberName AS receivedMemberName,
+			CONVERT(PMA.receivedMemberSign USING utf8) AS receivedMemberSign,
+			PMA.title,
+			PMA.statusCodeGroup,
+			PMA.statusCode,
+			DATE_FORMAT(PMA.startDate, '%Y-%m-%d') AS startDate,
+			DATE_FORMAT(PMA.endDate, '%Y-%m-%d') AS endDate,
+			DATE_FORMAT(PMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
+			DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
+      FROM oms_person_moneybook_approval PMA, oms_member M, oms_member M2
+      WHERE  PMA.sentMemberId = M.memberId
+        AND PMA.receivedMemberId = M2.memberId
+        AND PMA.seq = #{seq}
     </select>
-    
-    <select id="getReceivedApprovalListTotalCnt" parameterType="Map" resultType="Integer">
-    	SELECT
-    		COUNT(seq) AS totalCnt
-		FROM oms_person_moneybook_approval
-		WHERE receivedMemberId = #{receivedMemberId}
-		  <if test="statusCode != null">
-			  AND statusCode = #{statusCode}
-		  </if>
-		  AND DATE_FORMAT(registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
-    </select>
-    
+
     <insert id="insertPersonMoneybookApproval" parameterType="com.open.ms.service.vo.PersonMoneybookApproval">
 		INSERT INTO `oms_person_moneybook_approval` (
 			`seq`,
@@ -183,7 +148,12 @@
 			<foreach collection="seqs" item="seq" open="(" separator="," close=")">
 				#{seq}
 			</foreach>
-		  AND receivedMemberId = #{vo.receivedMemberId}
+		  <if test="vo.sentMemberId != null">
+		  	AND sentMemberId = #{vo.sentMemberId}
+		  </if>
+		  <if test="vo.receivedMemberId != null">
+		  	AND receivedMemberId = #{vo.receivedMemberId}
+		  </if>
 	</update>
 	
 	<delete id="deletePersonMoneybookApproval" parameterType="com.open.ms.service.vo.PersonMoneybookApproval">

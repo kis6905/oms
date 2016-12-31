@@ -69,7 +69,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">사용내역 등록</h4>
+						<h5 class="modal-title">사용내역 등록</h5>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="insertForm">
@@ -139,7 +139,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">사용내역 상세 및 수정</h4>
+						<h5 class="modal-title">사용내역 상세 및 수정</h5>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="insertForm">
@@ -230,10 +230,12 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">서명</h4>
+					<h5 class="modal-title">서명</h5>
 				</div>
 				<div class="modal-body center">
 					<canvas id="signCanvas" width="300" height="200" style="border: 1px solid black;"></canvas>
+					<br>
+					<span>&lt; 서명 &gt;</span>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" id="excelDownBtn">

@@ -61,10 +61,9 @@ public class MemberController {
 			@RequestBody String body,
 			HttpServletRequest request) {
 		
-		JSONObject jsonResult = new JSONObject();
-		
 		logger.info("-> [body = {}]", body);
 		
+		JSONObject jsonResult = new JSONObject();
 		JSONParser jsonParser = new JSONParser();
 		
 		try {
