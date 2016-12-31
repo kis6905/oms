@@ -56,7 +56,7 @@
     <select id="getPersonMoneybookListTotalCntAndPrice" parameterType="Map" resultMap="totalMap">
     	SELECT
     		COUNT(seq) AS totalCnt,
-    		SUM(price) AS totalPrice
+    		IF(SUM(price) IS NULL, 0, SUM(price)) AS totalPrice
 		FROM oms_person_moneybook
 		WHERE memberId = #{memberId}
 		  AND usedDate BETWEEN #{startDate} AND #{endDate}
