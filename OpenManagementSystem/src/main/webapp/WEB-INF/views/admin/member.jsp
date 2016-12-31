@@ -35,7 +35,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">회원 등록</h4>
+						<h5 class="modal-title">회원 등록</h5>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="insertForm">
@@ -112,7 +112,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">회원 수정</h4>
+						<h5 class="modal-title">회원 수정</h5>
 					</div>
 					<div class="modal-body">
 						<form class="form-horizontal" id="updateForm">
