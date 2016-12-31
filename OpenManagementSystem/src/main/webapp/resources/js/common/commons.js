@@ -140,6 +140,17 @@ var titleFormatter = function(data) {
 	return result;
 };
 
+//등급 포매터
+var gradeFormatter = function(value, row, index) {
+	switch (row.gradeCode) {
+		case 1001:
+			return 'Admin';
+		case 1002:
+		default:
+			return 'User';
+	}
+};
+
 // 날짜 포매터
 var dateFormatter = function(data) {
 	return data.substring(0, 10);
