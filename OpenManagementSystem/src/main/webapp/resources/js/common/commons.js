@@ -186,22 +186,30 @@ var btOnLoadErrorHandler = function(status, res) {
 /****************************************************
  * 공통으로 사용되는 Ajax 호출 function
  ****************************************************/
-function callAjax(url, data, success) {
-	$.ajax({
-		url: url,
-		method: 'post',
-		dataType: 'json',
-		data: data,
-		success: success,
-		error: function(xhr, stats, errorThrown) {
-			$('#loadingDialog').modal('hide');
-			if (xhr.status === 401 || xhr.status === 403) {
-				alert('Session이 만료되었거나 잘못된 접근입니다.');
-				location.href = '/out';
-			}
-			else {
-				alert("예외가 발생했습니다. 관리자에게 문의하세요.");
-			}
-		}
-	});
+function callAjax(url, data, success, mulitipart) {
+	var option = {
+			url: url,
+			method: 'post',
+			dataType: 'json',
+			data: data,
+			success: success,
+			error: function(xhr, stats, errorThrown) {
+				$('#loadingDialog').modal('hide');
+				if (xhr.status === 401 || xhr.status === 403) {
+					alert('Session이 만료되었거나 잘못된 접근입니다.');
+					location.href = '/out';
+				}
+				else {
+					alert("예외가 발생했습니다. 관리자에게 문의하세요.");
+				}
+			}	
+		};
+	
+	if (mulitipart) {
+		delete option.dataType;
+		option['contentType'] = false;
+		option['processData'] = false;
+	}
+	
+	$.ajax(option);
 }

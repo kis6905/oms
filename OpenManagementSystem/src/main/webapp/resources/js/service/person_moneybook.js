@@ -149,7 +149,7 @@ function openSignModal() {
  */
 function getApprovalRoleMemberList() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
-		if (data.result === OK) {
+		if (data.result == OK) {
 			setApprovalRoleMemberList(data.approvalRoleMemberList);
 		}
 		else {
@@ -179,12 +179,15 @@ function setApprovalRoleMemberList(signRoleMemberList) {
  * 등록 
  */
 function insertMoneybook() {
+	$('#loadingDialog').modal();
+	
 	var usedDate = $('#iUsedDate').val();
 	var summary = $('#iSummary').val();
 	var price = $('#iPrice').val();
 	var note = $('#iNote').val();
+	var receipt = $('#iReceipt')[0].files[0];
 	
-	if (usedDate === null || summary === null || price === null || note === null ||
+	if (usedDate === null || summary === null || price === null || note === null || !receipt ||
 			usedDate === '' || summary === '' || price === '' || note === '') {
 		alert('입력정보를 확인하세요!');
 		return false;
@@ -202,38 +205,54 @@ function insertMoneybook() {
 		return false;
 	}
 	
-	var data = {
-		usedDate: usedDate,
-		summary: summary,
-		price: price,
-		note: note
-	};
-	var callbackSuccess = function(data, textStatus, jqXHR) {
-		setTimeout(function() {
-			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
-				refreshTable();
-				$('#insertModal').modal('hide');
-			}
-			else {
-				alert('등록이 실패했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
-			}
-		}, 800);
-	};
-	
-	$('#loadingDialog').modal();
-	callAjax('/service/person/moneybook/insert', data, callbackSuccess);
+	// 영수증 resize
+	var img = document.createElement("img");
+	var receiptData = '';
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		
+		img.src = e.target.result;
+		img.onload = function () {
+			receiptData = getResizedReceiptData(img);
+			
+			// 영수증 resize 작업이 끝난 후에 등록 요청
+			var data = {
+					usedDate: usedDate,
+					summary: summary,
+					price: price,
+					note: note,
+					receipt: receiptData
+			};
+			var callbackSuccess = function(data, textStatus, jqXHR) {
+				setTimeout(function() {
+					$('#loadingDialog').modal('hide');
+					if (data.result == OK) {
+						refreshTable();
+						$('#insertModal').modal('hide');
+					}
+					else {
+						alert('등록이 실패했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
+					}
+				}, 800);
+			};
+			callAjax('/service/person/moneybook/insert', data, callbackSuccess);
+        }
+	}
+	reader.readAsDataURL(receipt);
 }
 
 /**
  * 수정
  */
 function updateMoneybook() {
+	$('#loadingDialog').modal();
+	
 	var seq = $('#uSeq').val();
 	var usedDate = $('#uUsedDate').val();
 	var summary = $('#uSummary').val();
 	var price = $('#uPrice').val();
 	var note = $('#uNote').val();
+	var receipt = $('#uReceipt')[0].files[0];
 	
 	if (seq === null || usedDate === null || summary === null || price === null || note === null ||
 			seq === '' || usedDate === '' || summary === '' || price === '' || note === '') {
@@ -254,16 +273,36 @@ function updateMoneybook() {
 	}
 	
 	var data = {
-		seq: seq,
-		usedDate: usedDate,
-		summary: summary,
-		price: price,
-		note: note
+			seq: seq,
+			usedDate: usedDate,
+			summary: summary,
+			price: price,
+			note: note
 	};
+	
+	if (receipt) {
+		// 영수증 resize
+		var img = document.createElement("img");
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			img.src = e.target.result;
+			img.onload = function () {
+				data['receipt'] = getResizedReceiptData(img);
+				updateProcess(data);
+	        }
+		}
+		reader.readAsDataURL(receipt);
+	}
+	else {
+		updateProcess(data);
+	}
+}
+
+function updateProcess(data) {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				refreshTable();
 				$('#updateModal').modal('hide');
 			}
@@ -272,8 +311,6 @@ function updateMoneybook() {
 			}
 		}, 800);
 	};
-	
-	$('#loadingDialog').modal();
 	callAjax('/service/person/moneybook/update', data, callbackSuccess);
 }
 
@@ -294,7 +331,7 @@ function deleteMoneybook() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				refreshTable();
 				$('#updateModal').modal('hide');
 			}
@@ -316,6 +353,8 @@ function openInsertModal() {
 	$('#iSummary').val('');
 	$('#iPrice').val('');
 	$('#iNote').val('');
+	$('#iReceipt').val('');
+	$('.file-text').val('');
 	$('#insertModal').modal();
 }
 
@@ -328,8 +367,12 @@ function openUpdateModal(row) {
 	$('#uSummary').val(row.summary);
 	$('#uPrice').val(row.price);
 	$('#uNote').val(row.note);
+	$('#uReceipt').val('');
+	$('.file-text').val('');
 	$('#uRegisteredDate').val(row.registeredDate);
 	$('#uModifiedDate').val(row.modifiedDate);
+	if (row.receiptPath !== null && row.receiptPath !== '')
+		$('#uReceiptPath').html('&nbsp;&nbsp;&nbsp;<span style="font-size: 12px; color: blue;" onclick="javascript: window.open(\'' + row.receiptPath + '\', \'_blank\');">&lt;현재 영수증 보기 Click!&gt;</span>');
 	$('#updateModal').modal();
 }
 
@@ -472,7 +515,7 @@ function requestSign() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				alert('결재를 올렸습니다. 결재가 완료되면 자동으로 제출됩니다.');
 				$('#signModal').modal('hide');
 			}
@@ -484,4 +527,38 @@ function requestSign() {
 	
 	$('#loadingDialog').modal();
 	callAjax('/service/person/moneybook/approval/request', data, callbackSuccess);
+}
+
+/**
+ * 업로드된 이미지를 resize 하여 binary base64 문자열로 리턴한다.
+ */
+function getResizedReceiptData(img) {
+	var receiptCanvas = document.createElement("canvas");
+	var receiptCtx = receiptCanvas.getContext("2d");
+	receiptCtx.drawImage(img, 0, 0);
+	
+	// 800x600 정도면 원본 사진의 글씨를 볼 수 있는 정도다.
+	var MAX_WIDTH = 800;
+	var MAX_HEIGHT = 600;
+	var width = img.width;
+	var height = img.height;
+	
+	if (width > height) {
+		if (width > MAX_WIDTH) {
+			height *= MAX_WIDTH / width;
+			width = MAX_WIDTH;
+		}
+	}
+	else {
+		if (height > MAX_HEIGHT) {
+			width *= MAX_HEIGHT / height;
+			height = MAX_HEIGHT;
+		}
+	}
+	receiptCanvas.width = width;
+	receiptCanvas.height = height;
+	var ctx = receiptCanvas.getContext("2d");
+	receiptCtx.drawImage(img, 0, 0, width, height);
+
+	return receiptCanvas.toDataURL("image/png");
 }

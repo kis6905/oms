@@ -24,5 +24,5 @@ public interface MemberService {
 	boolean updateMember(Member member) throws Exception;
 	boolean deleteMember(Member member) throws Exception;
 	
-	List<Member> getSignRoleMemberList() throws Exception;
+	List<Member> getHadApprovalRoleMemberList() throws Exception;
 }

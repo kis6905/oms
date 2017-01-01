@@ -31,6 +31,10 @@
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<beans:property name="maxUploadSize" value="50000000"/>
+	</beans:bean>
+	
 	<!-- Set excel down view -->
 	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<beans:property name="order" value="0" />

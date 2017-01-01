@@ -164,7 +164,7 @@ function processingApproval(isApproval) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
 			
-			if (data.result === OK) {
+			if (data.result == OK) {
 				if (isApproval)
 					alert('처리되었습니다. 결재 내용은 자동으로 제출됩니다.');
 				else

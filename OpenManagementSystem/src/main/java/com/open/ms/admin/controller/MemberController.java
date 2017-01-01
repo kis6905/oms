@@ -114,11 +114,11 @@ public class MemberController {
 		logger.info("-> [roles = {}]", roles == null ? null : roles.length);
 		
 		JSONObject jsonResult = new JSONObject();
-		int result = Constants.NOT_OK;
+		int result = Constants.RESULT_NOT_OK;
 		
 		try {
 			if (memberId.isEmpty() || password.isEmpty() || memberName.isEmpty() || gradeCode.isEmpty() || corpCardLimit.isEmpty()) {
-				result = Constants.NOT_OK;
+				result = Constants.RESULT_NOT_OK;
 			}
 			else {
 				Member member = new Member();
@@ -139,7 +139,7 @@ public class MemberController {
 				}
 				member.setRoleList(roleList);
 				
-				result = memberServiceImpl.insertMember(member) ? Constants.OK : Constants.NOT_OK;
+				result = memberServiceImpl.insertMember(member) ? Constants.RESULT_OK : Constants.RESULT_NOT_OK;
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -172,11 +172,11 @@ public class MemberController {
 		logger.info("-> [roles = {}]", roles == null ? null : roles.length);
 		
 		JSONObject jsonResult = new JSONObject();
-		int result = Constants.NOT_OK;
+		int result = Constants.RESULT_NOT_OK;
 		
 		try {
 			if (memberId.isEmpty() || memberName.isEmpty() || gradeCode.isEmpty() || corpCardLimit.isEmpty()) {
-				result = Constants.NOT_OK;
+				result = Constants.RESULT_NOT_OK;
 			}
 			else {
 				Member member = new Member();
@@ -197,7 +197,7 @@ public class MemberController {
 				}
 				member.setRoleList(roleList);
 				
-				result = memberServiceImpl.updateMember(member) ? Constants.OK : Constants.NOT_OK;
+				result = memberServiceImpl.updateMember(member) ? Constants.RESULT_OK : Constants.RESULT_NOT_OK;
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -223,17 +223,17 @@ public class MemberController {
 		logger.info("-> [memberId = {}]", memberId);
 		
 		JSONObject jsonResult = new JSONObject();
-		int result = Constants.NOT_OK;
+		int result = Constants.RESULT_NOT_OK;
 		
 		try {
 			if (memberId.isEmpty()) {
-				result = Constants.NOT_OK;
+				result = Constants.RESULT_NOT_OK;
 			}
 			else {
 				Member member = new Member();
 				member.setMemberId(memberId);
 				
-				result = memberServiceImpl.deleteMember(member) ? Constants.OK : Constants.NOT_OK;
+				result = memberServiceImpl.deleteMember(member) ? Constants.RESULT_OK : Constants.RESULT_NOT_OK;
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -287,9 +287,9 @@ public class MemberController {
 		
 		JSONObject resultJson = new JSONObject();
 		
-		int result = Constants.NOT_OK;
+		int result = Constants.RESULT_NOT_OK;
 		try {
-			result = memberServiceImpl.checkId(memberId) ? Constants.OK : Constants.NOT_OK;
+			result = memberServiceImpl.checkId(memberId) ? Constants.RESULT_OK : Constants.RESULT_NOT_OK;
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred!]", e);
 			result = Constants.COMMON_SERVER_ERROR;

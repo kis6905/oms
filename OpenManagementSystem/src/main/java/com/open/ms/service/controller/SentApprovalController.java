@@ -124,11 +124,11 @@ public class SentApprovalController {
 		
 		try {
 			if (seqs.length == 0 || statusCode.isEmpty() || memberId.isEmpty()) {
-				jsonResult.put("result", Constants.NOT_OK);
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			// 변경할 상태 코드가 철회가 아니면 잘못된 요청이다.
 			else if (Integer.parseInt(statusCode) != Codes.APPROVAL_STATUS_CODE_CANCEL) {
-				jsonResult.put("result", Constants.NOT_OK);
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
 				PersonMoneybookApproval personMoneybookApproval = new PersonMoneybookApproval();
@@ -136,7 +136,7 @@ public class SentApprovalController {
 				personMoneybookApproval.setStatusCode(Integer.parseInt(statusCode));
 				
 				boolean result = approvalServiceImpl.updateProcessingPersonMoneybookApproval(personMoneybookApproval, seqs);
-				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
+				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);

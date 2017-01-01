@@ -4,39 +4,52 @@ $(document).ready(function() {
 });
 
 function getServiceList() {
-	var data = {};
-	
 	var callbackSuccess = function(data, textStatus, jqXHR) {
-		var sliderHtml = '';
-		var iconHtml = '';
-		
-		var omsServiceList = data.omsServiceList;
-		
-		for (var inx = 0; inx < omsServiceList.length; inx++) {
-			var omsService = omsServiceList[inx];
+		if (data.result == OK) {
+			var sliderHtml = '';
+			var iconHtml = '';
 			
-			sliderHtml += '<li style="background-image: url(\'/resources/images/' + omsService.sliderImage + '\'); background-size: 100%;" onclick="location.href=\'' + omsService.pageUrl + '\'">';
-			sliderHtml += '<br><br><span style="font-size: 25px;">' + omsService.title + '</span><br><br>';
-			sliderHtml += '<span style="font-size: 15px; margin: 0 5px 0 5px;">' + omsService.description + '</span>';
-			sliderHtml += '</li>';
+			var omsServiceList = data.omsServiceList;
 			
-			iconHtml += '<div id="iconArea" class="col-xs-4 col-sm-3"><span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
+			for (var inx = 0; inx < omsServiceList.length; inx++) {
+				var omsService = omsServiceList[inx];
+				
+				sliderHtml += '<li style="background-image: url(\'/resources/images/' + omsService.sliderImage + '\'); background-size: 100%;" onclick="location.href=\'' + omsService.pageUrl + '\'">';
+				sliderHtml += '<br><br><span style="font-size: 25px;">' + omsService.title + '</span><br><br>';
+				sliderHtml += '<span style="font-size: 15px; margin: 0 5px 0 5px;">' + omsService.description + '</span>';
+				sliderHtml += '</li>';
+				
+				var iconImage = '';
+				if (omsService.serviceId == 5) {
+					iconImage = omsService.iconImage;
+					if (data.receivedApprovalCnt > 0) {
+						var imageSplit = omsService.iconImage.split('.');
+						iconImage = imageSplit[0] + '_n.' + imageSplit[1];
+					}
+				}
+				else
+					iconImage = omsService.iconImage;
+				
+				iconHtml += '<div id="iconArea" class="col-xs-4 col-sm-3"><span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
+				
+//				iconHtml += '<div id="iconArea" class="col-xs-4 col-sm-3">';
+//				iconHtml += '<div class="panel panel-default">';
+//				iconHtml += '<div class="panel-body">';
+//				iconHtml += '<span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
+//				iconHtml += '</div>';
+//				iconHtml += '</div>';
+			}
 			
-//			iconHtml += '<div id="iconArea" class="col-xs-4 col-sm-3">';
-//			iconHtml += '<div class="panel panel-default">';
-//			iconHtml += '<div class="panel-body">';
-//			iconHtml += '<span id="iconClickArea" onclick="location.href=\'' + omsService.pageUrl + '\'"><img src="/resources/images/' + omsService.iconImage + '" width="50" style="margin-bottom: 10px;"><br>' + omsService.title + '</span></div>';
-//			iconHtml += '</div>';
-//			iconHtml += '</div>';
+			$('#sliderServiceItemArea').html(sliderHtml);
+			$('#serviceIconRow').html(iconHtml);
+			
+			createSlider();
 		}
-		
-		$('#sliderServiceItemArea').html(sliderHtml);
-		$('#serviceIconRow').html(iconHtml);
-		
-		createSlider();
+		else {
+			alert('메뉴를 가져오지 못했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
+		}
 	};
-	
-	callAjax('/service/list', data, callbackSuccess);
+	callAjax('/service/list', {}, callbackSuccess);
 }
 
 function createSlider() {

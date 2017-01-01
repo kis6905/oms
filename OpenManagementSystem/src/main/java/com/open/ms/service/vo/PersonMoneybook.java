@@ -17,6 +17,7 @@ public class PersonMoneybook extends CommonVo {
 	private Integer price = null;
 	private String summary = null; 	// 적요
 	private String note = null;		// 비고
+	private String receiptPath = null;
 	
 	public Integer getNo() {
 		return no;
@@ -82,6 +83,14 @@ public class PersonMoneybook extends CommonVo {
 		this.note = note;
 	}
 
+	public String getReceiptPath() {
+		return receiptPath;
+	}
+
+	public void setReceiptPath(String receiptPath) {
+		this.receiptPath = receiptPath;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject toJSONObject() {
@@ -94,6 +103,7 @@ public class PersonMoneybook extends CommonVo {
 		jsonResult.put("usedPlace", usedPlace);
 		jsonResult.put("price", price);
 		jsonResult.put("note", note);
+		jsonResult.put("receiptPath", receiptPath);
 		jsonResult.put("registeredDate", getRegisteredDate());
 		jsonResult.put("modifiedDate", getModifiedDate());
 		return jsonResult;
@@ -102,7 +112,8 @@ public class PersonMoneybook extends CommonVo {
 	@Override
 	public String toString() {
 		return "PersonMoneybook [no=" + no + ", seq=" + seq + ", memberId=" + memberId + ", usedDate=" + usedDate
-				+ ", usedPlace=" + usedPlace + ", price=" + price + ", summary=" + summary + ", note=" + note + "]";
+				+ ", usedPlace=" + usedPlace + ", price=" + price + ", summary=" + summary + ", note=" + note
+				+ ", receiptPath=" + receiptPath + "]";
 	}
 	
 }

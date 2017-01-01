@@ -182,7 +182,7 @@ function insertMoneybook() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				refreshTable();
 				$('#insertModal').modal('hide');
 			}
@@ -238,7 +238,7 @@ function updateMoneybook() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				refreshTable();
 				$('#updateModal').modal('hide');
 			}
@@ -269,7 +269,7 @@ function deleteMoneybook() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				refreshTable();
 				$('#updateModal').modal('hide');
 			}

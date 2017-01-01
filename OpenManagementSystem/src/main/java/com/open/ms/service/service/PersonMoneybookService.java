@@ -15,8 +15,8 @@ public interface PersonMoneybookService {
 	
 	List<PersonMoneybook> getPersonMoneybookList(String memberId, String startDate, String endDate, long offset, long limit, String sort, String order) throws Exception;
 	Map<String, Object> getPersonMoneybookListTotalCntAndPrice(String memberId, String startDate, String endDate) throws Exception;
-	boolean insertPersonMoneybook(PersonMoneybook personMoneybook) throws Exception;
-	boolean updatePersonMoneybook(PersonMoneybook personMoneybook) throws Exception;
-	boolean deletePersonMoneybook(PersonMoneybook personMoneybook) throws Exception;
+	boolean insertPersonMoneybook(PersonMoneybook personMoneybook, String receipt, String realPath) throws Exception;
+	boolean updatePersonMoneybook(PersonMoneybook personMoneybook, String receipt, String realPath) throws Exception;
+	boolean deletePersonMoneybook(PersonMoneybook personMoneybook, String realPath) throws Exception;
 	
 }

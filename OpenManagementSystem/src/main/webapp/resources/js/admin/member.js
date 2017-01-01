@@ -107,7 +107,7 @@ function checkId() {
 	var data = { memberId: memberId };
 	
 	var callbackSuccess = function(data, textStatus, jqXHR) {
-		if (data.result === OK) {
+		if (data.result == OK) {
 			checkedId = true;
 			alert('사용 가능한 ID 입니다.');
 		}
@@ -162,7 +162,7 @@ function insertMember() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				reCreateTable();
 				$('#insertModal').modal('hide');
 			}
@@ -213,7 +213,7 @@ function updateMember() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				reCreateTable();
 				$('#updateModal').modal('hide');
 			}
@@ -244,7 +244,7 @@ function deleteMember() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				reCreateTable();
 				$('#updateModal').modal('hide');
 			}

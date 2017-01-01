@@ -54,10 +54,10 @@ public class MyInfoController {
 		logger.info("-> [member = {}]", member.toString());
 		
 		JSONObject jsonResult = new JSONObject();
-		int result = Constants.NOT_OK;
+		int result = Constants.RESULT_NOT_OK;
 		
 		try {
-			result = Constants.OK;
+			result = Constants.RESULT_OK;
 			jsonResult.put("member", member.toJSONObject());
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -92,11 +92,11 @@ public class MyInfoController {
 				new Object[] { memberId, password, memberName, corpCardLimit });
 		
 		JSONObject jsonResult = new JSONObject();
-		int result = Constants.NOT_OK;
+		int result = Constants.RESULT_NOT_OK;
 		
 		try {
 			if (memberId.isEmpty() || memberName.isEmpty() || corpCardLimit.isEmpty()) {
-				result = Constants.NOT_OK;
+				result = Constants.RESULT_NOT_OK;
 			}
 			else {
 				Member member = new Member();
@@ -105,10 +105,10 @@ public class MyInfoController {
 				member.setMemberName(memberName);
 				member.setCorpCardLimit(Integer.parseInt(corpCardLimit));
 				
-				result = myInfoServiceImpl.updateMyInfo(member) ? Constants.OK : Constants.NOT_OK;
+				result = myInfoServiceImpl.updateMyInfo(member) ? Constants.RESULT_OK : Constants.RESULT_NOT_OK;
 				
 				// update가 성공이면 session에 있는 member 객체도 바꿔준다.
-				if (result == Constants.OK) {
+				if (result == Constants.RESULT_OK) {
 					sessionMember.setMemberName(memberName);
 					sessionMember.setCorpCardLimit(Integer.parseInt(corpCardLimit));
 					session.setAttribute("MEMBER", sessionMember);

@@ -137,7 +137,7 @@ public class CorpMoneybookController {
 		try {
 			if (usedDate.isEmpty() || usedPlace.isEmpty() || category.isEmpty() || customer.isEmpty() ||
 					price.isEmpty() || note.isEmpty() || memberId.isEmpty()) {
-				jsonResult.put("result", Constants.NOT_OK);
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
 				CorpMoneybook corpMoneybook = new CorpMoneybook();
@@ -150,7 +150,7 @@ public class CorpMoneybookController {
 				corpMoneybook.setMemberId(member.getMemberId());
 				
 				boolean result = corpMoneybookServiceImpl.insertCorpMoneybook(corpMoneybook);
-				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
+				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -187,7 +187,7 @@ public class CorpMoneybookController {
 		
 		try {
 			if (seq.isEmpty() || usedDate.isEmpty() || usedPlace.isEmpty() || price.isEmpty() || note.isEmpty() || memberId.isEmpty()) {
-				jsonResult.put("result", Constants.NOT_OK);
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
 				CorpMoneybook corpMoneybook = new CorpMoneybook();
@@ -201,7 +201,7 @@ public class CorpMoneybookController {
 				corpMoneybook.setMemberId(member.getMemberId());
 				
 				boolean result = corpMoneybookServiceImpl.updateCorpMoneybook(corpMoneybook);
-				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
+				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -232,7 +232,7 @@ public class CorpMoneybookController {
 		
 		try {
 			if (seq.isEmpty() || memberId.isEmpty()) {
-				jsonResult.put("result", Constants.NOT_OK);
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
 				CorpMoneybook corpMoneybook = new CorpMoneybook();
@@ -240,7 +240,7 @@ public class CorpMoneybookController {
 				corpMoneybook.setMemberId(member.getMemberId());
 				
 				boolean result = corpMoneybookServiceImpl.deleteCorpMoneybook(corpMoneybook);
-				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
+				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);

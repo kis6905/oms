@@ -75,7 +75,7 @@ function processingApproval() {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
 			
-			if (data.result === OK) {
+			if (data.result == OK) {
 				alert('처리되었습니다.');
 				refreshTable();
 			}

@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 function getMyInfo() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
-		if (data.result === OK) {
+		if (data.result == OK) {
 			setMyInfoHtml(data.member);
 			setRoleListHtml(data.member.roleList);
 		}
@@ -83,7 +83,7 @@ function updateMyInfo() {
 	var callbackSuccess = function(data, textStatus, jqXHR) {
 		setTimeout(function() {
 			$('#loadingDialog').modal('hide');
-			if (data.result === OK) {
+			if (data.result == OK) {
 				alert('수정 되었습니다.');
 				location.href = '/main';
 			}

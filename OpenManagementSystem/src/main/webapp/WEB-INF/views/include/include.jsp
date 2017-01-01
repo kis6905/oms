@@ -29,6 +29,7 @@
 	<script type="text/javascript" src="/resources/js/common/commons.js"></script>
 	<script type="text/javascript" src="/resources/js/libs/bootstrap.min.js"></script>
 	<script type="text/javascript" src="/resources/js/libs/bootstrap-table-1.11.0.js"></script>
+	<script type="text/javascript" src="/resources/js/libs/bootstrap-filestyle.js"></script>
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="/resources/js/libs/ie10-viewport-bug-workaround.js"></script>

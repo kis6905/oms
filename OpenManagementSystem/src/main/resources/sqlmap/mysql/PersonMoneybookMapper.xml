@@ -19,6 +19,7 @@
 			usedPlace,
 			price,
 			note,
+			receiptPath,
 			memberId,
 			registeredDate,
 			modifiedDate
@@ -30,6 +31,7 @@
 				  usedPlace,
 				  price,
 				  note,
+				  receiptPath,
 				  memberId,
 				  registeredDate,
 				  modifiedDate
@@ -41,6 +43,7 @@
 					     usedPlace,
 					     price,
 					     note,
+					     receiptPath,
 					     memberId,
 					     DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
 					     DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
@@ -62,6 +65,22 @@
 		  AND usedDate BETWEEN #{startDate} AND #{endDate}
     </select>
     
+	<select id="getPersonMoneybookOfSeq" parameterType="Integer" resultType="com.open.ms.service.vo.PersonMoneybook">
+		SELECT
+			seq,
+			usedDate,
+			summary,
+			usedPlace,
+			price,
+			note,
+			receiptPath,
+			memberId,
+			DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
+			DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
+		FROM oms_person_moneybook
+		WHERE seq = #{seq}
+	</select>
+    
     <insert id="insertPersonMoneybook" parameterType="com.open.ms.service.vo.PersonMoneybook">
     	INSERT INTO `oms_person_moneybook` (
 	    	`seq`,
@@ -70,6 +89,7 @@
 	    	`usedPlace`,
 	    	`price`,
 	    	`note`,
+	    	`receiptPath`,
 	    	`memberId`,
 	    	`registeredDate`,
 	    	`modifiedDate`
@@ -81,6 +101,7 @@
 			#{usedPlace},
 			#{price},
 			#{note},
+			#{receiptPath},
 			#{memberId},
 			SYSDATE(),
 			SYSDATE()
@@ -93,6 +114,9 @@
 			summary = #{summary},
 			price = #{price},
 			note = #{note},
+			<if test="receiptPath != null">
+				receiptPath = #{receiptPath},
+			</if>
 			modifiedDate = SYSDATE()
 		WHERE seq = #{seq}
 		  AND memberId = #{memberId}

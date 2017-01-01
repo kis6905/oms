@@ -38,10 +38,6 @@
 			</div>
 			
 			<div id="defaultArea">
-				<div class="alert alert-success" role="alert">
-					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>&nbsp;&nbsp;알림</strong><br>
-					곧 영수증 업로드가 추가될 예정입니다.
-				</div>
 			</div>
 			
 			<div id="signOpenBtnArea">
@@ -103,6 +99,14 @@
 									<input type="text" class="form-control input-group-lg" id="iNote" placeholder="50자 이내로 적어주세요">
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="col-sm-2">
+									<label>영수증</label>
+								</div>
+								<div class="col-sm-10">
+									<input type="file" class="filestyle" data-buttonName="btn-primary" data-icon="false" data-buttonText="파일 선택" data-size="sm" data-buttonBefore="true" id="iReceipt" data-placeholder="영수증을 선택하세요.">
+								</div>
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -156,6 +160,14 @@
 								</div>
 								<div class="col-sm-10">
 									<input type="text" class="form-control input-group-lg" id="uNote" placeholder="50자 이내로 적어주세요">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-2">
+									<label>영수증<span id="uReceiptPath"></span></label>
+								</div>
+								<div class="col-sm-10">
+									<input type="file" class="filestyle" data-buttonName="btn-primary" data-icon="false" data-buttonText="파일 선택" data-size="sm" data-buttonBefore="true" id="uReceipt" data-placeholder="미 선택 시 영수증은 변경되지 않습니다.">
 								</div>
 							</div>
 							<div class="form-group">

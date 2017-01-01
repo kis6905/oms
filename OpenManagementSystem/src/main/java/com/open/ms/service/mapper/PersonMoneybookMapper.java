@@ -12,6 +12,8 @@ public interface PersonMoneybookMapper {
 	
 	List<PersonMoneybook> getPersonMoneybookList(Map<String, Object> map);
 	Map<String, Object> getPersonMoneybookListTotalCntAndPrice(Map<String, Object> map);
+	PersonMoneybook getPersonMoneybookOfSeq(Integer seq);
+	
 	int insertPersonMoneybook(PersonMoneybook moneybook);
 	int updatePersonMoneybook(PersonMoneybook moneybook);
 	int deletePersonMoneybook(PersonMoneybook moneybook);

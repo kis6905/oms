@@ -13,8 +13,9 @@ public class Constants {
 	/**
 	 * 공통으로 사용하는 Result Code
 	 */
-	public static final int OK		= 0;
-	public static final int NOT_OK	= 1;
+	public static final int RESULT_OK			= 0;
+	public static final int RESULT_NOT_OK		= 1;
+	public static final int RESULT_BAD_REQUEST	= 2;
 	
 	/**
 	 * 로그인 관련

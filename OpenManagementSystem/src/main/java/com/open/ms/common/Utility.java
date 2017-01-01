@@ -224,6 +224,7 @@ public class Utility {
 	
 	/**
 	 * 숫자로 된 문자열을 한글로 변환한다.
+	 * 
 	 * @param input number string
 	 * @return hangul string
 	 */
@@ -243,6 +244,20 @@ public class Utility {
 		}
 		
 		return result.toString();
+	}
+	
+	/**
+	 * 이미지 파일인지 확장자 확인
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static boolean isImageFile(String fileName) {
+		fileName = fileName.toUpperCase();
+		if (fileName.endsWith(".JPG")) return true;
+		else if (fileName.endsWith(".JPEG")) return true;
+		else if (fileName.endsWith(".PNG")) return true;
+		return false;
 	}
 	
 }

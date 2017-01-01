@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,10 +21,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.open.ms.common.Codes;
 import com.open.ms.common.Constants;
+import com.open.ms.common.Utility;
 import com.open.ms.common.service.MemberService;
 import com.open.ms.common.vo.Member;
-import com.open.ms.service.service.PersonMoneybookService;
 import com.open.ms.service.service.ApprovalService;
+import com.open.ms.service.service.PersonMoneybookService;
 import com.open.ms.service.vo.PersonMoneybook;
 import com.open.ms.service.vo.PersonMoneybookApproval;
 
@@ -123,19 +125,21 @@ public class PersonMoneybookController {
 			@RequestParam(value = "summary", required = true, defaultValue = "") String summary,
 			@RequestParam(value = "price", required = true, defaultValue = "") String price,
 			@RequestParam(value = "note", required = true, defaultValue = "") String note,
+			@RequestParam(value = "receipt", required = false) String receipt,
 			HttpServletRequest request) {
-		
+
+		HttpSession session = request.getSession(false);
 		JSONObject jsonResult = new JSONObject();
 		
-		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
+		Member member = (Member) session.getAttribute("MEMBER");
 		String memberId = member.getMemberId();
 			
-		logger.info("-> [usedDate = {}], [summary = {}], [price = {}], [note = {}]", new Object[] { usedDate, summary, price, note });
+		logger.info("-> [usedDate = {}], [summary = {}], [price = {}], [note = {}], [receipt = {}]", new Object[] { usedDate, summary, price, note, receipt != null ? receipt.length() : 0 });
 		logger.info("-> [memberId = {}]", memberId);
 		
 		try {
-			if (usedDate.isEmpty() || summary.isEmpty() || price.isEmpty() || note.isEmpty() || memberId.isEmpty()) {
-				jsonResult.put("result", Constants.NOT_OK);
+			if (usedDate.isEmpty() || summary.isEmpty() || price.isEmpty() || note.isEmpty() || memberId.isEmpty() || receipt == null) {
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
 				PersonMoneybook personMoneybook = new PersonMoneybook();
@@ -145,8 +149,15 @@ public class PersonMoneybookController {
 				personMoneybook.setNote(note);
 				personMoneybook.setMemberId(member.getMemberId());
 				
-				boolean result = personMoneybookServiceImpl.insertPersonMoneybook(personMoneybook);
-				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
+				String realPath = null;
+				if (receipt != null && !receipt.isEmpty()) {
+					realPath = session.getServletContext().getRealPath("");
+					String receiptPath = "/resources/images/receipt/" + memberId + "_receipt_" + Utility.getCurrentDateToString("yyyyMMddHHmmss") + ".png";
+					personMoneybook.setReceiptPath(receiptPath);
+				}
+				
+				boolean result = personMoneybookServiceImpl.insertPersonMoneybook(personMoneybook, receipt, realPath);
+				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -169,19 +180,21 @@ public class PersonMoneybookController {
 			@RequestParam(value = "summary", required = true, defaultValue = "") String summary,
 			@RequestParam(value = "price", required = true, defaultValue = "") String price,
 			@RequestParam(value = "note", required = true, defaultValue = "") String note,
+			@RequestParam(value = "receipt", required = false) String receipt,
 			HttpServletRequest request) {
 		
+		HttpSession session = request.getSession(false);
 		JSONObject jsonResult = new JSONObject();
 		
-		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
+		Member member = (Member) session.getAttribute("MEMBER");
 		String memberId = member.getMemberId();
-			
-		logger.info("-> [seq = {}], [usedDate = {}], [summary = {}], [price = {}], [note = {}]", new Object[] { seq, usedDate, summary, price, note });
+		
+		logger.info("-> [seq = {}], [usedDate = {}], [summary = {}], [price = {}], [note = {}], [receipt = {}]", new Object[] { seq, usedDate, summary, price, note, receipt != null ? receipt.length() : 0 });
 		logger.info("-> [memberId = {}]", memberId);
 		
 		try {
 			if (seq.isEmpty() || usedDate.isEmpty() || summary.isEmpty() || price.isEmpty() || memberId.isEmpty()) {
-				jsonResult.put("result", Constants.NOT_OK);
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
 				PersonMoneybook personMoneybook = new PersonMoneybook();
@@ -192,8 +205,15 @@ public class PersonMoneybookController {
 				personMoneybook.setNote(note);
 				personMoneybook.setMemberId(member.getMemberId());
 				
-				boolean result = personMoneybookServiceImpl.updatePersonMoneybook(personMoneybook);
-				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
+				String realPath = null;
+				if (receipt != null && !receipt.isEmpty()) {
+					realPath = session.getServletContext().getRealPath("");
+					String receiptPath = "/resources/images/receipt/" + memberId + "_receipt_" + Utility.getCurrentDateToString("yyyyMMddHHmmss") + ".png";
+					personMoneybook.setReceiptPath(receiptPath);
+				}
+				
+				boolean result = personMoneybookServiceImpl.updatePersonMoneybook(personMoneybook, receipt, realPath);
+				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -215,8 +235,9 @@ public class PersonMoneybookController {
 			HttpServletRequest request) {
 		
 		JSONObject jsonResult = new JSONObject();
+		HttpSession session = request.getSession(false);
 		
-		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
+		Member member = (Member) session.getAttribute("MEMBER");
 		String memberId = member.getMemberId();
 		
 		logger.info("-> [seq = {}]", seq);
@@ -224,15 +245,15 @@ public class PersonMoneybookController {
 		
 		try {
 			if (seq.isEmpty() || memberId.isEmpty()) {
-				jsonResult.put("result", Constants.NOT_OK);
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
 				PersonMoneybook personMoneybook = new PersonMoneybook();
 				personMoneybook.setSeq(Integer.parseInt(seq));
 				personMoneybook.setMemberId(member.getMemberId());
 				
-				boolean result = personMoneybookServiceImpl.deletePersonMoneybook(personMoneybook);
-				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
+				boolean result = personMoneybookServiceImpl.deletePersonMoneybook(personMoneybook, session.getServletContext().getRealPath(""));
+				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -256,11 +277,11 @@ public class PersonMoneybookController {
 		try {
 			JSONArray approvalRoleMemberJsonArr = new JSONArray();
 			
-			List<Member> approvalRoleMemberList = memberServiceImpl.getSignRoleMemberList();
+			List<Member> approvalRoleMemberList = memberServiceImpl.getHadApprovalRoleMemberList();
 			for (Member member : approvalRoleMemberList)
 				approvalRoleMemberJsonArr.add(member.toJSONObject());
 			
-			jsonResult.put("result", Constants.OK);
+			jsonResult.put("result", Constants.RESULT_OK);
 			jsonResult.put("approvalRoleMemberList", approvalRoleMemberJsonArr);
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
@@ -295,7 +316,7 @@ public class PersonMoneybookController {
 		
 		try {
 			if (startDate.isEmpty() || endDate.isEmpty() || requestMemberSign.isEmpty() || signTitle.isEmpty() || targetMemberId.isEmpty()) {
-				jsonResult.put("result", Constants.NOT_OK);
+				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
 				PersonMoneybookApproval personMoneybookApproval = new PersonMoneybookApproval();
@@ -309,7 +330,7 @@ public class PersonMoneybookController {
 				personMoneybookApproval.setStatusCode(Codes.APPROVAL_STATUS_CODE_STAND_BY);
 				
 				boolean result = approvalServiceImpl.insertPersonMoneybookApproval(personMoneybookApproval);
-				jsonResult.put("result", result ? Constants.OK : Constants.NOT_OK);
+				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);

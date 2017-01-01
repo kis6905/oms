@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.open.ms.common.Codes;
+import com.open.ms.common.Constants;
 import com.open.ms.common.service.OmsServiceService;
 import com.open.ms.common.vo.Member;
 import com.open.ms.common.vo.OmsService;
+import com.open.ms.service.service.ApprovalService;
 
 /**
  * @author iskwon
@@ -32,6 +35,8 @@ public class MainController {
 	
 	@Autowired
 	private OmsServiceService omsServiceServiceImpl;
+	@Autowired
+	private ApprovalService approvalServiceImpl;
 	
 	/**
 	 * 메인 페이지 이동
@@ -60,13 +65,21 @@ public class MainController {
 		JSONObject jsonResult = new JSONObject();
 		JSONArray jsonOmsServiceArray = new JSONArray();
 		
-		List<OmsService> omsServiceList = omsServiceServiceImpl.getOmsServiceList(member);
-		for (OmsService omsService : omsServiceList)
-			jsonOmsServiceArray.add(omsService.toJSONObject());
+		try {
+			List<OmsService> omsServiceList = omsServiceServiceImpl.getOmsServiceList(member);
+			for (OmsService omsService : omsServiceList)
+				jsonOmsServiceArray.add(omsService.toJSONObject());
+			
+			jsonResult.put("omsServiceList", jsonOmsServiceArray);
+			jsonResult.put("receivedApprovalCnt", approvalServiceImpl.getApprovalListTotalCnt(null, member.getMemberId(), "0000-00-00", "9999-99-99", Integer.toString(Codes.APPROVAL_STATUS_CODE_STAND_BY)));
+			
+			jsonResult.put("result", Constants.RESULT_OK);
+		} catch (Exception e) {
+			logger.error("~~ [An error occurred]", e);
+			jsonResult.put("result", Constants.COMMON_SERVER_ERROR);
+		}
 		
-		jsonResult.put("omsServiceList", jsonOmsServiceArray);
-		
-		logger.info("<- [omsServiceListSize = {}]", omsServiceList.size());
+		logger.info("<- [jsonResult = {}]", jsonResult.toString());
 		return jsonResult.toString();
 	}
 	

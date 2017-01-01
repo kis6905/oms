@@ -168,7 +168,7 @@ public class MemberServiceImpl implements MemberService {
 	 * 팀장 목록 리턴
 	 */
 	@Override
-	public List<Member> getSignRoleMemberList() throws Exception {
+	public List<Member> getHadApprovalRoleMemberList() throws Exception {
 		return memberMapper.getSignRoleMemberList();
 	}
 
