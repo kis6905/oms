@@ -110,30 +110,24 @@ function setCurrentDate() {
 	var endMonth = endDate.getMonth() + 1;
 	var endDay = endDate.getDate();
 	
+	endMonth = endMonth < 10 ? '0' + endMonth : endMonth;
+	endDay = endDay < 10 ? '0' + endDay : endDay;
+	
+	$('#endDate').val(endYear + '-' + endMonth + '-' + endDay);
+	
 	// 시작일은 이번달 3일 or 오늘이 3일보다 작으면 저번달 3일이다.
 	var startDate = null;
-	if (endDay < 3) {
-		// 오늘이 1월이면 연도도 1 빼야한다.
-		if (endMonth == 1)
-			startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth() - 1, 3);			
-		else
-			startDate = new Date(endDate.getFullYear(), endDate.getMonth() - 1, 3);
-	}
+	if (endDate.getDate() < 3)
+		startDate = new Date(endDate.getFullYear(), endDate.getMonth() - 1, 3);			
 	else
 		startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 3);
 	
 	var startYear = startDate.getFullYear();
 	var startMonth = startDate.getMonth() + 1;
-	var startDay = startDate.getDate();
 	
 	startMonth = startMonth < 10 ? '0' + startMonth : startMonth;
-	startDay = startDay < 10 ? '0' + startDay : startDay;
-	
-	endMonth = endMonth < 10 ? '0' + endMonth : endMonth;
-	endDay = endDay < 10 ? '0' + endDay : endDay;
 	
 	$('#startDate').val(startYear + '-' + startMonth + '-03'); // 시작일은 무조건 3일
-	$('#endDate').val(endYear + '-' + endMonth + '-' + endDay);
 }
 
 /**
