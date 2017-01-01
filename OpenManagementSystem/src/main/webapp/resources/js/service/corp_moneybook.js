@@ -105,22 +105,35 @@ $(document).ready(function() {
  * 조회 날짜에 현재 월에 해당하는 시작 일 ~ 종료 일 설정
  */
 function setCurrentDate() {
-	var date = new Date();
+	var endDate = new Date();
+	var endYear = endDate.getFullYear();
+	var endMonth = endDate.getMonth() + 1;
+	var endDay = endDate.getDate();
 	
-	var year = date.getFullYear();
-	var month = date.getMonth() + 1;
-	var day = date.getDate();
+	// 시작일은 이번달 3일 or 오늘이 3일보다 작으면 저번달 3일이다.
+	var startDate = null;
+	if (endDay < 3) {
+		// 오늘이 1월이면 연도도 1 빼야한다.
+		if (endMonth == 1)
+			startDate = new Date(endDate.getFullYear() - 1, endDate.getMonth() - 1, 3);			
+		else
+			startDate = new Date(endDate.getFullYear(), endDate.getMonth() - 1, 3);
+	}
+	else
+		startDate = new Date(endDate.getFullYear(), endDate.getMonth(), 3);
 	
-	var startMonth = month < 10 ? '0' + month : month;
-	if (day < 3)
-		startMonth = (month - 1) < 10 ? '0' + (month - 1) : (month - 1);
-	var endMonth = month < 10 ? '0' + month : month;
+	var startYear = startDate.getFullYear();
+	var startMonth = startDate.getMonth() + 1;
+	var startDay = startDate.getDate();
 	
-	day = day < 10 ? '0' + day : day;
+	startMonth = startMonth < 10 ? '0' + startMonth : startMonth;
+	startDay = startDay < 10 ? '0' + startDay : startDay;
 	
-	$('#startDate').val(year + '-' + startMonth + '-03'); // 시작 일은 3일
+	endMonth = endMonth < 10 ? '0' + endMonth : endMonth;
+	endDay = endDay < 10 ? '0' + endDay : endDay;
 	
-	$('#endDate').val(year + '-' + endMonth + '-' + day);
+	$('#startDate').val(startYear + '-' + startMonth + '-03'); // 시작일은 무조건 3일
+	$('#endDate').val(endYear + '-' + endMonth + '-' + endDay);
 }
 
 /**
