@@ -111,6 +111,10 @@ public class PersonMoneybookExcelDownView extends AbstractExcelView {
 		boolean addRow = false;
 		
 		for (int inx = 0; inx < moneybookList.size(); inx++) {
+			moneybook = moneybookList.get(inx);
+			
+			if (moneybook.getReceiptPath() == null || moneybook.getReceiptPath().isEmpty())
+				continue;
 			
 			if (inx != 0) {
 				// Row가 추가될 때
@@ -131,7 +135,6 @@ public class PersonMoneybookExcelDownView extends AbstractExcelView {
 				}
 			}
 			
-			moneybook = moneybookList.get(inx);
 			file = new File(realPath + moneybook.getReceiptPath());
 			fis = new FileInputStream(file);
 			receiptBytes = new byte[(int) file.length()];
