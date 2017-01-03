@@ -138,7 +138,7 @@ public class PersonMoneybookController {
 		logger.info("-> [memberId = {}]", memberId);
 		
 		try {
-			if (usedDate.isEmpty() || summary.isEmpty() || price.isEmpty() || note.isEmpty() || memberId.isEmpty() || receipt == null) {
+			if (usedDate.isEmpty() || summary.isEmpty() || price.isEmpty() || note.isEmpty() || memberId.isEmpty()) {
 				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {

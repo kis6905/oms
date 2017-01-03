@@ -38,6 +38,12 @@
 			</div>
 			
 			<div id="defaultArea">
+				<div class="alert alert-success" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>&nbsp;&nbsp;알림</strong><br>
+					영수증 사진을 업로드해 대체하려 했으나 안된다고 합니다. ㅜㅜ<br/>
+					영수증 업로드는 무시하고 이용해 주세요.<br/>
+					(실제 영수증은 별도로 제출해주세요!)
+				</div>
 			</div>
 			
 			<div id="signOpenBtnArea">

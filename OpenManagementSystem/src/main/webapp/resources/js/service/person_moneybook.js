@@ -179,15 +179,13 @@ function setApprovalRoleMemberList(signRoleMemberList) {
  * 등록 
  */
 function insertMoneybook() {
-	$('#loadingDialog').modal();
 	
 	var usedDate = $('#iUsedDate').val();
 	var summary = $('#iSummary').val();
 	var price = $('#iPrice').val();
 	var note = $('#iNote').val();
-	var receipt = $('#iReceipt')[0].files[0];
 	
-	if (usedDate === null || summary === null || price === null || note === null || !receipt ||
+	if (usedDate === null || summary === null || price === null || note === null ||
 			usedDate === '' || summary === '' || price === '' || note === '') {
 		alert('입력정보를 확인하세요!');
 		return false;
@@ -205,54 +203,60 @@ function insertMoneybook() {
 		return false;
 	}
 	
-	// 영수증 resize
-	var img = document.createElement("img");
-	var receiptData = '';
-	var reader = new FileReader();
-	reader.onload = function(e) {
-		
-		img.src = e.target.result;
-		img.onload = function () {
-			receiptData = getResizedReceiptData(img);
-			
-			// 영수증 resize 작업이 끝난 후에 등록 요청
-			var data = {
-					usedDate: usedDate,
-					summary: summary,
-					price: price,
-					note: note,
-					receipt: receiptData
-			};
-			var callbackSuccess = function(data, textStatus, jqXHR) {
-				setTimeout(function() {
-					$('#loadingDialog').modal('hide');
-					if (data.result == OK) {
-						refreshTable();
-						$('#insertModal').modal('hide');
-					}
-					else {
-						alert('등록이 실패했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
-					}
-				}, 800);
-			};
-			callAjax('/service/person/moneybook/insert', data, callbackSuccess);
-        }
+	$('#loadingDialog').modal();
+	var receipt = $('#iReceipt')[0].files[0];
+	
+	var data = {
+			usedDate: usedDate,
+			summary: summary,
+			price: price,
+			note: note
+	};
+	
+	if (receipt) {
+		// 영수증 resize
+		var img = document.createElement("img");
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			img.src = e.target.result;
+			img.onload = function () {
+				data['receipt'] = getResizedReceiptData(img);
+				insertProcess(data)
+	        }
+		}
+		reader.readAsDataURL(receipt);
 	}
-	reader.readAsDataURL(receipt);
+	else {
+		insertProcess(data)
+	}
+}
+
+function insertProcess(data) {
+	var callbackSuccess = function(data, textStatus, jqXHR) {
+		setTimeout(function() {
+			$('#loadingDialog').modal('hide');
+			if (data.result == OK) {
+				refreshTable();
+				$('#insertModal').modal('hide');
+			}
+			else {
+				alert('등록이 실패했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
+			}
+		}, 800);
+	};
+	callAjax('/service/person/moneybook/insert', data, callbackSuccess);
 }
 
 /**
  * 수정
  */
 function updateMoneybook() {
-	$('#loadingDialog').modal();
 	
 	var seq = $('#uSeq').val();
 	var usedDate = $('#uUsedDate').val();
 	var summary = $('#uSummary').val();
 	var price = $('#uPrice').val();
 	var note = $('#uNote').val();
-	var receipt = $('#uReceipt')[0].files[0];
 	
 	if (seq === null || usedDate === null || summary === null || price === null || note === null ||
 			seq === '' || usedDate === '' || summary === '' || price === '' || note === '') {
@@ -271,6 +275,9 @@ function updateMoneybook() {
 		$('#uPrice').focus();
 		return false;
 	}
+	
+	$('#loadingDialog').modal();
+	var receipt = $('#uReceipt')[0].files[0];
 	
 	var data = {
 			seq: seq,
