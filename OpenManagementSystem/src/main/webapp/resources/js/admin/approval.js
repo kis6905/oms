@@ -281,7 +281,7 @@ function downloadExcel() {
 	
 	$form = $("<form></form>");
 	$form.attr('method', 'post')
-		.attr('action', '/admin/approval/excel')
+		.attr('action', '/service/person/moneybook/excel')
 		.append($(sortInput))
 		.append($(orderInput))
 		.append($(seq))

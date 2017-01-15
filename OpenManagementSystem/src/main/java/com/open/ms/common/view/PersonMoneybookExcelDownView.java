@@ -116,6 +116,17 @@ public class PersonMoneybookExcelDownView extends AbstractExcelView {
 			if (moneybook.getReceiptPath() == null || moneybook.getReceiptPath().isEmpty())
 				continue;
 			
+			// 이미지 파일을 읽는 도중 에러가 발생하면 무시하고 다음으로 넘긴다.
+			try {
+				file = new File(realPath + moneybook.getReceiptPath());
+				fis = new FileInputStream(file);
+				receiptBytes = new byte[(int) file.length()];
+				fis.read(receiptBytes);
+				fis.close();				
+			} catch (Exception e) {
+				continue;
+			}
+			
 			if (inx != 0) {
 				// Row가 추가될 때
 				if (addRow) {
@@ -134,12 +145,6 @@ public class PersonMoneybookExcelDownView extends AbstractExcelView {
 					rightCol = 16;
 				}
 			}
-			
-			file = new File(realPath + moneybook.getReceiptPath());
-			fis = new FileInputStream(file);
-			receiptBytes = new byte[(int) file.length()];
-			fis.read(receiptBytes);
-			fis.close();
 			
 			receiptIdx = workbook.addPicture(receiptBytes, Workbook.PICTURE_TYPE_PNG);
 			receiptAnchor = helper.createClientAnchor();

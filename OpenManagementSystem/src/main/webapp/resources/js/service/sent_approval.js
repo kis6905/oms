@@ -1,6 +1,7 @@
 
 var table, detailPersonMoneybookTable;
 var canvas, ctx;
+var detailRow;
 
 $(document).ready(function() {
 	
@@ -20,6 +21,10 @@ $(document).ready(function() {
 	
 	$('#personMoneybookDetailCloseBtn').on('click', function() {
 		$('#personMoneybookDetailModal').modal('hide');
+	});
+	
+	$('#excelDownBtn').on('click', function() {
+		downloadExcel();
 	});
 });
 
@@ -94,6 +99,8 @@ function processingApproval() {
  * 결재 종류 추가 시 row.approvalKind 에 따라 띄울 Modal 창 구분
  */
 function openDetailModal(row) {
+	detailRow = row; // 엑셀 다운시 값을 가져오기 위해 전역변수에 넣어준다.
+	
 	$('#personMoneybookDetailModal').modal();
 	$('#personMoneybookDetailTitle').html(row.title);
 	
@@ -301,3 +308,24 @@ function createPersonMoneybookDetailTable(data) {
 	});
 }
 
+/**
+ * Excel 다운로드
+ */
+function downloadExcel() {
+	
+	var option = detailTable.bootstrapTable('getOptions');
+	var sort = option.sortName;
+	var order = option.sortOrder;
+	
+	var sortInput = $('<input>').attr('type', 'hidden').attr('name', 'sort').val(sort);
+	var orderInput = $('<input>').attr('type', 'hidden').attr('name', 'order').val(order);
+	var seq = $('<input>').attr('type', 'hidden').attr('name', 'seq').val(detailRow.seq);
+	
+	$form = $("<form></form>");
+	$form.attr('method', 'post')
+		.attr('action', '/service/person/moneybook/excel')
+		.append($(sortInput))
+		.append($(orderInput))
+		.append($(seq))
+		.submit();
+}

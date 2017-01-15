@@ -64,8 +64,12 @@
 						<span id="personMoneybookDetailTerm"></span>
 					</div>
 					<div class="modal-body">
-						<div>
-							<span id="personMoneybookDetailStatus"></span>
+						<span id="personMoneybookDetailStatus"></span>
+						<br><br>
+						<div id="excelDownArea">
+							<button class="btn btn-success btn-block" type="button" id="excelDownBtn">
+								<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;Excel Download
+							</button>
 						</div>
 						<div class="total-info">
 							<span style="float: left; padding-bottom: 5px;">Total: <span id="personMoneybookDetailTotalCnt"></span> 건&nbsp;&nbsp;</span>
