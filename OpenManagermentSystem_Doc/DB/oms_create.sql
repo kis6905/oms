@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `oms_member` (
   `corpCardLimit` INT,
   `registeredDate` DATETIME NOT NULL,
   `modifiedDate` DATETIME NOT NULL,
-  `lastLoginDate` DATETIME NOT NULL,
+  `lastLoginDate` DATETIME,
   PRIMARY KEY (`memberId`),
   INDEX `fk_oms_member_oms_com_code1_idx` (`gradeCodeGroup` ASC, `gradeCode` ASC),
   CONSTRAINT `fk_oms_member_oms_com_code1`
@@ -48,11 +48,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `oms_persitent_login`
+-- Table `oms_persistent_login`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `oms_persitent_login` ;
+DROP TABLE IF EXISTS `oms_persistent_login` ;
 
-CREATE TABLE IF NOT EXISTS `oms_persitent_login` (
+CREATE TABLE IF NOT EXISTS `oms_persistent_login` (
   `memberId` VARCHAR(255) NOT NULL,
   `series` VARCHAR(64) NOT NULL,
   `token` VARCHAR(64) NOT NULL,
@@ -174,10 +174,10 @@ CREATE TABLE IF NOT EXISTS `oms_person_moneybook_approval` (
   `completedDate` DATETIME NULL,
   `registeredDate` DATETIME NOT NULL,
   PRIMARY KEY (`seq`),
-  INDEX `fk_oms_person_moneybook_approval_oms_member1_idx` (`requestMemberId` ASC),
+  INDEX `fk_oms_person_moneybook_approval_oms_member1_idx` (`sentMemberId` ASC),
   INDEX `fk_oms_person_moneybook_approval_oms_com_code1_idx` (`statusCodeGroup` ASC, `statusCode` ASC),
   CONSTRAINT `fk_oms_person_moneybook_approval_oms_member1`
-    FOREIGN KEY (`requestMemberId`)
+    FOREIGN KEY (`sentMemberId`)
     REFERENCES `oms_member` (`memberId`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
