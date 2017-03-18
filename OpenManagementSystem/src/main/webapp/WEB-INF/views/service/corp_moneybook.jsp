@@ -246,6 +246,8 @@
 		</div>
 	</div><!-- update modal end -->
 
+	<div id="excelDwonForm"></div>
+
 	<%@ include file="../include/footer.jsp" %>
 </body>
 </html>

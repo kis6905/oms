@@ -280,6 +280,8 @@ function downloadExcel() {
 	var seq = $('<input>').attr('type', 'hidden').attr('name', 'seq').val(detailRow.seq);
 	
 	$form = $("<form></form>");
+	$('#excelDwonForm').append($form);
+	
 	$form.attr('method', 'post')
 		.attr('action', '/service/person/moneybook/excel')
 		.append($(sortInput))

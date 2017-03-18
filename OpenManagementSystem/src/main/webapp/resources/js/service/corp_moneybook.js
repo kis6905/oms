@@ -448,7 +448,9 @@ function downloadExcel() {
 	var endDateInput = $('<input>').attr('type', 'hidden').attr('name', 'endDate').val(endDate);
 	var signInput = $('<input>').attr('type', 'hidden').attr('name', 'sign').val(signImage);
 	
-	$form = $("<form></form>");
+	$form = $('<form></form>');
+	$('#excelDwonForm').append($form);
+	
 	$form.attr('method', 'post')
 		.attr('action', '/service/corp/moneybook/excel')
 		.append($(sortInput))
