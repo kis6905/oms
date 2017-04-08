@@ -122,7 +122,7 @@ public class PersonMoneybookExcelDownView extends AbstractExcelView {
 				fis = new FileInputStream(file);
 				receiptBytes = new byte[(int) file.length()];
 				fis.read(receiptBytes);
-				fis.close();				
+				fis.close();
 			} catch (Exception e) {
 				continue;
 			}
@@ -138,7 +138,7 @@ public class PersonMoneybookExcelDownView extends AbstractExcelView {
 					bottomCol += 16;
 				}
 				// 같은 Row에 이미지만 추가할 때
-				else if (!addRow) {
+				else {
 					addRow = true;
 					
 					leftCol = 9;
