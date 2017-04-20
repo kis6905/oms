@@ -15,6 +15,8 @@
             gradeCodeGroup,
             gradeCode,
             corpCardLimit,
+            primaryDeviceSeq,
+            fcmToken,
 			registeredDate,
 			modifiedDate,
             lastLoginDate
@@ -27,6 +29,8 @@
                   gradeCodeGroup,
                   gradeCode,
                   corpCardLimit,
+                  primaryDeviceSeq,
+                  fcmToken,
 				  registeredDate,
 				  modifiedDate,
                   lastLoginDate
@@ -39,6 +43,8 @@
                          gradeCodeGroup,
                          gradeCode,
                          corpCardLimit,
+                         primaryDeviceSeq,
+                         fcmToken,
 					     DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
 					     DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
                          DATE_FORMAT(lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
@@ -64,6 +70,8 @@
         	gradeCodeGroup,
         	gradeCode,
         	corpCardLimit,
+			primaryDeviceSeq,
+		    fcmToken,
         	DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
         	DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
         	DATE_FORMAT(lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
@@ -78,6 +86,8 @@
 		    gradeCodeGroup,
 		    gradeCode,
 		    corpCardLimit,
+		    primaryDeviceSeq,
+		    fcmToken,
 		    DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
         	DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
         	DATE_FORMAT(lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
@@ -95,6 +105,8 @@
         	memberName,
         	gradeCode,
         	corpCardLimit,
+        	primaryDeviceSeq,
+        	fcmToken,
         	DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
         	DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
         	DATE_FORMAT(lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
@@ -124,6 +136,8 @@
 			`gradeCodeGroup`,
 			`gradeCode`,
 			`corpCardLimit`,
+			`primaryDeviceSeq`,
+			`fcmToken`,
 			`registeredDate`,
 			`modifiedDate`,
 			`lastLoginDate`
@@ -136,6 +150,8 @@
 			#{gradeCodeGroup},
 			#{gradeCode},
 			#{corpCardLimit},
+			#{primaryDeviceSeq},
+			#{fcmToken},
 			SYSDATE(),
 			SYSDATE(),
 			NULL
@@ -161,7 +177,7 @@
 		WHERE memberId = #{memberId}
 	</delete>
 	
-	<select id="getSignRoleMemberList" resultType="com.open.ms.common.vo.Member">
+	<select id="getHadApprovalRoleMemberList" resultType="com.open.ms.common.vo.Member">
 		SELECT
 			M.memberId,
         	M.password,
@@ -170,6 +186,7 @@
         	M.gradeCodeGroup,
         	M.gradeCode,
         	M.corpCardLimit,
+        	M.fcmToken,
         	DATE_FORMAT(M.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
         	DATE_FORMAT(M.modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate,
         	DATE_FORMAT(M.lastLoginDate, '%Y-%m-%d %H:%i:%s') AS lastLoginDate
@@ -180,5 +197,14 @@
 		  AND RMM.roleId = 5
 		ORDER BY M.memberName ASC
 	</select>
-    
+	
+	<update id="updateDeviceSeqAndFcmToken" parameterType="com.open.ms.common.vo.Member">
+		UPDATE oms_member
+		SET primaryDeviceSeq = #{deviceSeq}
+			<if test="fcmToken != null">
+				, fcmToken = #{fcmToken}
+			</if>
+		WHERE memberId = #{memberId}
+	</update>
+	
 </mapper>

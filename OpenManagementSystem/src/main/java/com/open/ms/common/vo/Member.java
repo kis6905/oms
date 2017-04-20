@@ -10,16 +10,18 @@ import org.json.simple.JSONObject;
  */
 public class Member extends CommonVo {
 	
-	private Integer no				= null;
-	private String memberId			= null;
-	private String password			= null;
-	private Integer passwordFailCnt	= null;
-	private String memberName		= null;
-	private Integer gradeCodeGroup	= null;
-	private Integer gradeCode		= null;
-	private Integer corpCardLimit	= null;
-	private String lastLoginDate	= null;
-	private List<Role> roleList 	= null;
+	private Integer no				 = null;
+	private String memberId			 = null;
+	private String password			 = null;
+	private Integer passwordFailCnt	 = null;
+	private String memberName		 = null;
+	private Integer gradeCodeGroup	 = null;
+	private Integer gradeCode		 = null;
+	private Integer corpCardLimit	 = null;
+	private Integer primaryDeviceSeq = null;
+	private String fcmToken			 = null;
+	private String lastLoginDate	 = null;
+	private List<Role> roleList 	 = null;
 	
 	public Member() {
 	}
@@ -87,6 +89,22 @@ public class Member extends CommonVo {
 	public void setCorpCardLimit(Integer corpCardLimit) {
 		this.corpCardLimit = corpCardLimit;
 	}
+	
+	public Integer getPrimaryDeviceSeq() {
+		return primaryDeviceSeq;
+	}
+
+	public void setPrimaryDeviceSeq(Integer primaryDeviceSeq) {
+		this.primaryDeviceSeq = primaryDeviceSeq;
+	}
+
+	public String getFcmToken() {
+		return fcmToken;
+	}
+
+	public void setFcmToken(String fcmToken) {
+		this.fcmToken = fcmToken;
+	}
 
 	public String getLastLoginDate() {
 		return lastLoginDate;
@@ -119,12 +137,11 @@ public class Member extends CommonVo {
 		jsonObject.put("modifiedDate", getModifiedDate());
 		jsonObject.put("lastLoginDate", lastLoginDate);
 		
-		JSONArray jsonRoleList = new JSONArray();
-		if (roleList != null) {
-			for (Role role : roleList)
-				jsonRoleList.add(role.toJSONObject());
-		}
-		jsonObject.put("roleList", jsonRoleList);
+		JSONArray jsonRoleArray = new JSONArray();
+		if (roleList != null)
+			roleList.stream().forEach(role -> jsonRoleArray.add(role.toJSONObject()));
+		
+		jsonObject.put("roleList", jsonRoleArray);
 		
 		return jsonObject;
 	}
@@ -139,6 +156,8 @@ public class Member extends CommonVo {
 				+ ", gradeCodeGroup=" + gradeCodeGroup
 				+ ", gradeCode=" + gradeCode
 				+ ", corpCardLimit=" + corpCardLimit
+				+ ", primaryDeviceSeq=" + primaryDeviceSeq
+				+ ", fcmToken=" + fcmToken
 				+ ", registeredDate=" + getRegisteredDate()
 				+ ", modifiedDate=" + getModifiedDate()
 				+ ", lastLoginDate=" + lastLoginDate

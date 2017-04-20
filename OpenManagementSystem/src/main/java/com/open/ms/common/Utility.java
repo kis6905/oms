@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -260,4 +261,30 @@ public class Utility {
 		return false;
 	}
 	
+	/**
+	 * user-agent 에서 단말 모델 명 리턴
+	 * 
+	 * @param userAgent
+	 * @return 
+	 */
+	public static String getDeviceModelNameInUserAgent(String userAgent) {
+		return Stream.of(userAgent.split(";"))
+					.filter(str -> {
+						str = str.trim();
+						return (str.startsWith("SM") || str.startsWith("LG") || str.startsWith("LGM"));
+					})
+					.map(str -> {
+						str = str.trim();
+						
+						return Stream.of(str.split(" "))
+									.findFirst()
+									.orElse("");
+					})
+					.findFirst()
+					.orElse(userAgent);
+	}
+	
+	public static boolean isAndroid(String userAgent) {
+		return userAgent.indexOf("Android") > -1;
+	}
 }

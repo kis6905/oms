@@ -3,7 +3,8 @@
  * 
  * @author iskwon
  */
-var annotationDivision; // 주석을 구분하기 위함, 변수 자체는 의미없음
+
+'use strict';
 
 /****************************************************
  * 기본 설정
@@ -42,7 +43,7 @@ $(document).ready(function() {
         monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
 	});
 	
-	// ajax session check를 위함
+	// ajax session check
 	$.ajaxSetup(ajaxOption);
 	
 });
@@ -52,25 +53,25 @@ $(document).ready(function() {
  * 상수
  ****************************************************/
 // 공통
-var OK		= 0;
-var NOT_OK	= 1;
-var COMMON_SERVER_ERROR	= 9999; // 서버 에러
+const OK		= 0;
+const NOT_OK	= 1;
+const COMMON_SERVER_ERROR	= 9999; // 서버 에러
 
 // 로그인 관련 상수
-var LOGIN_SUCCESS					= 101; // 성공
-var LOGIN_FAIL_MISMATCH				= 102; // 계정 or 비밀번호 불일치
-var LOGIN_FAIL_DISABLED				= 103; // 계정 비활성화
-var LOGIN_FAIL_ACCOUNT_EXPIRED		= 104; // 계정 만료
-var LOGIN_FAIL_CREDENTIALS_EXPIRED	= 105; // 계정 권한 만료
-var LOGIN_FAIL_LOCKED				= 106; // 계정 잠김
+const LOGIN_SUCCESS						= 101; // 성공
+const LOGIN_FAIL_MISMATCH				= 102; // 계정 or 비밀번호 불일치
+const LOGIN_FAIL_DISABLED				= 103; // 계정 비활성화
+const LOGIN_FAIL_ACCOUNT_EXPIRED		= 104; // 계정 만료
+const LOGIN_FAIL_CREDENTIALS_EXPIRED	= 105; // 계정 권한 만료
+const LOGIN_FAIL_LOCKED					= 106; // 계정 잠김
 
 
 /****************************************************
  * 입력 형식 체크
  ****************************************************/
-var emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-var numberRegex = /^[0-9]*$/;
-var dateRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+const emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+const numberRegex = /^[0-9]*$/;
+const dateRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
 
 function validateEmail(input) {
     return emailRegex.test(input);
@@ -202,7 +203,7 @@ function callAjax(url, data, success, mulitipart) {
 				else {
 					alert("예외가 발생했습니다. 관리자에게 문의하세요.");
 				}
-			}	
+			}
 		};
 	
 	if (mulitipart) {

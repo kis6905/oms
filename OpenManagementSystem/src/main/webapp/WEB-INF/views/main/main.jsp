@@ -11,6 +11,9 @@
 <script type="text/javascript" src="/resources/js/libs/sly.min.js"></script>
 <script type="text/javascript" src="/resources/js/libs/jquery-easing-1.3.js"></script>
 
+<link rel="manifest" href="/resources/js/push/manifest.json">
+<script type="text/javascript" src="/resources/js/push/push.js"></script>
+
 </head>
 
 <body>

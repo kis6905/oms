@@ -8,35 +8,6 @@
 <link href="/resources/css/bootstrap/login.css" rel="stylesheet">
 <script type="text/javascript" src="/resources/js/common/login.js"></script>
 
-<!-- <link rel="manifest" href="/resources/js/push/manifest.json"> -->
-
-<script type="text/javascript">
-
-// 웹 푸시 테스트
-// if ('serviceWorker' in navigator && 'PushManager' in window) {
-// 	console.log('Service Worker and Push is supported');
-	
-// 	navigator.serviceWorker.register('/resources/js/push/sw.js')
-// 	.then(function(swReg) {
-// 		console.log('Service Worker is registered', swReg);
-	
-// 		swReg.pushManager.subscribe({
-//             userVisibleOnly: true
-//         }).then(function(sub) {
-//             console.log('endpoint:', sub.endpoint);
-//         });
-		
-// 	})
-// 	.catch(function(error) {
-// 		 console.error('Service Worker Error', error);
-// 	});
-// } else {
-// 	console.warn('Push messaging is not supported');
-// 	pushButton.textContent = 'Push Not Supported';
-// }
-
-</script>
-
 </head>
 
 <body>

@@ -23,6 +23,8 @@ public interface MemberMapper {
 	int updateMember(Member member);
 	int deleteMember(Member member);
 	
-	List<Member> getSignRoleMemberList();
+	List<Member> getHadApprovalRoleMemberList();
+	
+	int updateDeviceSeqAndFcmToken(Map<String, Object> map);
 	
 }

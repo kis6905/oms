@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.open.ms.common.mapper.DeviceMapper">
+
+	<select id="getDeviceListOfMember" parameterType="String" resultType="com.open.ms.common.vo.Device">
+		SELECT
+			seq,
+		    memberId,
+		    deviceModelName,
+		    DATE_FORMAT(registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate,
+		    DATE_FORMAT(modifiedDate, '%Y-%m-%d %H:%i:%s') AS modifiedDate
+		FROM oms_device
+		WHERE memberId = #{memberId}
+	</select>
+
+	<insert id="insertDevice" parameterType="com.open.ms.common.vo.Device">
+		<selectKey resultType="Integer" keyProperty="deviceSeq" order="BEFORE">
+			IF((SELECT MAX(seq) FROM oms_device t) IS NULL, 1, (SELECT MAX(seq) + 1 FROM oms_device t1))
+		</selectKey>  
+		INSERT INTO `oms_device` (
+			`seq`,
+			`memberId`,
+			`deviceModelName`,
+			`registeredDate`,
+			`modifiedDate`
+		)
+		VALUES (
+			#{deviceSeq},
+			#{memberId},
+			#{deviceModelName},
+			SYSDATE(),
+			SYSDATE()
+		)
+	</insert>
+	
+	<delete id="deleteDevice" parameterType="com.open.ms.common.vo.Device">
+		DELETE FROM oms_device
+		WHERE seq = #{seq}
+		  AND memberId = #{memberId}
+	</delete>
+    
+</mapper>

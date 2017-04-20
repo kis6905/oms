@@ -31,9 +31,9 @@ public class LoginController {
 	 * 로그인 페이지 이동
 	 */
 	@RequestMapping(value = { "/", "/login" }, method = RequestMethod.GET)
-	public String getLogin() {
+	public String getLogin(HttpServletRequest request) {
 		
-		logger.info("-> []");
+		logger.info("-> [agent = {}]", request.getHeader("user-agent"));
 		
 		logger.info("<- []");
 		return "login/login";

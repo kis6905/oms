@@ -1,9 +1,9 @@
 package com.open.ms.common.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -96,15 +96,16 @@ public class MemberServiceImpl implements MemberService {
 		if (memberMapper.insertMember(member) > 0) {
 			
 			if (member.getRoleList() != null && !member.getRoleList().isEmpty()) {
-				List<Map<String, Object>> roleMemberMapList = new ArrayList<>();
-				Map<String, Object> roleMemberMap = null;
 				
-				for (Role role : member.getRoleList()) {
-					roleMemberMap = new HashMap<>();
-					roleMemberMap.put("roleId", role.getRoleId());
-					roleMemberMap.put("memberId", member.getMemberId());
-					roleMemberMapList.add(roleMemberMap);
-				}
+				List<Map<String, Object>> roleMemberMapList = 
+						member.getRoleList().stream()
+							.map(role -> {
+								Map<String, Object> roleMemberMap = new HashMap<>();
+								roleMemberMap.put("roleId", role.getRoleId());
+								roleMemberMap.put("memberId", member.getMemberId());
+								return roleMemberMap;
+							})
+							.collect(Collectors.toList());
 				
 				Map<String, List<Map<String, Object>>> map = new HashMap<>();
 				map.put("roleMemberMapList", roleMemberMapList);
@@ -132,15 +133,16 @@ public class MemberServiceImpl implements MemberService {
 			roleMapper.deleteRoleMemberMapOfMember(member.getMemberId());
 			
 			if (member.getRoleList() != null && !member.getRoleList().isEmpty()) {
-				List<Map<String, Object>> roleMemberMapList = new ArrayList<>();
 				
-				Map<String, Object> roleMemberMap = null;
-				for (Role role : member.getRoleList()) {
-					roleMemberMap = new HashMap<>();
-					roleMemberMap.put("roleId", role.getRoleId());
-					roleMemberMap.put("memberId", member.getMemberId());
-					roleMemberMapList.add(roleMemberMap);
-				}
+				List<Map<String, Object>> roleMemberMapList = 
+						member.getRoleList().stream()
+							.map(role -> {
+								Map<String, Object> roleMemberMap = new HashMap<>();
+								roleMemberMap.put("roleId", role.getRoleId());
+								roleMemberMap.put("memberId", member.getMemberId());
+								return roleMemberMap;
+							})
+							.collect(Collectors.toList());
 				
 				Map<String, List<Map<String, Object>>> map = new HashMap<>();
 				map.put("roleMemberMapList", roleMemberMapList);
@@ -169,7 +171,7 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public List<Member> getHadApprovalRoleMemberList() throws Exception {
-		return memberMapper.getSignRoleMemberList();
+		return memberMapper.getHadApprovalRoleMemberList();
 	}
 
 }

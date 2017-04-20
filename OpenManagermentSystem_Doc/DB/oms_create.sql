@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS `oms_member` (
   `gradeCodeGroup` INT NOT NULL,
   `gradeCode` INT NOT NULL,
   `corpCardLimit` INT,
+  `primaryDeviceSeq` VARCHAR(255) NULL
+  `fcmToken` VARCHAR(255) NULL,
   `registeredDate` DATETIME NOT NULL,
   `modifiedDate` DATETIME NOT NULL,
   `lastLoginDate` DATETIME,
@@ -210,6 +212,27 @@ CREATE TABLE IF NOT EXISTS `oms_role_member_map` (
     REFERENCES `oms_member` (`memberId`)
     ON DELETE CASCADE
   	ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `oms_device`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_device` ;
+
+CREATE TABLE IF NOT EXISTS `oms_device` (
+  `seq` INT NOT NULL,
+  `memberId` VARCHAR(255) NOT NULL,
+  `deviceModelName` VARCHAR(255) NOT NULL,
+  `registeredDate` DATETIME NOT NULL,
+  `modifiedDate` DATETIME NOT NULL,
+  INDEX `fk_oms_device_oms_member_idx` (`seq` ASC),
+  PRIMARY KEY (`seq`),
+  CONSTRAINT `fk_oms_device_oms_member`
+    FOREIGN KEY (`memberId`)
+    REFERENCES `oms_member` (`memberId`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

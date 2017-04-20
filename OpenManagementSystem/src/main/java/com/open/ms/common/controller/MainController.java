@@ -14,11 +14,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.open.ms.common.Codes;
 import com.open.ms.common.Constants;
+import com.open.ms.common.Utility;
+import com.open.ms.common.service.DeviceService;
 import com.open.ms.common.service.OmsServiceService;
+import com.open.ms.common.vo.Device;
 import com.open.ms.common.vo.Member;
 import com.open.ms.common.vo.OmsService;
 import com.open.ms.service.service.ApprovalService;
@@ -37,12 +41,16 @@ public class MainController {
 	private OmsServiceService omsServiceServiceImpl;
 	@Autowired
 	private ApprovalService approvalServiceImpl;
+	@Autowired
+	private DeviceService deviceServiceImpl;
 	
 	/**
 	 * 메인 페이지 이동
 	 */
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String getMain(ModelMap modelMap) {
+	public String getMain(
+			HttpServletRequest request,
+			ModelMap modelMap) {
 		
 		logger.info("-> []");
 		
@@ -74,6 +82,78 @@ public class MainController {
 			jsonResult.put("receivedApprovalCnt", approvalServiceImpl.getApprovalListTotalCnt(null, member.getMemberId(), "0000-00-00", "9999-99-99", Integer.toString(Codes.APPROVAL_STATUS_CODE_STAND_BY)));
 			
 			jsonResult.put("result", Constants.RESULT_OK);
+		} catch (Exception e) {
+			logger.error("~~ [An error occurred]", e);
+			jsonResult.put("result", Constants.COMMON_SERVER_ERROR);
+		}
+		
+		logger.info("<- [jsonResult = {}]", jsonResult.toString());
+		return jsonResult.toString();
+	}
+	
+	/**
+	 * Push 단말 등록
+	 *  > 메인 페이지 접속 시 단말 등록
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/main/device/insert", method = RequestMethod.POST)
+	@ResponseBody
+	public String postDeviceInsert(
+			HttpServletRequest request,
+			@RequestParam(value = "fcmToken", required = true) String fcmToken) {
+		
+		String userAgent = request.getHeader("user-agent");
+		boolean isAdnroid = Utility.isAndroid(userAgent);
+		String deviceModelName = Utility.getDeviceModelNameInUserAgent(userAgent);
+
+		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
+		String memberId = member.getMemberId();
+		
+		logger.info("-> [userAgent = {}]", userAgent);
+		logger.info("-> [memberId = {}], [isAdnroid = {}], [deviceModelName = {}], [fcmToken = {}]",
+				new Object[] { memberId, isAdnroid, deviceModelName, fcmToken } );
+		
+		JSONObject jsonResult = new JSONObject();
+		
+		try {
+			boolean result = false;
+			
+			if (isAdnroid) {
+				Device device = new Device();
+				device.setMemberId(memberId);
+				device.setDeviceModelName(deviceModelName);
+				
+				result = deviceServiceImpl.insertDevice(device, fcmToken);
+			}
+			
+			jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
+		} catch (Exception e) {
+			logger.error("~~ [An error occurred]", e);
+			jsonResult.put("result", Constants.COMMON_SERVER_ERROR);
+		}
+		
+		logger.info("<- [jsonResult = {}]", jsonResult.toString());
+		return jsonResult.toString();
+	}
+	
+	/**
+	 * Push 메시지
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/main/push/message", method = RequestMethod.POST)
+	@ResponseBody
+	public String postPushMessage(
+			HttpServletRequest request,
+			@RequestParam(value = "fcmToken", required = true) String fcmToken) {
+		
+		logger.info("-> [fcmToken = {}]", fcmToken);
+		
+		JSONObject jsonResult = new JSONObject();
+		
+		try {
+			jsonResult.put("result", Constants.RESULT_OK);
+			jsonResult.put("title", "결재 요청");
+			jsonResult.put("message", "누구로부터 결재 요청이 왔습니다.");
 		} catch (Exception e) {
 			logger.error("~~ [An error occurred]", e);
 			jsonResult.put("result", Constants.COMMON_SERVER_ERROR);
