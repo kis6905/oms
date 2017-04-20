@@ -118,13 +118,13 @@ public class MainController {
 		try {
 			boolean result = false;
 			
-			if (isAdnroid) {
+//			if (isAdnroid) {
 				Device device = new Device();
 				device.setMemberId(memberId);
 				device.setDeviceModelName(deviceModelName);
 				
 				result = deviceServiceImpl.insertDevice(device, fcmToken);
-			}
+//			}
 			
 			jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 		} catch (Exception e) {

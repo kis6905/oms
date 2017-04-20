@@ -10,18 +10,16 @@
 	// 웹 푸시
 	if ('serviceWorker' in navigator && 'PushManager' in window) {
 		
-		alert('1');
-		
 		navigator.serviceWorker.register('/resources/js/push/sw.js')
 		.then(function(swReg) {
-			
-			alert('2');
 			
 			swReg.pushManager.subscribe({
 	            userVisibleOnly: true
 	        }).then(function(sub) {
 	        	var endpoint = sub.endpoint;
 	        	var fcmToken = endpoint.split('gcm/send/')[1];
+	        	
+	        	console.log('fcmToken: ', fcmToken);
 	        	
 	        	var callbackSuccess = function(data, textStatus, jqXHR) {
 	        		if (data.result == OK) {

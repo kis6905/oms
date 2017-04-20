@@ -11,7 +11,7 @@ public interface DeviceMapper {
 	
 	List<Device> getDeviceListOfMember(String memberId);
 	
-	int insertDevice(Device device);
+	Integer insertDevice(Device device);
 	int updateDevice(Device device);
 	int deleteDevice(Device device);
 	

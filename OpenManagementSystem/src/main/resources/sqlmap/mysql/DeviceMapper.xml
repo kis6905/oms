@@ -17,8 +17,8 @@
 	</select>
 
 	<insert id="insertDevice" parameterType="com.open.ms.common.vo.Device">
-		<selectKey resultType="Integer" keyProperty="deviceSeq" order="BEFORE">
-			IF((SELECT MAX(seq) FROM oms_device t) IS NULL, 1, (SELECT MAX(seq) + 1 FROM oms_device t1))
+		<selectKey resultType="Integer" keyProperty="seq" order="BEFORE">
+			SELECT IF((SELECT MAX(seq) FROM oms_device t) IS NULL, 1, (SELECT MAX(seq) + 1 FROM oms_device t1))
 		</selectKey>  
 		INSERT INTO `oms_device` (
 			`seq`,
@@ -28,7 +28,7 @@
 			`modifiedDate`
 		)
 		VALUES (
-			#{deviceSeq},
+			#{seq},
 			#{memberId},
 			#{deviceModelName},
 			SYSDATE(),
