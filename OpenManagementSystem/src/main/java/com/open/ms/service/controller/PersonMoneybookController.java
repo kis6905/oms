@@ -399,10 +399,10 @@ public class PersonMoneybookController {
 					modelMap.addAttribute("totalPrice", totalPrice);
 					modelMap.addAttribute("hangulTotalPrice", Utility.convertNumberToHangul(Integer.toString(totalPrice)));
 					
-					// Excel 내에서 personMoneybookList size가 25 미만인 경우 빈 라인을 더해 25줄을 맞추려 했으나 실패...
-					// personMoneybookList size 가 25 미만인 경우 25 - personMoneybookList.size() 만큼의 emptyLineList를 내려주자
+					// Excel 내에서 personMoneybookList size가 21 미만인 경우 빈 라인을 더해 21줄을 맞추려 했으나 실패...
+					// personMoneybookList size 가 21 미만인 경우 21 - personMoneybookList.size() 만큼의 emptyLineList를 내려주자
 					List<Object> emptyLineList = new ArrayList<Object>();
-					for (int inx = 0; inx < 25 - totalCnt; inx++)
+					for (int inx = 0; inx < 21 - totalCnt; inx++)
 						emptyLineList.add(inx);
 					modelMap.addAttribute("emptyLineList", emptyLineList);
 					
