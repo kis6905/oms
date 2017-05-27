@@ -60,8 +60,6 @@
 	$(document).ready(function() {
 		$('#convertBtn').on('click', function() {
 			var file = document.querySelector('input[type="file"]').files[0];
-			console.log(file);
-			
 			convertToBase64(file);
 		});
 	});
@@ -75,9 +73,6 @@
 			$('#result').val(result);
 		};
 		reader.readAsDataURL(file);
-// 		reader.readAsBinaryString(file);
-// 		reader.readAsText(file, 'utf-8');
-// 		reader.readAsArrayBuffer(file);
 	    reader.onerror = (error) => console.log('Error: ', error);
 	}
 </script>
