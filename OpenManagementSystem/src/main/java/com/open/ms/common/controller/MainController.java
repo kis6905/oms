@@ -188,4 +188,12 @@ public class MainController {
 		return PREFIX_DIRECTORY + omsService.getPageName();
 	}
 	
+	@RequestMapping(value = "/converter", method = RequestMethod.GET)
+	public String getFileConvert() {
+		
+		logger.info("-> []");
+		
+		logger.info("<- []");
+		return "main/file_converter";
+	}
 }
