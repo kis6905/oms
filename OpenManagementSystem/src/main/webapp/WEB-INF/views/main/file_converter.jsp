@@ -66,14 +66,15 @@
 
 	function convertToBase64(file) {
 		var reader = new FileReader();
-		reader.onload = () => {
+		reader.onload = function() {
 			var result = reader.result;
-			console.log(reader.result);
 			result = result.split('base64,')[1];
 			$('#result').val(result);
 		};
 		reader.readAsDataURL(file);
-	    reader.onerror = (error) => console.log('Error: ', error);
+	    reader.onerror = function(error) {
+	    	console.log('Error: ', error);
+	    };
 	}
 </script>
 	
