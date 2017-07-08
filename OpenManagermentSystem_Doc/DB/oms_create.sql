@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `oms_persistent_login` ;
 CREATE TABLE IF NOT EXISTS `oms_persistent_login` (
   `memberId` VARCHAR(255) NOT NULL,
   `series` VARCHAR(64) NOT NULL,
-  `token` VARCHAR(64) NOT NULL,
+  `tokenValue` VARCHAR(64) NOT NULL,
   `lastUsed` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`memberId`))
 ENGINE = InnoDB;
