@@ -103,22 +103,22 @@ public class MainController {
 			@RequestParam(value = "fcmToken", required = true) String fcmToken) {
 		
 		String userAgent = request.getHeader("user-agent");
-		boolean isAdnroid = Utility.isAndroid(userAgent);
+		boolean isAndroid = Utility.isAndroid(userAgent);
 		String deviceModelName = Utility.getDeviceModelNameInUserAgent(userAgent);
 
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		String memberId = member.getMemberId();
 		
 		logger.info("-> [userAgent = {}]", userAgent);
-		logger.info("-> [memberId = {}], [isAdnroid = {}], [deviceModelName = {}], [fcmToken = {}]",
-				new Object[] { memberId, isAdnroid, deviceModelName, fcmToken } );
+		logger.info("-> [memberId = {}], [isAndroid = {}], [deviceModelName = {}], [fcmToken = {}]",
+				new Object[] { memberId, isAndroid, deviceModelName, fcmToken } );
 		
 		JSONObject jsonResult = new JSONObject();
 		
 		try {
 			boolean result = false;
 			
-//			if (isAdnroid) {
+//			if (isAndroid) {
 				Device device = new Device();
 				device.setMemberId(memberId);
 				device.setDeviceModelName(deviceModelName);

@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `oms_member` (
   `gradeCodeGroup` INT NOT NULL,
   `gradeCode` INT NOT NULL,
   `corpCardLimit` INT,
-  `primaryDeviceSeq` VARCHAR(255) NULL
+  `primaryDeviceSeq` VARCHAR(255) NULL,
   `fcmToken` VARCHAR(255) NULL,
   `registeredDate` DATETIME NOT NULL,
   `modifiedDate` DATETIME NOT NULL,

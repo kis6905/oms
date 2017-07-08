@@ -275,7 +275,6 @@ public class Utility {
 					})
 					.map(str -> {
 						str = str.trim();
-						
 						return Stream.of(str.split(" "))
 									.findFirst()
 									.orElse("");
