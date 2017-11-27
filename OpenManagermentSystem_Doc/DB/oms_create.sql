@@ -132,6 +132,34 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `oms_corp_moneybook_approval`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `oms_corp_moneybook_approval` ;
+
+CREATE TABLE IF NOT EXISTS `oms_corp_moneybook_approval` (
+  `seq` INT NOT NULL,
+  `sentMemberId` VARCHAR(255) NOT NULL,
+  `receivedMemberId` VARCHAR(255) NULL,
+  `title` VARCHAR(255) NULL,
+  `sentMemberSign` BLOB NULL,
+  `receivedMemberSign` BLOB NULL,
+  `statusCodeGroup` INT NOT NULL,
+  `statusCode` INT NOT NULL,
+  `startDate` DATETIME NOT NULL,
+  `endDate` DATETIME NOT NULL,
+  `completedDate` DATETIME NULL,
+  `registeredDate` DATETIME NOT NULL,
+  PRIMARY KEY (`seq`),
+  INDEX `fk_oms_corp_moneybook_approval_oms_com_code1_idx` (`statusCodeGroup` ASC, `statusCode` ASC),
+  CONSTRAINT `fk_oms_corp_moneybook_approval_oms_com_code1`
+    FOREIGN KEY (`statusCodeGroup` , `statusCode`)
+    REFERENCES `oms_com_code` (`codeGroup` , `code`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `oms_person_moneybook`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `oms_person_moneybook` ;
