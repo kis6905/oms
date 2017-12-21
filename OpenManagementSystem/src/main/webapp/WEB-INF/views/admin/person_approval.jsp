@@ -15,7 +15,7 @@
 	<!-- Begin page content -->
 	<div class="container">
 		<div class="page-header-custom">
-			<span class="page-header-title-custom" style="margin-top: 10px;">결재 조회</span>
+			<span class="page-header-title-custom" style="margin-top: 10px;">지출결의 결재</span>
 			<span class="page-header-btn-write">
 				<button type="button" class="btn btn-default" id="insertOpenBtn">
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
