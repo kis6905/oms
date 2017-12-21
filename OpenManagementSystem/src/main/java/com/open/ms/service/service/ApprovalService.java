@@ -17,8 +17,8 @@ public interface ApprovalService {
 	
 	Approval getApproval(String seq) throws Exception;
 	
-	boolean insertPersonMoneybookApproval(Approval personMoneybookApproval) throws Exception;
-	boolean updateProcessingPersonMoneybookApproval(Approval personMoneybookApproval, String[] seqs) throws Exception;
-	boolean deletePersonMoneybookApproval(Approval personMoneybookApproval) throws Exception;
+	boolean insertMoneybookApproval(Approval moneybookApproval) throws Exception;
+	boolean updateProcessingMoneybookApproval(Approval moneybookApproval, String[] seqs) throws Exception;
+	boolean deleteMoneybookApproval(Approval moneybookApproval) throws Exception;
 	
 }

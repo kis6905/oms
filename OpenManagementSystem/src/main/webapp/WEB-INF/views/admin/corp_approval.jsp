@@ -5,7 +5,7 @@
 
 <%@ include file="../include/include.jsp" %>
 
-<script type="text/javascript" src="/resources/js/admin/approval.js"></script>
+<script type="text/javascript" src="/resources/js/admin/corp_approval.js"></script>
 
 </head>
 
@@ -51,18 +51,18 @@
 			<table id="table"></table>
 		</div>
 		
-		<!-- personMoneybookDetailModal modal start -->
-		<div id="personMoneybookDetailModal" class="modal fade" role="dialog">
+		<!-- corpMoneybookDetailModal modal start -->
+		<div id="corpMoneybookDetailModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h5 class="modal-title" id="personMoneybookDetailTitle">상세보기</h5>
-						<span id="personMoneybookDetailTerm"></span>
+						<h5 class="modal-title" id="corpMoneybookDetailTitle">상세보기</h5>
+						<span id="corpMoneybookDetailTerm"></span>
 					</div>
 					<div class="modal-body">
-						<span id="personMoneybookDetailStatus"></span>
+						<span id="corpMoneybookDetailStatus"></span>
 						<br><br>
 						<div id="excelDownArea">
 							<button class="btn btn-success btn-block" type="button" id="excelDownBtn">
@@ -70,21 +70,21 @@
 							</button>
 						</div>
 						<div class="total-info">
-							<span style="float: left; padding-bottom: 5px;">Total: <span id="personMoneybookDetailTotalCnt"></span> 건&nbsp;&nbsp;</span>
+							<span style="float: left; padding-bottom: 5px;">Total: <span id="corpMoneybookDetailTotalCnt"></span> 건&nbsp;&nbsp;</span>
 							<span style="float: right; padding-bottom: 5px;">
-								<span style="color: red;">총액: <span id="personMoneybookDetailPayment"></span> 원</span>
+								<span style="color: red;">총액: <span id="corpMoneybookDetailPayment"></span> 원</span>
 							</span>
 						</div>
-						<table id="personMoneybookTable"></table>
+						<table id="corpMoneybookTable"></table>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" id="personMoneybookDetailCloseBtn">
+						<button type="button" class="btn btn-default" id="corpMoneybookDetailCloseBtn">
 							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;확인
 						</button>
 					</div>
 				</div>
 			</div>
-		</div><!-- personMoneybookDetailModal modal end -->
+		</div><!-- corpMoneybookDetailModal modal end -->
 	</div>
 	
 	<div id="excelDwonForm"></div>

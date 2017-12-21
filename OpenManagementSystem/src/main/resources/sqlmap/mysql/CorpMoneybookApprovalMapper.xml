@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.open.ms.service.mapper.PersonMoneybookApprovalMapper">
+<mapper namespace="com.open.ms.service.mapper.CorpMoneybookApprovalMapper">
 
 	<select id="getApprovalList" parameterType="Map" resultType="com.open.ms.service.vo.MoneybookApproval">
 		SELECT
@@ -36,41 +36,42 @@
 				  registeredDate
 			   FROM ( SELECT @ROWNUM := 0 AS `no`) R,
 				    ( SELECT
-					     PMA.seq,
-					     PMA.sentMemberId,
+					     CMA.seq,
+					     CMA.sentMemberId,
 					     M.memberName AS sentMemberName,
-                         PMA.receivedMemberId,
+                         CMA.receivedMemberId,
                          M2.memberName AS receivedMemberName,
-                         PMA.title,
-                         PMA.statusCodeGroup,
-                         PMA.statusCode,
-                         DATE_FORMAT(PMA.startDate, '%Y-%m-%d') AS startDate,
-                         DATE_FORMAT(PMA.endDate, '%Y-%m-%d') AS endDate,
-                         DATE_FORMAT(PMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
-					     DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
-				      FROM oms_person_moneybook_approval PMA, oms_member M, oms_member M2
-				      WHERE  PMA.sentMemberId = M.memberId
-				        AND PMA.receivedMemberId = M2.memberId
+                         CMA.title,
+                         CMA.statusCodeGroup,
+                         CMA.statusCode,
+                         DATE_FORMAT(CMA.startDate, '%Y-%m-%d') AS startDate,
+                         DATE_FORMAT(CMA.endDate, '%Y-%m-%d') AS endDate,
+                         DATE_FORMAT(CMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
+					     DATE_FORMAT(CMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
+    				      FROM oms_corp_moneybook_approval CMA
+						   JOIN oms_member M ON CMA.sentMemberId = M.memberId
+						   LEFT OUTER JOIN oms_member M2 ON CMA.receivedMemberId = M2.memberId
+				      WHERE 1 = 1
 				        <if test="sentMemberId != null">
-				        	AND PMA.sentMemberId = #{sentMemberId}
+				        	AND CMA.sentMemberId = #{sentMemberId}
 				        </if>
 				        <if test="receivedMemberId != null">
-				        	AND PMA.receivedMemberId = #{receivedMemberId}
+				        	AND CMA.receivedMemberId = #{receivedMemberId}
 				        </if>
 				        <if test="statusCode != null">
-				        	AND PMA.statusCode = #{statusCode}
+				        	AND CMA.statusCode = #{statusCode}
 				        </if>
-					    AND DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
-				      ORDER BY PMA.${sort} ${order}
+					    AND DATE_FORMAT(CMA.registeredDate, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+				      ORDER BY CMA.${sort} ${order}
 					) T
 			  ) T1
 		WHERE `no` BETWEEN #{start} AND #{end}
     </select>
     
 	<select id="getApprovalListTotalCnt" parameterType="Map" resultType="Integer">
-    	SELECT
-    		COUNT(seq) AS totalCnt
-		FROM oms_person_moneybook_approval
+   	 	SELECT
+    			COUNT(seq) AS totalCnt
+		FROM oms_corp_moneybook_approval
 		WHERE 1 = 1
 		  <if test="sentMemberId != null">
 			  AND sentMemberId = #{sentMemberId}
@@ -86,28 +87,28 @@
     
     <select id="getApprovalOfSeq" parameterType="String" resultType="com.open.ms.service.vo.MoneybookApproval">
 		SELECT
-			PMA.seq,
-			PMA.sentMemberId,
+			CMA.seq,
+			CMA.sentMemberId,
 			M.memberName AS sentMemberName,
-			CONVERT(PMA.sentMemberSign USING utf8) AS sentMemberSign,
-			PMA.receivedMemberId,
+			CONVERT(CMA.sentMemberSign USING utf8) AS sentMemberSign,
+			CMA.receivedMemberId,
 			M2.memberName AS receivedMemberName,
-			CONVERT(PMA.receivedMemberSign USING utf8) AS receivedMemberSign,
-			PMA.title,
-			PMA.statusCodeGroup,
-			PMA.statusCode,
-			DATE_FORMAT(PMA.startDate, '%Y-%m-%d') AS startDate,
-			DATE_FORMAT(PMA.endDate, '%Y-%m-%d') AS endDate,
-			DATE_FORMAT(PMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
-			DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
-      FROM oms_person_moneybook_approval PMA, oms_member M, oms_member M2
-      WHERE  PMA.sentMemberId = M.memberId
-        AND PMA.receivedMemberId = M2.memberId
-        AND PMA.seq = #{seq}
+			CONVERT(CMA.receivedMemberSign USING utf8) AS receivedMemberSign,
+			CMA.title,
+			CMA.statusCodeGroup,
+			CMA.statusCode,
+			DATE_FORMAT(CMA.startDate, '%Y-%m-%d') AS startDate,
+			DATE_FORMAT(CMA.endDate, '%Y-%m-%d') AS endDate,
+			DATE_FORMAT(CMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
+			DATE_FORMAT(CMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
+		FROM oms_corp_moneybook_approval CMA
+		     JOIN oms_member M ON CMA.sentMemberId = M.memberId
+		     LEFT OUTER JOIN oms_member M2 ON CMA.receivedMemberId = M2.memberId
+		WHERE CMA.seq = #{seq}
     </select>
 
     <insert id="insertMoneybookApproval" parameterType="com.open.ms.service.vo.MoneybookApproval">
-		INSERT INTO `oms_person_moneybook_approval` (
+		INSERT INTO `oms_corp_moneybook_approval` (
 			`seq`,
 			`sentMemberId`,
 			`receivedMemberId`,
@@ -122,7 +123,7 @@
 			`registeredDate`
 		)
 		VALUES (
-			IF((SELECT MAX(seq) FROM oms_person_moneybook_approval t) IS NULL, 0, (SELECT MAX(seq) + 1 FROM oms_person_moneybook_approval t1) ), 
+			IF((SELECT MAX(seq) FROM oms_corp_moneybook_approval t) IS NULL, 0, (SELECT MAX(seq) + 1 FROM oms_corp_moneybook_approval t1) ), 
 			#{sentMemberId},
 			#{receivedMemberId},
 			#{title},
@@ -138,7 +139,7 @@
     </insert>
 	
 	<update id="updateProcessingMoneybookApproval" parameterType="Map">
-		UPDATE `oms_person_moneybook_approval`
+		UPDATE `oms_corp_moneybook_approval`
 		SET completedDate = SYSDATE(),
 			<if test="vo.receivedMemberSign != null">
 				receivedMemberSign = #{vo.receivedMemberSign},
@@ -157,7 +158,7 @@
 	</update>
 	
 	<delete id="deleteMoneybookApproval" parameterType="com.open.ms.service.vo.MoneybookApproval">
-		DELETE FROM `oms_person_moneybook_approval`
+		DELETE FROM `oms_corp_moneybook_approval`
 		WHERE seq = #{seq}
 			<if test="sentMemberId != null">
 				AND sentMemberId = #{sentMemberId} 

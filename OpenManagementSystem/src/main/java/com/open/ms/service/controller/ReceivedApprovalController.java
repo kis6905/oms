@@ -21,7 +21,7 @@ import com.open.ms.common.Constants;
 import com.open.ms.common.vo.Member;
 import com.open.ms.service.service.ApprovalService;
 import com.open.ms.service.vo.Approval;
-import com.open.ms.service.vo.PersonMoneybookApproval;
+import com.open.ms.service.vo.MoneybookApproval;
 
 /**
  * @author iskwon
@@ -33,7 +33,7 @@ public class ReceivedApprovalController {
 	private static final Logger logger = LoggerFactory.getLogger(ReceivedApprovalController.class);
 	
 	@Autowired
-	private ApprovalService approvalServiceImpl;
+	private ApprovalService personApprovalServiceImpl;
 	
 	/**
 	 * 페이지 리턴
@@ -84,11 +84,11 @@ public class ReceivedApprovalController {
 			
 			JSONArray rows = new JSONArray();
 			
-			List<Approval> receivedApprovalList = approvalServiceImpl.getApprovalList(null, memberId, startDate, endDate, statusCode, offset, limit, sort, order);
+			List<Approval> receivedApprovalList = personApprovalServiceImpl.getApprovalList(null, memberId, startDate, endDate, statusCode, offset, limit, sort, order);
 			for (Approval vo : receivedApprovalList)
 				rows.add(vo.toJSONObject());
 			
-			int totalCnt = approvalServiceImpl.getApprovalListTotalCnt(null, memberId, startDate, endDate, statusCode);
+			int totalCnt = personApprovalServiceImpl.getApprovalListTotalCnt(null, memberId, startDate, endDate, statusCode);
 			
 			jsonResult.put("rows", rows);
 			jsonResult.put("total", totalCnt);
@@ -127,12 +127,12 @@ public class ReceivedApprovalController {
 				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
-				PersonMoneybookApproval personMoneybookApproval = new PersonMoneybookApproval();
+				MoneybookApproval personMoneybookApproval = new MoneybookApproval();
 				personMoneybookApproval.setReceivedMemberId(memberId);
 				personMoneybookApproval.setReceivedMemberSign(receivedMemberSign);
 				personMoneybookApproval.setStatusCode(Integer.parseInt(statusCode));
 				
-				boolean result = approvalServiceImpl.updateProcessingPersonMoneybookApproval(personMoneybookApproval, seqs);
+				boolean result = personApprovalServiceImpl.updateProcessingMoneybookApproval(personMoneybookApproval, seqs);
 				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {

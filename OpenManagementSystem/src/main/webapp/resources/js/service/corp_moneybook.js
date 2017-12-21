@@ -32,11 +32,17 @@ $(document).ready(function() {
 			deleteMoneybook();
 	});
 	
-	$('#excelDownOpenBtn').on('click', function() {
+	$('#signOpenBtn').on('click', function() {
 		openSignModal();
 	});
 	
+	$('#approvalReqBtn').on('click', function() {
+		alert('실제 결재 기능은 없으며, 관리자 메뉴에서 조회 및 Excel 다운로드만 가능합니다.');
+		requestApproval();
+	});
+	
 	$('#excelDownBtn').on('click', function() {
+		alert('다운로드할 경우 결재는 올라가지 않습니다.');
 		downloadExcel();
 	});
 
@@ -134,6 +140,9 @@ function setCurrentDate() {
  * Excel Download 버튼 클릭 시 서명 modal 오픈
  */
 function openSignModal() {
+	$('#signTitle').val('');
+	$('#term').val($('#startDate').val() + ' ~ ' + $('#endDate').val());
+	
 	// 스크롤이 내려가있으면 그림이 정확한 위치에 그려지지 않는다.
 	// 때문에 스크롤을 top으로 이동시킨다.
 	$('html, body').animate({scrollTop: '0px'}, 300);
@@ -145,7 +154,7 @@ function openSignModal() {
     // boostrap-paper theme 적용 후 삼성 폰 기본 웹브라우져에서 canvas에 안그려지는 버그가 있다.
     // 0.5초 정도 후 모달 창을 띄우면 버그가 발생하지 않는다.
     setTimeout(function() {
-    	$('#signModal').modal();
+    		$('#signModal').modal();
     }, 500);
 }
 
@@ -459,4 +468,47 @@ function downloadExcel() {
 		.append($(endDateInput))
 		.append($(signInput))
 		.submit();
+}
+
+/**
+ * 결재요청
+ */
+function requestApproval() {
+	var startDate = $('#startDate').val();
+	var endDate = $('#endDate').val();
+	var requestMemberSign = canvas.toDataURL('image/png');
+	var signTitle = $('#signTitle').val();
+	
+	if (startDate === null || startDate === '' || endDate === null || endDate === '') {
+		alert('시작 일, 종료 일을 입력해주세요.');
+		$('#signModal').modal('hide');
+		return false;
+	}
+	
+	if (signTitle === null || signTitle === '') {
+		alert('결재 제목을 입력해주세요.');
+		return false;
+	}
+	
+	var data = {
+		startDate: startDate,
+		endDate: endDate,
+		requestMemberSign: requestMemberSign,
+		signTitle: signTitle
+	};
+	var callbackSuccess = function(data, textStatus, jqXHR) {
+		setTimeout(function() {
+			$('#loadingDialog').modal('hide');
+			if (data.result == OK) {
+				alert('결재요청을 성공적으로 하였습니다. 이제 관리자 메뉴에서 조회 및 다운로드할 수 있습니다.');
+				$('#signModal').modal('hide');
+			}
+			else {
+				alert('결재요청이 실패했습니다. 관리자에게 문의해주세요. (error code: ' + data.result + ')');
+			}
+		}, 800);
+	};
+	
+	$('#loadingDialog').modal();
+	callAjax('/service/corp/moneybook/approval/request', data, callbackSuccess);
 }

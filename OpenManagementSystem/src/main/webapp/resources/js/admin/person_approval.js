@@ -117,7 +117,7 @@ function createTable() {
 	table = $('#table').bootstrapTable({
 		ajaxOptions: ajaxOption,
 		method: 'post',
-		url: '/admin/approval/list',
+		url: '/admin/person/approval/list',
 		contentType: 'application/json',
 		dataType: 'json',
 		queryParams: function(params) {
@@ -218,7 +218,7 @@ function createPersonMoneybookDetailTable(data) {
 		cache: false,
 		pagination: true,
 		sidePagination: 'server',
-		pageSize: 9999, // 한번에 다보여주기 위해서
+		pageSize: 9999, // 한번에 다보여주기 위
 		search: false, // search는 별도로 만든다
 		showHeader: true,
 		showColumns: false,

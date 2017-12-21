@@ -140,7 +140,7 @@ function openSignModal() {
     // boostrap-paper theme 적용 후 삼성 폰 기본 웹브라우져에서 canvas에 안그려지는 버그가 있다.
     // 0.5초 정도 후 모달 창을 띄우면 버그가 발생하지 않는다.
     setTimeout(function() {
-    	$('#signModal').modal();
+    		$('#signModal').modal();
     }, 500);
 }
 

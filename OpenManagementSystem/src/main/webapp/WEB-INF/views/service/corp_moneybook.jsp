@@ -38,6 +38,11 @@
 			</div>
 			
 			<div id="defaultArea">
+				<div class="alert alert-warning" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>&nbsp;&nbsp;알림</strong><br>
+					서명 하기 &gt; 다운로드 - 결재로 올라가지 않습니다.(관리자 메뉴에서 조회 불가)<br>
+					서명 하기 &gt; 결재올리기 - 실제 결재 기능은 없으며, 관리자 메뉴에서 조회 및 Excel 다운로드만 가능합니다.
+				</div>
 				<div class="alert alert-success" role="alert">
 					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>&nbsp;&nbsp;알림</strong><br>
 					법인카드 초기화 일은 매월 <strong>3일</strong>입니다.<br>
@@ -46,8 +51,8 @@
 			</div>
 			
 			<div id="excelDownArea">
-				<button class="btn btn-success btn-block" type="button" id="excelDownOpenBtn">
-					<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;Excel Download
+				<button class="btn btn-success btn-block" type="button" id="signOpenBtn">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;서명 하기
 				</button>
 			</div>
 			
@@ -236,10 +241,19 @@
 					<canvas id="signCanvas" width="300" height="200" style="border: 1px solid black;"></canvas>
 					<br>
 					<span>&lt; 서명 &gt;</span>
+					<div class="form-group has-success">
+						<input type="text" id="term" class="form-control" readonly="readonly">
+					</div>
+					<div class="form-group">
+						<input type="text" id="signTitle" class="form-control" placeholder="결재 제목 (Ex: 12월_법인카드사용내역">
+					</div>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="approvalReqBtn">
+						<span class="glyphicon glyphicon-paste" aria-hidden="true"></span>&nbsp;&nbsp;결재요청
+					</button>
 					<button type="button" class="btn btn-default" id="excelDownBtn">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;확인
+						<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span>&nbsp;&nbsp;다운로드
 					</button>
 				</div>
 			</div>

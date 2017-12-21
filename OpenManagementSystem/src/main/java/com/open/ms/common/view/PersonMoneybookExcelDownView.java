@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import com.open.ms.service.vo.PersonMoneybook;
-import com.open.ms.service.vo.PersonMoneybookApproval;
+import com.open.ms.service.vo.MoneybookApproval;
 
 import net.sf.jxls.transformer.XLSTransformer;
 
@@ -55,7 +55,7 @@ public class PersonMoneybookExcelDownView extends AbstractExcelView {
 		workbook = (HSSFWorkbook) transformer.transformXLS(new FileInputStream(templateFileName), beans);
 		
 		// 서명 이미지 넣기
-		PersonMoneybookApproval approval = (PersonMoneybookApproval) beans.get("approval");
+		MoneybookApproval approval = (MoneybookApproval) beans.get("approval");
 		String sentMemberSign = approval.getSentMemberSign();
 		String receivedMemberSign = approval.getReceivedMemberSign();
 		

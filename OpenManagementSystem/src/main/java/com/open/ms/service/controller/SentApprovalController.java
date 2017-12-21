@@ -22,7 +22,7 @@ import com.open.ms.common.Constants;
 import com.open.ms.common.vo.Member;
 import com.open.ms.service.service.ApprovalService;
 import com.open.ms.service.vo.Approval;
-import com.open.ms.service.vo.PersonMoneybookApproval;
+import com.open.ms.service.vo.MoneybookApproval;
 
 /**
  * @author iskwon
@@ -34,7 +34,7 @@ public class SentApprovalController {
 	private static final Logger logger = LoggerFactory.getLogger(SentApprovalController.class);
 	
 	@Autowired
-	private ApprovalService approvalServiceImpl;
+	private ApprovalService personApprovalServiceImpl;
 	
 	/**
 	 * 페이지 리턴
@@ -85,11 +85,11 @@ public class SentApprovalController {
 			
 			JSONArray rows = new JSONArray();
 			
-			List<Approval> approvalList = approvalServiceImpl.getApprovalList(memberId, null, startDate, endDate, statusCode, offset, limit, sort, order);
+			List<Approval> approvalList = personApprovalServiceImpl.getApprovalList(memberId, null, startDate, endDate, statusCode, offset, limit, sort, order);
 			for (Approval vo : approvalList)
 				rows.add(vo.toJSONObject());
 			
-			int totalCnt = approvalServiceImpl.getApprovalListTotalCnt(memberId, null, startDate, endDate, statusCode);
+			int totalCnt = personApprovalServiceImpl.getApprovalListTotalCnt(memberId, null, startDate, endDate, statusCode);
 			
 			jsonResult.put("rows", rows);
 			jsonResult.put("total", totalCnt);
@@ -131,11 +131,11 @@ public class SentApprovalController {
 				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
-				PersonMoneybookApproval personMoneybookApproval = new PersonMoneybookApproval();
+				MoneybookApproval personMoneybookApproval = new MoneybookApproval();
 				personMoneybookApproval.setSentMemberId(memberId);
 				personMoneybookApproval.setStatusCode(Integer.parseInt(statusCode));
 				
-				boolean result = approvalServiceImpl.updateProcessingPersonMoneybookApproval(personMoneybookApproval, seqs);
+				boolean result = personApprovalServiceImpl.updateProcessingMoneybookApproval(personMoneybookApproval, seqs);
 				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {

@@ -13,26 +13,19 @@ import com.open.ms.service.mapper.PersonMoneybookApprovalMapper;
 import com.open.ms.service.service.ApprovalService;
 import com.open.ms.service.vo.Approval;
 
-/**
- * 현재는 지출결의 결재 기능만 있지만, 확장성을 고려하여 이름을 ApprovalService라고 지었다.
- * 결재 종류가 추가될 경우 테이블을 추가할 생각으로, Mapper는 결재 종류별로 이름을 지었다.
- * 결재 종류가 추가될 경우 테이블을 추가 조회해 결과를 합쳐야 한다.
- * 
- * @author iskwon
- */
-@Service(value = "approvalServiceImpl")
-public class ApprovalServiceImpl implements ApprovalService {
+@Service(value = "personApprovalServiceImpl")
+public class PersonApprovalServiceImpl implements ApprovalService {
 
-	private static final Logger logger = LoggerFactory.getLogger(ApprovalServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(PersonApprovalServiceImpl.class);
 	
 	@Autowired
 	private PersonMoneybookApprovalMapper personMoneybookApprovalMapper;
 	
 	/**
 	 * 내가 받은 or 내가 올린 or 모든 결재 목록 리턴<br>
-	 * 내가 받은 목록 -> sentMemberId = null, 		receivedMemberId = myMemberId<br>
-	 * 내가 올린 목록 -> sentMemberId = myMemberId, receivedMemberId == null<br>
-	 * 모든 목록 -> sentMemberId = null, receivedMemberId == null
+	 * 내가 받은 목록 -> sentMemberId = null       / receivedMemberId = myMemberId<br>
+	 * 내가 올린 목록 -> sentMemberId = myMemberId / receivedMemberId == null<br>
+	 * 모든 목록     -> sentMemberId = null       / receivedMemberId == null
 	 */
 	@Override
 	public List<Approval> getApprovalList(String sentMemberId, String receivedMemberId, String startDate, String endDate, String statusCode, long offset, long limit, String sort, String order) throws Exception {
@@ -51,9 +44,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	/**
 	 * 내가 받은 or 내가 올린 or 모든 결재 목록 Count 리턴<br>
-	 * 내가 받은 목록 -> sentMemberId = null, 		receivedMemberId = myMemberId<br>
-	 * 내가 올린 목록 -> sentMemberId = myMemberId, receivedMemberId == null<br>
-	 * 모든 목록 -> sentMemberId = null, receivedMemberId == null
+	 * 내가 받은 목록 -> sentMemberId = null       / receivedMemberId = myMemberId<br>
+	 * 내가 올린 목록 -> sentMemberId = myMemberId / receivedMemberId == null<br>
+	 * 모든 목록     -> sentMemberId = null       / receivedMemberId == null
 	 */
 	@Override
 	public int getApprovalListTotalCnt(String sentMemberId, String receivedMemberId, String startDate, String endDate, String statusCode) throws Exception {
@@ -80,8 +73,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	 * @return 성공 = true, 실패 = false
 	 */
 	@Override
-	public boolean insertPersonMoneybookApproval(Approval personMoneybookApproval) throws Exception {
-		return personMoneybookApprovalMapper.insertPersonMoneybookApproval(personMoneybookApproval) > 0;
+	public boolean insertMoneybookApproval(Approval moneybookApproval) throws Exception {
+		return personMoneybookApprovalMapper.insertMoneybookApproval(moneybookApproval) > 0;
 	}
 
 	/**
@@ -90,16 +83,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 	 * @return 성공 = true, 실패 = false
 	 */
 	@Override
-	public boolean updateProcessingPersonMoneybookApproval(Approval personMoneybookApproval, String[] seqs) throws Exception {
-		if (personMoneybookApproval.getSentMemberId() == null && personMoneybookApproval.getReceivedMemberId() == null) {
+	public boolean updateProcessingMoneybookApproval(Approval moneybookApproval, String[] seqs) throws Exception {
+		if (moneybookApproval.getSentMemberId() == null && moneybookApproval.getReceivedMemberId() == null) {
 			logger.info("~~ [sendMemberId == null AND receivedMemberId == null !!]");
 			return false;
 		}
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("vo", personMoneybookApproval);
+		map.put("vo", moneybookApproval);
 		map.put("seqs", seqs);
-		return personMoneybookApprovalMapper.updateProcessingPersonMoneybookApproval(map) > 0;
+		return personMoneybookApprovalMapper.updateProcessingMoneybookApproval(map) > 0;
 	}
 
 	/**
@@ -108,8 +101,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	 * @return 성공 = true, 실패 = false
 	 */
 	@Override
-	public boolean deletePersonMoneybookApproval(Approval personMoneybookApproval) throws Exception {
-		return personMoneybookApprovalMapper.deletePersonMoneybookApproval(personMoneybookApproval) > 0;
+	public boolean deleteMoneybookApproval(Approval moneybookApproval) throws Exception {
+		return personMoneybookApprovalMapper.deleteMoneybookApproval(moneybookApproval) > 0;
 	}
 
 }

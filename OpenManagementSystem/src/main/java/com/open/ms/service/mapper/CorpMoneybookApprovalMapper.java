@@ -8,7 +8,7 @@ import com.open.ms.service.vo.Approval;
 /**
  * @author iskwon
  */
-public interface PersonMoneybookApprovalMapper {
+public interface CorpMoneybookApprovalMapper {
 	
 	List<Approval> getApprovalList(Map<String, Object> map);
 	int getApprovalListTotalCnt(Map<String, Object> map);

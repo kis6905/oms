@@ -32,7 +32,7 @@ import com.open.ms.common.vo.Member;
 import com.open.ms.service.service.ApprovalService;
 import com.open.ms.service.service.PersonMoneybookService;
 import com.open.ms.service.vo.PersonMoneybook;
-import com.open.ms.service.vo.PersonMoneybookApproval;
+import com.open.ms.service.vo.MoneybookApproval;
 
 /**
  * @author iskwon
@@ -45,10 +45,12 @@ public class PersonMoneybookController {
 	
 	@Autowired
 	private PersonMoneybookService personMoneybookServiceImpl;
+	
 	@Autowired
 	private MemberService memberServiceImpl;
+	
 	@Autowired
-	private ApprovalService approvalServiceImpl;
+	private ApprovalService personApprovalServiceImpl;
 	
 	/**
 	 * 페이지 리턴
@@ -324,7 +326,7 @@ public class PersonMoneybookController {
 				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
-				PersonMoneybookApproval personMoneybookApproval = new PersonMoneybookApproval();
+				MoneybookApproval personMoneybookApproval = new MoneybookApproval();
 				personMoneybookApproval.setSentMemberId(memberId);
 				personMoneybookApproval.setReceivedMemberId(targetMemberId);
 				personMoneybookApproval.setTitle(signTitle);
@@ -334,7 +336,7 @@ public class PersonMoneybookController {
 				personMoneybookApproval.setStatusCodeGroup(Codes.APPROVAL_STATUS_CODE_GROUP);
 				personMoneybookApproval.setStatusCode(Codes.APPROVAL_STATUS_CODE_STAND_BY);
 				
-				boolean result = approvalServiceImpl.insertPersonMoneybookApproval(personMoneybookApproval);
+				boolean result = personApprovalServiceImpl.insertMoneybookApproval(personMoneybookApproval);
 				jsonResult.put("result", result ? Constants.RESULT_OK : Constants.RESULT_NOT_OK);
 			}
 		} catch (Exception e) {
@@ -370,7 +372,7 @@ public class PersonMoneybookController {
 		}
 		else {
 			try {
-				PersonMoneybookApproval approval = (PersonMoneybookApproval) approvalServiceImpl.getApproval(seq);
+				MoneybookApproval approval = (MoneybookApproval) personApprovalServiceImpl.getApproval(seq);
 				Member sessionMember = (Member) session.getAttribute("MEMBER");
 				
 				// Admin이 아닌데 다운 받으려는 지출결의의 sentMemberId와 Session의 memberId가 다르면 잘못된 접근이다.

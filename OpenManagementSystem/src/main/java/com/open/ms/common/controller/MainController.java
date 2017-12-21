@@ -40,7 +40,7 @@ public class MainController {
 	@Autowired
 	private OmsServiceService omsServiceServiceImpl;
 	@Autowired
-	private ApprovalService approvalServiceImpl;
+	private ApprovalService personApprovalServiceImpl;
 	@Autowired
 	private DeviceService deviceServiceImpl;
 	
@@ -79,7 +79,7 @@ public class MainController {
 				jsonOmsServiceArray.add(omsService.toJSONObject());
 			
 			jsonResult.put("omsServiceList", jsonOmsServiceArray);
-			jsonResult.put("receivedApprovalCnt", approvalServiceImpl.getApprovalListTotalCnt(null, member.getMemberId(), "0000-00-00", "9999-99-99", Integer.toString(Codes.APPROVAL_STATUS_CODE_STAND_BY)));
+			jsonResult.put("receivedApprovalCnt", personApprovalServiceImpl.getApprovalListTotalCnt(null, member.getMemberId(), "0000-00-00", "9999-99-99", Integer.toString(Codes.APPROVAL_STATUS_CODE_STAND_BY)));
 			
 			jsonResult.put("result", Constants.RESULT_OK);
 		} catch (Exception e) {

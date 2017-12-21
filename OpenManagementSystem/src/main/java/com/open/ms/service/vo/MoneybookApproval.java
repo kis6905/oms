@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
  * 
  * @author iskwon
  */
-public class PersonMoneybookApproval extends Approval {
+public class MoneybookApproval extends Approval {
 	
 	private String startDate = null;
 	private String endDate = null;
@@ -52,7 +52,7 @@ public class PersonMoneybookApproval extends Approval {
 
 	@Override
 	public String toString() {
-		return "PersonMoneybookApproval [no=" + getNo()
+		return "MoneybookApproval [no=" + getNo()
 				+ ", seq=" + getSeq()
 				+ ", sentMemberId=" + getSentMemberId()
 				+ ", receivedMemberId=" + getReceivedMemberId()
