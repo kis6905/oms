@@ -245,7 +245,7 @@
 						<input type="text" id="term" class="form-control" readonly="readonly">
 					</div>
 					<div class="form-group">
-						<input type="text" id="signTitle" class="form-control" placeholder="결재 제목 (Ex: 12월_법인카드사용내역">
+						<input type="text" id="signTitle" class="form-control" placeholder="결재 제목 (Ex: 12월_법인카드사용내역)">
 					</div>
 				</div>
 				<div class="modal-footer">
