@@ -137,10 +137,10 @@ function openSignModal() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
     
-    // boostrap-paper theme 적용 후 삼성 폰 기본 웹브라우져에서 canvas에 안그려지는 버그가 있다.
+    // boostrap-paper theme 적용 후 삼성 폰 기본 웹브라우져에서 canvas에 안 그려지는 버그가 있다.
     // 0.5초 정도 후 모달 창을 띄우면 버그가 발생하지 않는다.
     setTimeout(function() {
-    		$('#signModal').modal();
+		$('#signModal').modal();
     }, 500);
 }
 
@@ -162,14 +162,14 @@ function getApprovalRoleMemberList() {
 function setApprovalRoleMemberList(signRoleMemberList) {
 	var html = '';
 	if (signRoleMemberList.length > 0) {
-		html = '<option value="" selected="selected" style="display:none;">결재받을 팀장님을 선택하세요.</option>';
+		html = '<option value="" selected="selected" style="display:none;">결재받을 팀장 or PM 을 선택하세요.</option>';
 		for (var inx = 0; inx < signRoleMemberList.length; inx++) {
 			var member = signRoleMemberList[inx];
 			html += '<option value="' + member.memberId + '">' + member.memberName + '</option>';
 		}
 	}
 	else {
-		html = '<option selected="selected" style="display:none;">등록된 팀장이 없습니다. 관리자에게 문의하세요.</option>';
+		html = '<option selected="selected" style="display:none;">결재 가능한 회원이 없습니다. 관리자에게 문의하세요.</option>';
 	}
 	$('#targetMemberId').html(html);
 }
@@ -494,6 +494,7 @@ function requestSign() {
 	var endDate = $('#endDate').val();
 	var requestMemberSign = canvas.toDataURL('image/png');
 	var signTitle = $('#signTitle').val();
+	var projectName = $('#projectName').val();
 	var targetMemberId = $('#targetMemberId').val();
 	
 	if (startDate === null || startDate === '' || endDate === null || endDate === '') {
@@ -507,6 +508,11 @@ function requestSign() {
 		return false;
 	}
 	
+	if (projectName === null || projectName === '') {
+		alert('프로젝트 명을 입력해주세요.');
+		return false;
+	}
+	
 	if (targetMemberId === null || targetMemberId === '') {
 		alert('결재받을 팀장님을 선택해주세요.');
 		return false;
@@ -517,6 +523,7 @@ function requestSign() {
 		endDate: endDate,
 		requestMemberSign: requestMemberSign,
 		signTitle: signTitle,
+		projectName: projectName,
 		targetMemberId: targetMemberId // receviedMemberId
 	};
 	var callbackSuccess = function(data, textStatus, jqXHR) {

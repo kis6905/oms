@@ -22,6 +22,7 @@ public class Approval extends CommonVo {
 	private Integer statusCodeGroup = null;
 	private Integer statusCode = null;
 	private String completedDate = null;
+	private String projectName = null;
 	
 	public Integer getNo() {
 		return no;
@@ -118,13 +119,23 @@ public class Approval extends CommonVo {
 	public void setCompletedDate(String completedDate) {
 		this.completedDate = completedDate;
 	}
+	
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
 	@Override
 	public String toString() {
 		return "Approval [no=" + no + ", seq=" + seq + ", sentMemberId=" + sentMemberId + ", sentMemberName="
 				+ sentMemberName + ", receivedMemberId=" + receivedMemberId + ", receivedMemberName="
-				+ receivedMemberName + ", title=" + title + ", statusCodeGroup=" + statusCodeGroup + ", statusCode="
-				+ statusCode + ", completedDate=" + completedDate + "]";
+				+ receivedMemberName + ", title=" + title + ", sentMemberSign=" + sentMemberSign
+				+ ", receivedMemberSign=" + receivedMemberSign + ", statusCodeGroup=" + statusCodeGroup
+				+ ", statusCode=" + statusCode + ", completedDate=" + completedDate + ", projectName=" + projectName
+				+ "]";
 	}
 	
 }

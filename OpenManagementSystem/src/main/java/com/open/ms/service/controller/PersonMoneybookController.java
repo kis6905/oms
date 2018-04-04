@@ -31,8 +31,8 @@ import com.open.ms.common.service.MemberService;
 import com.open.ms.common.vo.Member;
 import com.open.ms.service.service.ApprovalService;
 import com.open.ms.service.service.PersonMoneybookService;
-import com.open.ms.service.vo.PersonMoneybook;
 import com.open.ms.service.vo.MoneybookApproval;
+import com.open.ms.service.vo.PersonMoneybook;
 
 /**
  * @author iskwon
@@ -310,6 +310,7 @@ public class PersonMoneybookController {
 			@RequestParam(value = "endDate", required = true, defaultValue = "") String endDate,
 			@RequestParam(value = "requestMemberSign", required = true, defaultValue = "") String requestMemberSign,
 			@RequestParam(value = "signTitle", required = true, defaultValue = "") String signTitle,
+			@RequestParam(value = "projectName", required = true, defaultValue = "") String projectName,
 			@RequestParam(value = "targetMemberId", required = true, defaultValue = "") String targetMemberId,
 			HttpServletRequest request) {
 		
@@ -322,7 +323,7 @@ public class PersonMoneybookController {
 		logger.info("-> [memberId = {}]", memberId);
 		
 		try {
-			if (startDate.isEmpty() || endDate.isEmpty() || requestMemberSign.isEmpty() || signTitle.isEmpty() || targetMemberId.isEmpty()) {
+			if (startDate.isEmpty() || endDate.isEmpty() || requestMemberSign.isEmpty() || signTitle.isEmpty() || targetMemberId.isEmpty() || projectName.isEmpty()) {
 				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
@@ -330,6 +331,7 @@ public class PersonMoneybookController {
 				personMoneybookApproval.setSentMemberId(memberId);
 				personMoneybookApproval.setReceivedMemberId(targetMemberId);
 				personMoneybookApproval.setTitle(signTitle);
+				personMoneybookApproval.setProjectName(projectName);
 				personMoneybookApproval.setStartDate(startDate);
 				personMoneybookApproval.setEndDate(endDate);
 				personMoneybookApproval.setSentMemberSign(requestMemberSign);
@@ -412,6 +414,7 @@ public class PersonMoneybookController {
 				    modelMap.addAttribute("templateFileName", context.getRealPath("/") + "resources/excel/" + "person_moneybook_template.xls");
 				    modelMap.addAttribute("destFileName", approval.getTitle() + "_" + sentMemberName + "_" + Utility.getCurrentDateToString("yyMMddHHmm") + ".xls");
 				    modelMap.addAttribute("nickname", sentMemberName);
+				    modelMap.addAttribute("projectName", approval.getProjectName() == null ? "" : approval.getProjectName());
 				    
 				    logger.info("<- []");
 				    return "personMoneybookExcelDownView";

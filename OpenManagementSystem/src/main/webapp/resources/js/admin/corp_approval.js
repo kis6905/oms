@@ -248,8 +248,8 @@ function createCorpMoneybookDetailTable(data) {
 			valign: 'middle',
 			sortable: true
 		}, {
-			field: 'usedPlace',
-			title: '사용 장소',
+			field: 'category',
+			title: '분류',
 			width: '40%',
 			align: 'center',
 			valign: 'middle',

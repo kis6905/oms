@@ -104,14 +104,6 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>사용 장소</label>
-								</div>
-								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="iUsedPlace">	
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2">
 									<label>금액</label>
 								</div>
 								<div class="col-sm-10">
@@ -171,14 +163,6 @@
 								</div>
 								<div class="col-sm-10">
 									<input type="text" class="form-control input-group-lg" id="uCustomer" placeholder="Ex) 팀원, 현대카드, 신한카드...">	
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-2">
-									<label>사용 장소</label>
-								</div>
-								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="uUsedPlace">	
 								</div>
 							</div>
 							<div class="form-group">

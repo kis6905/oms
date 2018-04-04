@@ -165,12 +165,11 @@ function insertMoneybook() {
 	var usedDate = $('#iUsedDate').val();
 	var category = $('#iCategory').val();
 	var customer = $('#iCustomer').val();
-	var usedPlace = $('#iUsedPlace').val();
 	var price = $('#iPrice').val();
 	var note = $('#iNote').val();
 	
-	if (usedDate === null || category === null || usedPlace === null || price === null || note === null ||
-			usedDate === '' || category === '' || usedPlace === '' || price === '' || note === '') {
+	if (usedDate === null || category === null || price === null || note === null ||
+			usedDate === '' || category === '' || price === '' || note === '') {
 		alert('입력정보를 확인하세요!');
 		return false;
 	}
@@ -191,7 +190,6 @@ function insertMoneybook() {
 		usedDate: usedDate,
 		category: category,
 		customer: customer,
-		usedPlace: usedPlace,
 		price: price,
 		note: note
 	};
@@ -220,12 +218,11 @@ function updateMoneybook() {
 	var usedDate = $('#uUsedDate').val();
 	var category = $('#uCategory').val();
 	var customer = $('#uCustomer').val();
-	var usedPlace = $('#uUsedPlace').val();
 	var price = $('#uPrice').val();
 	var note = $('#uNote').val();
 	
-	if (seq === null || usedDate === null || category === null || usedPlace === null || price === null || note === null ||
-			seq === '' || usedDate === '' || category === '' || usedPlace === '' || price === '' || note === '') {
+	if (seq === null || usedDate === null || category === null || price === null || note === null ||
+			seq === '' || usedDate === '' || category === '' || price === '' || note === '') {
 		alert('입력정보를 확인하세요!');
 		return false;
 	}
@@ -247,7 +244,6 @@ function updateMoneybook() {
 		usedDate: usedDate,
 		category: category,
 		customer: customer,
-		usedPlace: usedPlace,
 		price: price,
 		note: note
 	};
@@ -414,8 +410,8 @@ function createTable() {
 			valign: 'middle',
 			sortable: true
 		}, {
-			field: 'usedPlace',
-			title: '사용 장소',
+			field: 'category',
+			title: '분류',
 			width: '40%',
 			align: 'center',
 			valign: 'middle',

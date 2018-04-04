@@ -195,6 +195,7 @@ CREATE TABLE IF NOT EXISTS `oms_person_moneybook_approval` (
   `sentMemberId` VARCHAR(255) NOT NULL,
   `receivedMemberId` VARCHAR(255) NOT NULL,
   `title` VARCHAR(255) NOT NULL,
+  `projectName` VARCHAR(255) NOT NULL,
   `sentMemberSign` BLOB NULL,
   `receivedMemberSign` BLOB NULL,
   `statusCodeGroup` INT NOT NULL,

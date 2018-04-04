@@ -131,7 +131,6 @@ public class CorpMoneybookController {
 			@RequestParam(value = "usedDate", required = true, defaultValue = "") String usedDate,
 			@RequestParam(value = "category", required = true, defaultValue = "") String category,
 			@RequestParam(value = "customer", required = true, defaultValue = "") String customer,
-			@RequestParam(value = "usedPlace", required = true, defaultValue = "") String usedPlace,
 			@RequestParam(value = "price", required = true, defaultValue = "") String price,
 			@RequestParam(value = "note", required = true, defaultValue = "") String note,
 			HttpServletRequest request) {
@@ -141,11 +140,11 @@ public class CorpMoneybookController {
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		String memberId = member.getMemberId();
 		
-		logger.info("-> [usedDate = {}], [category = {}], [customer = {}], [usedPlace = {}], [price = {}], [note = {}]", new Object[] { usedDate, category, customer, usedPlace, price, note });
+		logger.info("-> [usedDate = {}], [category = {}], [customer = {}], [price = {}], [note = {}]", new Object[] { usedDate, category, customer, price, note });
 		logger.info("-> [memberId = {}]", memberId);
 		
 		try {
-			if (usedDate.isEmpty() || usedPlace.isEmpty() || category.isEmpty() || customer.isEmpty() ||
+			if (usedDate.isEmpty() || category.isEmpty() || customer.isEmpty() ||
 					price.isEmpty() || note.isEmpty() || memberId.isEmpty()) {
 				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
@@ -154,7 +153,7 @@ public class CorpMoneybookController {
 				corpMoneybook.setUsedDate(usedDate);
 				corpMoneybook.setCategory(category);
 				corpMoneybook.setCustomer(customer);
-				corpMoneybook.setUsedPlace(usedPlace);
+				corpMoneybook.setUsedPlace("");
 				corpMoneybook.setPrice(Integer.parseInt(price));
 				corpMoneybook.setNote(note);
 				corpMoneybook.setMemberId(member.getMemberId());
@@ -182,7 +181,6 @@ public class CorpMoneybookController {
 			@RequestParam(value = "usedDate", required = true, defaultValue = "") String usedDate,
 			@RequestParam(value = "category", required = true, defaultValue = "") String category,
 			@RequestParam(value = "customer", required = true, defaultValue = "") String customer,
-			@RequestParam(value = "usedPlace", required = true, defaultValue = "") String usedPlace,
 			@RequestParam(value = "price", required = true, defaultValue = "") String price,
 			@RequestParam(value = "note", required = true, defaultValue = "") String note,
 			HttpServletRequest request) {
@@ -192,11 +190,11 @@ public class CorpMoneybookController {
 		Member member = (Member) request.getSession(false).getAttribute("MEMBER");
 		String memberId = member.getMemberId();
 			
-		logger.info("-> [seq = {}], [usedDate = {}], [category = {}], [customer = {}], [usedPlace = {}], [price = {}], [note = {}]", new Object[] { seq, usedDate, category, customer, usedPlace, price, note });
+		logger.info("-> [seq = {}], [usedDate = {}], [category = {}], [customer = {}], [price = {}], [note = {}]", new Object[] { seq, usedDate, category, customer, price, note });
 		logger.info("-> [memberId = {}]", memberId);
 		
 		try {
-			if (seq.isEmpty() || usedDate.isEmpty() || usedPlace.isEmpty() || price.isEmpty() || note.isEmpty() || memberId.isEmpty()) {
+			if (seq.isEmpty() || usedDate.isEmpty() || price.isEmpty() || note.isEmpty() || memberId.isEmpty()) {
 				jsonResult.put("result", Constants.RESULT_NOT_OK);
 			}
 			else {
@@ -205,7 +203,7 @@ public class CorpMoneybookController {
 				corpMoneybook.setUsedDate(usedDate);
 				corpMoneybook.setCategory(category);
 				corpMoneybook.setCustomer(customer);
-				corpMoneybook.setUsedPlace(usedPlace);
+				corpMoneybook.setUsedPlace("");
 				corpMoneybook.setPrice(Integer.parseInt(price));
 				corpMoneybook.setNote(note);
 				corpMoneybook.setMemberId(member.getMemberId());

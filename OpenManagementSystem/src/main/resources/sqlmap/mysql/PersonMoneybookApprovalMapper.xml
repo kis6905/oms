@@ -14,6 +14,7 @@
             receivedMemberId,
             receivedMemberName,
             title,
+            projectName,
             statusCodeGroup,
             statusCode,
             startDate,
@@ -28,6 +29,7 @@
                   receivedMemberId,
                   receivedMemberName,
                   title,
+                  projectName,
                   statusCodeGroup,
                   statusCode,
                   startDate,
@@ -42,6 +44,7 @@
                          PMA.receivedMemberId,
                          M2.memberName AS receivedMemberName,
                          PMA.title,
+                         PMA.projectName,
                          PMA.statusCodeGroup,
                          PMA.statusCode,
                          DATE_FORMAT(PMA.startDate, '%Y-%m-%d') AS startDate,
@@ -94,6 +97,7 @@
 			M2.memberName AS receivedMemberName,
 			CONVERT(PMA.receivedMemberSign USING utf8) AS receivedMemberSign,
 			PMA.title,
+			PMA.projectName,
 			PMA.statusCodeGroup,
 			PMA.statusCode,
 			DATE_FORMAT(PMA.startDate, '%Y-%m-%d') AS startDate,
@@ -101,7 +105,7 @@
 			DATE_FORMAT(PMA.completedDate, '%Y-%m-%d %H:%i:%s') AS completedDate,
 			DATE_FORMAT(PMA.registeredDate, '%Y-%m-%d %H:%i:%s') AS registeredDate
       FROM oms_person_moneybook_approval PMA, oms_member M, oms_member M2
-      WHERE  PMA.sentMemberId = M.memberId
+      WHERE PMA.sentMemberId = M.memberId
         AND PMA.receivedMemberId = M2.memberId
         AND PMA.seq = #{seq}
     </select>
@@ -112,6 +116,7 @@
 			`sentMemberId`,
 			`receivedMemberId`,
 			`title`,
+			`projectName`,
 			`sentMemberSign`,
 			`receivedMemberSign`,
 			`statusCodeGroup`,
@@ -126,6 +131,7 @@
 			#{sentMemberId},
 			#{receivedMemberId},
 			#{title},
+			#{projectName},
 			#{sentMemberSign},
 			#{receivedMemberSign},
 			#{statusCodeGroup},

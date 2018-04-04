@@ -40,7 +40,7 @@
 			<div id="defaultArea">
 				<div class="alert alert-success" role="alert">
 					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><strong>&nbsp;&nbsp;알림</strong><br>
-					영수증 사진을 업로드해 대체하려 했으나 안된다고 합니다. ㅜㅜ<br/>
+					영수증 사진을 업로드해 대체하려 했으나 안된다고 합니다.ㅠ<br/>
 					영수증 업로드는 무시하고 이용해 주세요.<br/>
 					(실제 영수증은 별도로 제출해주세요!)
 				</div>
@@ -228,8 +228,11 @@
 						<input type="text" id="signTitle" class="form-control" placeholder="결재 제목 (Ex: 12월 지출결의)">
 					</div>
 					<div class="form-group">
+						<input type="text" id="projectName" class="form-control" placeholder="프로젝트 명">
+					</div>
+					<div class="form-group">
 						<select class="form-control" id="targetMemberId">
-							<option selected="selected" style="display:none;">결재받을 팀장님을 선택하세요.</option>
+							<option selected="selected" style="display:none;">결재받을 팀장 or PM 을 선택하세요.</option>
 						</select>
 					</div>
 				</div>
