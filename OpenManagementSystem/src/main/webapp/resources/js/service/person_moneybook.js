@@ -42,6 +42,10 @@ $(document).ready(function() {
 	$('#signReqBtn').on('click', function() {
 		requestSign();
 	});
+	
+	$('#iSummarySelect').on('change', function() {
+		changeSummary();
+	});
 
 	// 서명 canvas
     var lastPt = null;
@@ -180,13 +184,15 @@ function setApprovalRoleMemberList(signRoleMemberList) {
  */
 function insertMoneybook() {
 	
+	var selectedSummary = $('#iSummarySelect').val();
+	
 	var usedDate = $('#iUsedDate').val();
-	var summary = $('#iSummary').val();
+	var summary = selectedSummary === '0' ? $('#iSummary').val() : selectedSummary;
 	var price = $('#iPrice').val();
 	var note = $('#iNote').val();
 	
-	if (usedDate === null || summary === null || price === null || note === null ||
-			usedDate === '' || summary === '' || price === '' || note === '') {
+	if (usedDate === null || summary === null || price === null ||
+			usedDate === '' || summary === '' || price === '') {
 		alert('입력정보를 확인하세요!');
 		return false;
 	}
@@ -210,7 +216,7 @@ function insertMoneybook() {
 			usedDate: usedDate,
 			summary: summary,
 			price: price,
-			note: note
+			note: note ? note : ' '
 	};
 	
 	if (receipt) {
@@ -258,8 +264,8 @@ function updateMoneybook() {
 	var price = $('#uPrice').val();
 	var note = $('#uNote').val();
 	
-	if (seq === null || usedDate === null || summary === null || price === null || note === null ||
-			seq === '' || usedDate === '' || summary === '' || price === '' || note === '') {
+	if (seq === null || usedDate === null || summary === null || price === null ||
+			seq === '' || usedDate === '' || summary === '' || price === '') {
 		alert('입력정보를 확인하세요!');
 		return false;
 	}
@@ -284,7 +290,7 @@ function updateMoneybook() {
 			usedDate: usedDate,
 			summary: summary,
 			price: price,
-			note: note
+			note: note ? note : ' '
 	};
 	
 	if (receipt) {
@@ -357,12 +363,15 @@ function deleteMoneybook() {
  */
 function openInsertModal() {
 	$('#iUsedDate').val('');
-	$('#iSummary').val('');
 	$('#iPrice').val('');
 	$('#iNote').val('');
 	$('#iReceipt').val('');
 	$('.file-text').val('');
 	$('#insertModal').modal();
+	
+	$('#iSummary').val('');
+	$('#iSummarySelect').val('0');
+	$('#iSummary').attr('readonley', false);
 }
 
 /**
@@ -575,4 +584,20 @@ function getResizedReceiptData(img) {
 	receiptCtx.drawImage(img, 0, 0, width, height);
 
 	return receiptCanvas.toDataURL("image/png");
+}
+
+/**
+ * 적요 selectbox 처리
+ */
+function changeSummary() {
+	var selectedSummary = $('#iSummarySelect').val();
+	if (selectedSummary === '0') {
+		$('#iSummary').val('');
+		$('#iSummary').attr('readonly', false);
+		$('#iSummary').focus();
+	}
+	else {
+		$('#iSummary').val('');
+		$('#iSummary').attr('readonly', true);
+	}
 }

@@ -85,8 +85,17 @@
 								<div class="col-sm-2">
 									<label>적요</label>
 								</div>
-								<div class="col-sm-10">
-									<input type="text" class="form-control input-group-lg" id="iSummary" required="required" placeholder="Ex) 저녁 식대, 야근 택시비...">	
+								<div class="col-sm-5">
+									<select class="form-control" id="iSummarySelect" >
+										<option value="0" selected="selected">직접입력</option>
+										<option value="저녁식대">저녁식대</option>
+										<option value="야근 택시비">야근 택시비</option>
+										<option value="휴일근무 점심식대">휴일근무 점심식대</option>
+										<option value="비품구매">비품구매</option>
+									</select>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" class="form-control input-group-lg" id="iSummary" placeholder="직접입력">	
 								</div>
 							</div>
 							<div class="form-group">
