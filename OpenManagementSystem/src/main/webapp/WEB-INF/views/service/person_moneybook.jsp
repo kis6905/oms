@@ -75,7 +75,7 @@
 						<form class="form-horizontal" id="insertForm">
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>사용 일</label>
+									<label>사용 일&nbsp;<span style="color: red;">*</span></label>
 								</div>
 								<div class="col-sm-10">
 									<input type="text" class="form-control input-group-lg datepicker" required="required" readonly="readonly" id="iUsedDate">	
@@ -83,9 +83,9 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>적요</label>
+									<label>적요&nbsp;<span style="color: red;">*</span></label>
 								</div>
-								<div class="col-sm-5">
+								<div class="col-sm-10">
 									<select class="form-control" id="iSummarySelect" >
 										<option value="0" selected="selected">직접입력</option>
 										<option value="저녁식대">저녁식대</option>
@@ -94,13 +94,17 @@
 										<option value="비품구매">비품구매</option>
 									</select>
 								</div>
-								<div class="col-sm-5">
+							</div>
+							<div class="form-group">
+								<div class="col-sm-2">
+								</div>
+								<div class="col-sm-10">
 									<input type="text" class="form-control input-group-lg" id="iSummary" placeholder="직접입력">	
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>금액</label>
+									<label>금액&nbsp;<span style="color: red;">*</span></label>
 								</div>
 								<div class="col-sm-10">
 									<input type="number" class="form-control input-group-lg" id="iPrice" required="required">
@@ -147,7 +151,7 @@
 							<input type="hidden" id="uSeq"></input>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>사용 일</label>
+									<label>사용 일&nbsp;<span style="color: red;">*</span></label>
 								</div>
 								<div class="col-sm-10">
 									<input type="text" class="form-control input-group-lg datepicker" readonly="readonly" id="uUsedDate">	
@@ -155,7 +159,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>적요</label>
+									<label>적요&nbsp;<span style="color: red;">*</span></label>
 								</div>
 								<div class="col-sm-10">
 									<input type="text" class="form-control input-group-lg" id="uSummary" placeholder="Ex) 저녁 식대, 야근 택시비...">	
@@ -163,7 +167,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2">
-									<label>금액</label>
+									<label>금액&nbsp;<span style="color: red;">*</span></label>
 								</div>
 								<div class="col-sm-10">
 									<input type="number" class="form-control input-group-lg" id="uPrice">	
